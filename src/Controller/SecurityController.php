@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="security")
+     * @Route("/login", name="app_login")
      */
     public function _login()
     {
@@ -16,7 +16,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     *@Route("/rejestracja", name="app_rejestracja")
+     *@Route("/register", name="app_register")
      */
     public function _register()
     {
