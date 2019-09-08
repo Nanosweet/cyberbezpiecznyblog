@@ -1,1 +1,2 @@
 # blog
+# Zainstalowane podstawowe paczki
