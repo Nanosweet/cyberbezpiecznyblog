@@ -10,36 +10,12 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">Rejestracja</h5>
                         <!-- FORMULARZ REJESTRACYJNY -->
-                        <form class="form-signin" method="post">
-                            <!-- Imie -->
-                            <div class="form-label-group">
-                                <label for="inputImie">Imię</label>
-                                <input type="text" id="inputImie" class="form-control" required autofocus>
-                            </div>
-                            <!-- Nazwisko -->
-                            <div class="form-label-group">
-                                <label for="inputNazwisko">Nazwisko</label>
-                                <input type="text" id="inputNazwisko" class="form-control" required >
-                            </div>
-                            <!-- Email -->
-                            <div class="form-label-group">
-                                <label for="inputEmail">Adres email</label>
-                                <input type="email" id="inputEmail" class="form-control" required >
-                            </div>
-                            <!-- Haslo -->
-                            <div class="form-label-group">
-                                <label for="inputPassword">Password</label>
-                                <input type="password" id="inputPassword" class="form-control" required>
-                            </div>
-                            <!-- Zapamietaj btn -->
-                            <div class="custom-control custom-checkbox mb-3">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1">Zapamiętaj mnie</label>
-                            </div>
-                            <!-- Submit -->
-                            <button class="btn btn-lg btn-primary btn-block " type="submit">Zarejestruj się</button>
-                            <hr class="my-4">
-                        </form>
+                        {{ form_start(registerForm) }}
+                        {{ form_widget(registerForm) }}
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" >
+                            Zarejestruj się!
+                        </button>
+                        {{ form_end(registerForm) }}
                     </div>
                 </div>
             </div>
