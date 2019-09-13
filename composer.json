@@ -20,7 +20,12 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.13"
+        "easycorp/easy-log-handler": "^1.0.7",
+        "symfony/debug-bundle": "*",
+        "symfony/maker-bundle": "^1.13",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/profiler-pack": "*",
+        "symfony/var-dumper": "*"
     },
     "config": {
         "preferred-install": {
