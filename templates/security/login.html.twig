@@ -11,21 +11,24 @@
                         <h5 class="card-title text-center">Logowanie</h5>
 
                         <!-- FORMULARZ LOGOWANIA -->
-                        {{ form_start(loginForm) }}
 
+                        {{ form_start(loginForm) }}
+                        <!-- BŁĘDY W FORMULARZU -->
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
 
-                        {{ form_widget(loginForm) }}
+                        {{ form_row(loginForm.email) }}
+                        {{ form_row(loginForm.password) }}
 
-
-                        <button class="btn btn-lg btn-primary btn-block " type="submit">
+                        <!-- CHECKBOX REMEMBER_ME -->
+                        <div align="center">
+                            {{ form_row(loginForm.remember_me) }}
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">
                             Zaloguj się
                         </button>
-
                         {{ form_end(loginForm) }}
-
                     </div>
                 </div>
             </div>

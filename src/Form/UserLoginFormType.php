@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +24,12 @@ class UserLoginFormType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Hasło'
+            ])
+            // CHECKBOX REMEMER_ME
+            ->add('remember_me', CheckboxType::class, [
+                'label' => 'Zapamiętaj mnie'
             ]);
+
 
     }
 }

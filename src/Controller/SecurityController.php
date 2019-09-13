@@ -19,13 +19,16 @@ class SecurityController extends AbstractController
      */
     public function _login(AuthenticationUtils $authenticationUtils)
     {
+        // Dodanie REMEMBER_ME
+        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->redirect($this->generateUrl('app_homepage'));
+        }
 
         $error = $authenticationUtils->getLastAuthenticationError();
+
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $form = $this->createForm(UserLoginFormType::class,/* [
-            'email' => $lastUsername,
-        ]*/);
+        $form = $this->createForm(UserLoginFormType::class);
 
         return $this->render(
             'security/login.html.twig', [
@@ -62,5 +65,13 @@ class SecurityController extends AbstractController
         return $this->render('security/register.html.twig', [
             'registerForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route ("/logout", name="app_logout")
+     */
+    public function _logout()
+    {
+        throw new \Exception("Do tego nie powinno dojść");
     }
 }
