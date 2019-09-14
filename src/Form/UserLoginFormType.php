@@ -20,7 +20,7 @@ class UserLoginFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Email',
+                'label' => 'Email'
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Hasło'
@@ -30,7 +30,5 @@ class UserLoginFormType extends AbstractType
                 'label' => 'Zapamiętaj mnie',
                 'required' => false
             ]);
-
-
     }
 }
