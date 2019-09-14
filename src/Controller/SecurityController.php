@@ -54,6 +54,9 @@ class SecurityController extends AbstractController
                 $user->getPassword()
             ));
 
+            $errors = $form->getErrors();
+            dump($errors);die;
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
