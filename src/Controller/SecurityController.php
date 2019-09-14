@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -40,7 +41,7 @@ class SecurityController extends AbstractController
     /**
      *@Route("/register", name="app_register")
      */
-    public function _register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
+    public function _register(ValidatorInterface $validator, Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(UserRegistrationFormType::class);
         $form->handleRequest($request);
@@ -53,9 +54,6 @@ class SecurityController extends AbstractController
                 $user,
                 $user->getPassword()
             ));
-
-            $errors = $form->getErrors();
-            dump($errors);die;
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
