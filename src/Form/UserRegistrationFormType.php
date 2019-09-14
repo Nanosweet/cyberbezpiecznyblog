@@ -23,40 +23,41 @@ class UserRegistrationFormType extends AbstractType
             ->add('imie', TextType::class, [
                 'label' => 'Imię',
                 'required' => true,
-                'constraints' => [
+                /*'constraints' => [
                     new Regex([
                         'pattern' => '/^[A-Z][a-z]{3,15}$/',
                         'message' => 'Podaj swoje imię z wielkiej litery.'
                     ])
-            ]])
+                ]*/
+            ])
             ->add('nazwisko', TextType::class, [
                 'label' => 'Nazwisko',
                 'required' => true,
-                'constraints' => [
+                /*'constraints' => [
                     new Regex([
                         'pattern' => '/^[A-Z][a-z]{3,25}$/',
                         'message' => 'Podaj swoje nazwisko z wielkiej litery.'
                     ])
-                ]
+                ]*/
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'required' => true,
-                'constraints' => [
+                /*'constraints' => [
                     new Regex([
                         'pattern' => '/^[a-zA-Z0-9.!#$%&\'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/'
                     ])
-                ]
+                ]*/
             ])
             ->add('password',  PasswordType::class, [
                 'label' => 'Hasło',
                 'required' => true,
-                'constraints' =>  [
+                /*'constraints' =>  [
                     new Regex([
                         'pattern' => '/^(?=^.{4,}$)((?=.*\d)|(?=.*\W+))(?=.*[A-Z])(?=.*[a-z]).*$/',
                         'message' => 'Wprowadź małe, duże litery, cyfry oraz znaki specjalne, minimum 6 znaków.',
                     ])
-                ]
+                ]*/
             ]);
     }
 

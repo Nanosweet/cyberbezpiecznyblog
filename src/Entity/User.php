@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"})
  */
 class User implements UserInterface
 {
@@ -19,6 +23,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9.!#$%&\'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/"
+     * )
      */
     private $email;
 
@@ -30,16 +37,40 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(
+     *     min="6"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^(?=^.{4,}$)((?=.*\d)|(?=.*\W+))(?=.*[A-Z])(?=.*[a-z]).*$/",
+     *     message="Ta wartość jest nieprawidłowa. Powinna mieć małe, duże litery, cyfry oraz znaki specjalne."
+     * )
+     * @Assert\NotBlank
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min = 3
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[A-Z][a-z]{3,}$/",
+     *     message="Ta wartość jest nieprawidłowa. Powinna mieć twoje imię pisane z dużej litery."
+     * )
+     * @Assert\NotBlank
      */
     private $imie;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *     min = 3
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[A-Z][a-z]{3,}$/",
+     *     message="Ta wartość jest nieprawidłowa. Powinna mieć nazwisko pisane z dużej litery."
+     * )
+     * @Assert\NotBlank
      */
     private $nazwisko;
 
