@@ -2,6 +2,13 @@
 
 {% block title %}Homepage{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/homepage.css') }}">
+{% endblock %}
+
 {% block body %}
-<p>Homepage</p>
+    <div class="bg">
+    </div>
+
 {% endblock %}
