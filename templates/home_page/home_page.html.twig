@@ -3,11 +3,15 @@
 {% block title %}Homepage{% endblock %}
 
 {% block stylesheets %}
-
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/css/homepage.css') }}">
 {% endblock %}
 
 {% block body %}
-    <div class="bg">
-    </div>
+        <div>
+            <p style="color: #AA3333">adadd</p>
+        </div>
+
+
 
 {% endblock %}
