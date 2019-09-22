@@ -9,3 +9,5 @@
 >>>>>>> logowanie_rejestracja
 # instalacja composer req security/csrf protection, src/packages/framework.yaml - włączenie protekcji, dodanie w LoginFormType funkcji która zajmuje się csrf protection
 # Dodałem podstawowy Navbar 18/09/2019
+ Instalacja yarn, webpack encore, node.js 
+# Aby ustawic obraz na background potrzebne mi było instalacja webpack-encore + copy-plugin do tego skonfigurowac webpack.config.js aby kopiowalo mi css img i js wg nazw moich folderow i ich poukładania, inaczej sciezka nie dziala

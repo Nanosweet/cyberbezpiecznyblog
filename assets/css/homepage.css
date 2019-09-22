@@ -1,0 +1,13 @@
+body, html {
+	height: 100%;
+}
+.bg {
+	/* The image used */
+	background-image: url(../img/action-blur-close-up-73591.jpg);
+	background-color: #313131;
+
+	/* Full height */
+	height: 100%;
+
+
+}
