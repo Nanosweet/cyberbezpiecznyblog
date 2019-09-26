@@ -17,7 +17,9 @@ Encore
     .addPlugin(new CopyWebpackPlugin([
         { from: './assets/css', to: 'css'},
         { from: './assets/js', to: 'js'},
-        { from: './assets/img', to: 'img'}
+        { from: './assets/img', to: 'img'},
+        { from: './assets/scss', to: 'scss'},
+        { from: './assets/vendor', to: 'vendor'}
     ]))
     /*
      * ENTRY CONFIG
@@ -52,6 +54,7 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
+    .enableSassLoader()
 
     // enables @babel/preset-env polyfills
     .configureBabel(() => {}, {
