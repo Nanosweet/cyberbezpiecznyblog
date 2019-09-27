@@ -48,7 +48,12 @@
         </li>
         {% if is_granted('ROLE_USER') %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_logout') }}">Napisz</a>
+            <!-- TODO - tworzenie posta -->
+            <a class="nav-link" href="#">Napisz</a>
+          </li>
+          <li class="nav-item">
+            <!-- TODO - dashboard konta -->
+            <a class="nav-link" href="#">Konto</a>
           </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ path('app_logout') }}">Wyloguj się</a>
