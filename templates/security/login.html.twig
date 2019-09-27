@@ -24,17 +24,21 @@
 
 
                         <!-- CHECKBOX REMEMBER_ME -->
-                        <div align="center">
-                            {{ form_row(loginForm.remember_me) }}
+                        <!-- Default unchecked -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="remember_me" class="custom-control-input" id="defaultUnchecked">
+                            <label class="custom-control-label" for="defaultUnchecked">Remember me</label>
                         </div>
-                        <div>
-                            <p>Nie masz konta?
-                                <a href="{{ path('app_register') }}">Zarejestuj się</a>
-                            </p>
+
+
                         </div>
+
                         <button class="btn btn-lg btn-dark btn-block" type="submit">
                             Zaloguj się
                         </button>
+                        <a class="btn btn-lg btn-dark btn-block" href="{{ path('app_register') }}">
+                            <span class="button-text">Stwórz konto</span>
+                        </a>
                         {{ form_end(loginForm) }}
                     </div>
                 </div>

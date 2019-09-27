@@ -26,11 +26,6 @@ class UserLoginFormType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'Hasło'
             ])
-            // CHECKBOX REMEMER_ME
-            ->add('remember_me', CheckboxType::class, [
-                'label' => 'Zapamiętaj mnie',
-                'required' => false
-            ])
         ;
     }
 

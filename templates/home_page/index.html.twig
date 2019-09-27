@@ -46,12 +46,21 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Blog</a> <!-- TODO blog_page -->
         </li>
+        {% if is_granted('ROLE_USER') %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_logout') }}">Napisz</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ path('app_logout') }}">Wyloguj się</a>
+        </li>
+        {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{{ path('app_login') }}">Logowanie</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{path('app_register')}}">Rejestracja</a>
         </li>
+        {% endif %}
       </ul>
     </div>
   </div>
