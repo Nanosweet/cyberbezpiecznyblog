@@ -21,11 +21,18 @@
                         {{ form_row(loginForm.email) }}
                         {{ form_row(loginForm.password) }}
 
+
+
                         <!-- CHECKBOX REMEMBER_ME -->
                         <div align="center">
                             {{ form_row(loginForm.remember_me) }}
                         </div>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        <div>
+                            <p>Nie masz konta?
+                                <a href="{{ path('app_register') }}">Zarejestuj się</a>
+                            </p>
+                        </div>
+                        <button class="btn btn-lg btn-dark btn-block" type="submit">
                             Zaloguj się
                         </button>
                         {{ form_end(loginForm) }}
