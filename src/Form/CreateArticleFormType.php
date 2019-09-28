@@ -3,9 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Sodium\add;
 
 class CreateArticleFormType extends AbstractType
 {
@@ -13,9 +19,9 @@ class CreateArticleFormType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('slug')
-            ->add('content')
-            ->add('publishedAt')
+            ->add('content', TextareaType::class)
+            ->add('publishedAt', HiddenType::class)
+            ->add('publikuj', SubmitType::class)
         ;
     }
 
