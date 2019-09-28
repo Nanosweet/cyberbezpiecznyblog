@@ -20,7 +20,6 @@ class CreateArticleFormType extends AbstractType
         $builder
             ->add('title')
             ->add('content', TextareaType::class)
-            ->add('publishedAt', HiddenType::class)
             ->add('publikuj', SubmitType::class)
         ;
     }
