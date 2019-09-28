@@ -1,0 +1,44 @@
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="#">Cyberbezpieczeństwo</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_homepage') }}">Główna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Artykuły</a> <!-- TODO articles_page -->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Blog</a> <!-- TODO blog_page -->
+                </li>
+                {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <!-- TODO - tworzenie posta -->
+                        <a class="nav-link" href="#">Napisz</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- TODO - dashboard konta -->
+                        <a class="nav-link" href="#">Konto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">Wyloguj się</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Logowanie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('app_register')}}">Rejestracja</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}

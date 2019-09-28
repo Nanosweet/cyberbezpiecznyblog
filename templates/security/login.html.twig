@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Logowanie{% endblock %}
-{% block nav %}
+{% block title %}
+    Logowanie
 {% endblock %}
+
+{% block nav %}{% endblock %}
+
 {% block body %}
     <div class="container">
         <div class="row">
@@ -20,23 +23,23 @@
                         {% endif %}
 
                         {{ form_row(loginForm.email) }}
+
                         {{ form_row(loginForm.password) }}
 
 
 
                         <!-- CHECKBOX REMEMBER_ME -->
                         <!-- Default unchecked -->
-                        <div class="custom-control custom-checkbox">
+                        <hr>
+                        <div class="custom-control custom-checkbox text-center">
                             <input type="checkbox" name="remember_me" class="custom-control-input" id="defaultUnchecked">
                             <label class="custom-control-label" for="defaultUnchecked">Remember me</label>
                         </div>
-
-
-                        </div>
-
+                        <hr>
                         <button class="btn btn-lg btn-dark btn-block" type="submit">
                             Zaloguj się
                         </button>
+                        <hr>
                         <a class="btn btn-lg btn-dark btn-block" href="{{ path('app_register') }}">
                             <span class="button-text">Stwórz konto</span>
                         </a>
@@ -45,5 +48,4 @@
                 </div>
             </div>
         </div>
-    <hr><br><br><br><br>
 {% endblock %}
