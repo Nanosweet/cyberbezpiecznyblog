@@ -17,23 +17,26 @@
   </header>
 
   <!-- Main Content -->
+{% for article in articles %}
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="post-preview">
-          <a href="#">
+          <a href="{{ path('app_article', {slug: article.slug}) }}">
             <h2 class="post-title">
-              Man must explore, and this is exploration at its greatest
+              {{ article.title }}
             </h2>
             <h3 class="post-subtitle">
-              Problems look mighty small from 150 miles up
+              subtitle
             </h3>
           </a>
           <p class="post-meta">Posted by
-            <a href="#">Start Bootstrap</a>
-            on September 24, 2019</p>
+            <a href="#">Autor</a>
+            on {{ article.publishedAt | date localizeddate('none', 'none', app.request.locale, null, 'dd MMMM, yyyy')}}</p>
         </div>
         <hr>
+
+        {#
         <div class="post-preview">
           <a href="#">
             <h2 class="post-title">
@@ -71,7 +74,7 @@
           <p class="post-meta">Posted by
             <a href="#">Start Bootstrap</a>
             on July 8, 2019</p>
-        </div>
+        </div>#}
         <hr>
         <!-- Pager -->
         <div class="clearfix">
@@ -82,6 +85,7 @@
   </div>
 
   <hr>
+  {% endfor %}
 
   <!-- Footer -->
 
