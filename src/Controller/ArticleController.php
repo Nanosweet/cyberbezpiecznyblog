@@ -23,7 +23,7 @@ class ArticleController extends AbstractController
         if (!$article) {
             throw $this->createNotFoundException(sprintf('no article for slug "%s"', $slug));
         }
-        return $this->render('article/index.html.twig', [
+        return $this->render('article/article.html.twig', [
             'controller_name' => 'ArticleController',
             'article' => $article,
         ]);

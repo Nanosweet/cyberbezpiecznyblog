@@ -31,10 +31,10 @@ class CreateArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('app_homepage');
         }
 
-        return $this->render('create_article/index.html.twig', [
+        return $this->render('create_article/create_article.html.twig', [
             'articleForm' => $form->createView(),
         ]);
     }

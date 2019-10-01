@@ -21,7 +21,8 @@
         "symfony/validator": "4.3.*",
         "symfony/web-server-bundle": "^4.3",
         "symfony/webpack-encore-bundle": "^1.6",
-        "symfony/yaml": "4.3.*"
+        "symfony/yaml": "4.3.*",
+        "twig/extensions": "^1.5"
     },
     "require-dev": {
         "easycorp/easy-log-handler": "^1.0.7",
