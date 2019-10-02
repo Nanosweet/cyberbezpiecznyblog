@@ -20,6 +20,7 @@ class ArticleController extends AbstractController
 
         $article = $repository -> findOneBy(['slug' => $slug]);
 
+
         if (!$article) {
             throw $this->createNotFoundException(sprintf('no article for slug "%s"', $slug));
         }

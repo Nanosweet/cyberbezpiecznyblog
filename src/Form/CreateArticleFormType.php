@@ -22,6 +22,10 @@ class CreateArticleFormType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Tytuł'
             ])
+            ->add('subtitle', TextType::class, [
+                'label' => 'Podtytuł',
+                'required' => false
+            ])
             ->add('content', TextareaType::class, [
                 'label' => 'Treść'
             ])

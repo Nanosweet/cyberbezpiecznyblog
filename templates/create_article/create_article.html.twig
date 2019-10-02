@@ -29,6 +29,14 @@
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        {{ form_row(articleForm.subtitle, {
+                            attr: { placeholder: 'Podtytuł' }
+                        }) }}
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
                             {{ form_row(articleForm.content, {
