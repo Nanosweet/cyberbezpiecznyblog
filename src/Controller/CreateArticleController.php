@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Form\CreateArticleFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,13 +20,16 @@ class CreateArticleController extends AbstractController
     public function createArticle(Request $request, EntityManagerInterface $entityManager)
     {
         $article = new Article();
-
+        $article->setAuthor($this->getUser());
         $form = $this->createForm(CreateArticleFormType::class, $article);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $form->getData();
+
             $article = $form->getData();
+
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
