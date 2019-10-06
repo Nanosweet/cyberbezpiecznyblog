@@ -14,7 +14,9 @@ class HomePageController extends AbstractController
      */
     public function index(ArticleRepository $articleRepository)
     {
-        $articles = $articleRepository->findAll();
+        /* Wybranie artykulow dodanych aktualnego dnia */
+        $articles = $articleRepository->findAllPublishedToday();
+
         return $this->render('home_page/index.html.twig', [
             'articles' => $articles,
         ]);

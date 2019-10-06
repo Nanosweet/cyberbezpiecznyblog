@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,16 +36,24 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    /*
-    public function findOneBySomeField($value): ?Article
+    /* Funkcja wybierajaca z bazy artykuly udostepnione aktualnego  dnia */
+    public function findAllPublishedToday()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('a.publishedAt > CURRENT_DATE()')
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
+            ;
+    }
+
+    /* Funkcja wybierajaca z bazy wszystkie artykuly, wyswietlajac je od najnowszego */
+    public function findAllPublishedByNewest()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.publishedAt IS NOT NULL')
+            ->orderBy('a.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult()
         ;
     }
-    */
 }
