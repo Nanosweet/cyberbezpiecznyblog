@@ -1,16 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArticleController!{% endblock %}
+{% block title %} {{ article.title }} {% endblock %}
 
 {% block body %}
 
-
 <body>
-
-  <!-- Navigation -->
-{{ include('navbar/navbar.html.twig')}}
-
-  <!-- Page Header -->
+ <!-- Navigation -->
   <header class="masthead">
     <div class="overlay"></div>
     <div class="container">
@@ -19,16 +14,17 @@
           <div class="post-heading">
             <h1>{{ article.title }}</h1>
             <h2 class="subheading">{{ article.subtitle }}</h2>
-            <span class="meta">Posted by
-              <a href="#">Start Bootstrap</a>
-              on August 24, 2019</span>
+            <span class="meta">Dodał(a)
+              <a href="#">{{ article.author.imie }} {{ article.author.nazwisko }}</a>
+              {{ article.publishedAt | date('d.m.Y')}}
+            </span>
           </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Post Content -->
+  <!-- Article Content -->
   <article>
     <div class="container">
       <div class="row">
@@ -67,9 +63,11 @@
           <p>As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth to our nature, Man must explore, and this is exploration at its greatest.</p>
 #}
           {{ article.content }}
-          <p>Placeholder text by
+            {#<p>Placeholder text by
             <a href="http://spaceipsum.com/">Space Ipsum</a>. Photographs by
-            <a href="https://www.flickr.com/photos/nasacommons/">NASA on The Commons</a>.</p>
+            <a href="https://www.flickr.com/photos/nasacommons/">NASA on The Commons</a>.
+          </p>#}
+
         </div>
       </div>
     </div>

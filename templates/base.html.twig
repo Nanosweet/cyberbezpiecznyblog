@@ -2,9 +2,13 @@
 <html lang="en">
 
 {{ include('head/head.html.twig') }}
+<title>
+    {% block title %}
+        Blog - Cyberbezpieczeństwo
+    {% endblock %}
+</title>
 
 <body>
-
 <!-- Navigation -->
 {% block nav %}
 {{ include('navbar/navbar.html.twig') }}
