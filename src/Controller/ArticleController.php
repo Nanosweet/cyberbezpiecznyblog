@@ -21,9 +21,8 @@ class ArticleController extends AbstractController
         /** @var Article $article */
 
         $article = $repository -> findOneBy(['slug' => $slug]);
-        /* wyciagniecie author_id artykulu */
 
-
+        /* wyciagniecie id zalogowanego usera */
         $user_id = $user->getId();
 
         if (!$article) {

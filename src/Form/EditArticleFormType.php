@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CreateArticleFormType extends AbstractType
+class EditArticleFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -25,7 +25,7 @@ class CreateArticleFormType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Treść'
             ])
-            ->add('publikuj', SubmitType::class)
+            ->add('aktualizuj', SubmitType::class)
         ;
     }
 

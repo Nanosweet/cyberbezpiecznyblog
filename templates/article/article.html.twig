@@ -5,7 +5,6 @@
 {% block body %}
 
 <body>
- <!-- Navigation -->
   <header class="masthead">
     <div class="overlay"></div>
     <div class="container">
@@ -39,9 +38,11 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto text-center">
                 <hr>
-                <button class="btn btn-light">
-                    Edytuj
-                </button>
+                <a href="{{ path('app_article_edit', {slug: article.slug}) }}">
+                    <button class="btn btn-light">
+                        Edytuj
+                    </button>
+                </a>
             </div>
         </div>
         {% endif %}
