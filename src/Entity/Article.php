@@ -6,10 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\Timestampable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * @UniqueEntity(fields={"title"})
  */
 class Article
 {
@@ -21,8 +23,19 @@ class Article
      */
     private $id;
 
+    /*
+     * typ danych to string
+     * dlugosc to 255
+     * kolumna jest unikalna
+     * wymagany ciąg znaków
+     *  regex - Wyrażenie regularne - wzorzec opisujący łańcuch symboli:
+     * ą-ż - pojedynczy znak z zakresu od ą do ż
+     * Ą-Ż - pojedynczy znak z zakresu od Ą do Ż
+     * /S - pasuje do dowolnego znaku spacji
+     * /s - pasuje do każdego znaku białych znaków */
+
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Regex(
      *     pattern="/^[ą-żĄ-Ż\S\s]+$/",
      *     message="Ta wartość jest nieprawidłowa"

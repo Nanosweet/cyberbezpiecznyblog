@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\Article;
 use App\Form\CreateArticleFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,7 +27,6 @@ class CreateArticleController extends AbstractController
             $form->getData();
 
             $article = $form->getData();
-
 
 
             $entityManager = $this->getDoctrine()->getManager();
