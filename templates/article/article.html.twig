@@ -48,8 +48,16 @@
         {% endif %}
     </div>
   </article>
-  <form>
-  </form>
+  {% if is_granted('ROLE_USER') %}
+  {{ form_start(commentForm)}}
+  {{ form_row(commentForm.content, {
+      attr: { placeholder: 'Napisz swój komentarz...'}
+  }) }}
+  {{ form_end(commentForm) }}
+{% endif %}
+
+
+
   <!-- Sekcja komentarzy -->
 {% include 'article_comments/article_comments.html.twig' %}
 </body>

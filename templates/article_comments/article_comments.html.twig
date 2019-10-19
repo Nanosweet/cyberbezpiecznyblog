@@ -10,10 +10,11 @@
         </div>
       </div>
     </div>
+    {% for comment in comments %}
     <div class="container">
       <div class="row">
         <div class="col d-flex justify-content-start">
-          <small>Autor autor</small>
+          <small>{{ comment.authorName }}</small>
         </div>
         <div class="col d-flex justify-content-end">
           <small>Data dodania</small>
@@ -23,11 +24,7 @@
           <div class="row">
             <div class="col">
               <small>
-                Błąd mógł dotyczyć w zasadzie każdej dystrybucji,
-                bo każdą można skonfigurować tak,
-                by podatność była potencjalnie dokuczliwa -
-                jednak trudno sobie taką sytuację wyobrazić (że ktoś przeprowadza taką konfigurację)
-                w przypadku większości desktopowych dystrybucji Linuksa używanych w normalnych warunkach.
+                {{ comment.content }}
               </small>
               <hr>
             </div>
@@ -35,110 +32,6 @@
         </div>
       </div>
     </div>
-    <!-- #1-->
-    <div class="container">
-      <div class="row">
-        <div class="col d-flex justify-content-start">
-          <small>Autor autor</small>
-        </div>
-        <div class="col d-flex justify-content-end">
-          <small>Data dodania</small>
-        </div>
-        <hr>
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <small>
-                Błąd mógł dotyczyć w zasadzie każdej dystrybucji,
-                bo każdą można skonfigurować tak,
-                by podatność była potencjalnie dokuczliwa -
-                jednak trudno sobie taką sytuację wyobrazić (że ktoś przeprowadza taką konfigurację)
-                w przypadku większości desktopowych dystrybucji Linuksa używanych w normalnych warunkach.
-              </small>
-              <hr>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- #2-->
-    <div class="container">
-      <div class="row">
-        <div class="col d-flex justify-content-start">
-          <small>Autor autor</small>
-        </div>
-        <div class="col d-flex justify-content-end">
-          <small>Data dodania</small>
-        </div>
-        <hr>
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <small>
-                Błąd mógł dotyczyć w zasadzie każdej dystrybucji,
-                bo każdą można skonfigurować tak,
-                by podatność była potencjalnie dokuczliwa -
-                jednak trudno sobie taką sytuację wyobrazić (że ktoś przeprowadza taką konfigurację)
-                w przypadku większości desktopowych dystrybucji Linuksa używanych w normalnych warunkach.
-              </small>
-              <hr>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- #3-->
-    <div class="container">
-      <div class="row">
-        <div class="col d-flex justify-content-start">
-          <small>Autor autor</small>
-        </div>
-        <div class="col d-flex justify-content-end">
-          <small>Data dodania</small>
-        </div>
-        <hr>
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <small>
-                Błąd mógł dotyczyć w zasadzie każdej dystrybucji,
-                bo każdą można skonfigurować tak,
-                by podatność była potencjalnie dokuczliwa -
-                jednak trudno sobie taką sytuację wyobrazić (że ktoś przeprowadza taką konfigurację)
-                w przypadku większości desktopowych dystrybucji Linuksa używanych w normalnych warunkach.
-              </small>
-              <hr>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- #4-->
-    <div class="container">
-      <div class="row">
-        <div class="col d-flex justify-content-start">
-          <small>Autor autor</small>
-        </div>
-        <div class="col d-flex justify-content-end">
-          <small>Data dodania</small>
-        </div>
-        <hr>
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <small>
-                Jupiter już ci odpowiedział. Ja od siebie,
-                jako osoby od kilku ładnych lat używającej WYŁĄCZNIE platformy FOSS do pracy zawodowej dodam,
-                że ilekroć słyszę o 'hipsterskiej gadce,
-                sweterkach i klepaniu programików po godzinach dla idei li tylko' to mam 100% pewności,
-                ze rozmawiam z kimś, kto wypowiada się na tematy,
-                o których nie ma zielonego pojęcia...
-              </small>
-              <hr>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </comment>
 {% endblock %}
