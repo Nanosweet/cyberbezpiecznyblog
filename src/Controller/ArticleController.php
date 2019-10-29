@@ -66,6 +66,7 @@ class ArticleController extends AbstractController
             ]);
         }
 
+        /* Wyświetlanie widoku dla anonimowego użytkownika */
         return $this->render('article/article_annonymous.html.twig', [
             'controller_name' => 'ArticleController',
             'article' => $article,
