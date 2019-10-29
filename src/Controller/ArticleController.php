@@ -7,6 +7,7 @@ use App\Entity\Comment;
 use App\Entity\User;
 use App\Form\CommentCreateFormType;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,14 +20,21 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/{slug}", name="app_article")
      */
-    public function showArticle($slug, EntityManagerInterface $entityManager, Request $request)
+    public function showArticle($slug, EntityManagerInterface $entityManager, Request $request, CommentRepository $commentRepository)
     {
+        /* Przypisanie repozytorium */
         $repository = $entityManager->getRepository(Article::class);
         /** @var Article $article */
 
+        /* Wyszukanie artykułu po zmiennej slug, czyli slangu - tytule */
         $article = $repository->findOneBy(['slug' => $slug]);
+        /* Pobranie komentarzy z artykułów */
         $comments = $article->getComments();
-        /* wyciagniecie id zalogowanego usera */
+        /* Wybranie komentarzy od najnowszego do najstarszego */
+        $comments = $commentRepository->findAllPublishedByNewest();
+
+        /* Pobranie id zalogowanego usera */
+        
         if ($this->isGranted("IS_AUTHENTICATED_FULLY")) {
             /** @var User $user */
             $user = $this->getUser();
@@ -36,6 +44,7 @@ class ArticleController extends AbstractController
                 throw $this->createNotFoundException(sprintf('Brak artykułu: "%s"', $slug));
             }
 
+            /* Tworzenie komentarza */
             $comment = new Comment();
 
             $article ->getId();
@@ -55,6 +64,8 @@ class ArticleController extends AbstractController
                 $entityManager->persist($comment);
                 $entityManager->flush();
             }
+
+        
 
 
             return $this->render('article/article.html.twig', [

@@ -46,5 +46,14 @@ class CommentRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+    /* Funkcja wybierajaca z bazy wszystkie komentarze, wyswietlajac je od najnowszego */
+    public function findAllPublishedByNewest()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.createdAt IS NOT NULL')
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
