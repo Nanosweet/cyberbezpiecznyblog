@@ -39,6 +39,10 @@ class ArticleController extends AbstractController
             /** @var User $user */
             $user = $this->getUser();
             $user_id = $user->getId();
+            $user_imie = $user->getImie();
+            $user_nazwisko = $user->getNazwisko();
+            //dd($user_nazwisko);
+            
 
             if (!$article) {
                 throw $this->createNotFoundException(sprintf('Brak artykułu: "%s"', $slug));
@@ -49,13 +53,16 @@ class ArticleController extends AbstractController
 
             $article ->getId();
 
+            
+
 
             $form = $this->createForm(CommentCreateFormType::class, $comment);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                $comment ->setAuthorName('Janek')
+                $comment ->setAuthorName($user_imie)
+                         ->setAuthorForname($user_nazwisko)
                          ->setArticle($article);
                 $comment = $form->getData();
                 //dd($comment);

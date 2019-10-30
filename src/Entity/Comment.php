@@ -35,6 +35,11 @@ class Comment
      */
     private $article;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $author_forname;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +77,18 @@ class Comment
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getAuthorForname(): ?string
+    {
+        return $this->author_forname;
+    }
+
+    public function setAuthorForname(string $author_forname): self
+    {
+        $this->author_forname = $author_forname;
 
         return $this;
     }
