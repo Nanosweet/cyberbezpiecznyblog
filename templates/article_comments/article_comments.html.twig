@@ -21,6 +21,7 @@
         </div>
       </div>
     </div>
+    {% if (article.comments | length) >= 1 %}
     <!-- Pętla, która zapętla komentarze -->
     {% for comment in comments %}
     <div class="container">
@@ -48,5 +49,6 @@
       </div>
     </div>
     {% endfor %}
+    {% endif %}
   </comment>
 {% endblock %}
