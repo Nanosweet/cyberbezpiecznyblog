@@ -21,14 +21,14 @@
         </div>
       </div>
     </div>
-    {% if (article.comments | length) >= 1 %}
+    {# if (article.comments | length) >= 1 #}
     <!-- Pętla, która zapętla komentarze -->
-    {% for comment in comments %}
+    {% for comment in article.comments %}
     <div class="container">
       <div class="row">
         <div class="col d-flex justify-content-start">
         <!-- Wyświetlanie danych autora -->
-          <small>{{ comment.authorName }} {{ comment.authorForname }}</small>
+          <small><i>{{ comment.authorName }} {{ comment.authorForname }}</i></small>
         </div>
         <div class="col d-flex justify-content-end">
         <!-- Wyświetlanie daty dodania komentarza -->
@@ -40,7 +40,7 @@
             <div class="col">
               <small>
               <!-- Wyświetlanie treści komentarza -->
-                {{ comment.content }}
+               {{ comment.content }}
               </small>
               <hr>
             </div>
@@ -49,6 +49,5 @@
       </div>
     </div>
     {% endfor %}
-    {% endif %}
   </comment>
 {% endblock %}
