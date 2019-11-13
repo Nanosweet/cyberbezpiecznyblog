@@ -36,11 +36,11 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
     */
-    /* Funkcja wybierajaca z bazy artykuly udostepnione aktualnego  dnia */
-    public function findAllPublishedToday()
+    /* Funkcja wybierajaca z bazy artykuly udostepnione w ciągu ostatnich trzech dni */
+    public function findAllPublishedLastThreeDays()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.publishedAt > CURRENT_DATE()')
+            ->andWhere('a.publishedAt > CURRENT_DATE() - 3')
             ->getQuery()
             ->getResult()
             ;

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Artykuły | Cyberbezpiecznyblog{% endblock %}
+
+{% block body %}
+    <header class="masthead" style="background-image: url('{{ asset('build/img/bandwidth-close-up-connection-1148820.jpg') }}')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <p></p>
+                        <span class="subheading">Artykuły</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% for article in articles %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="post-preview">
+                <a href="{{ path('app_article', {slug: article.slug}) }}">
+                    <h2 class="post-title">
+                        {{ article.title }}
+                    </h2>
+                    <h3 class="post-subtitle">
+                        {{ article.subtitle }}
+                    </h3>
+                </a>
+                <p class="post-meta">Dodał(a)
+                    <a href="#">{{ article.author.imie }} {{ article.author.nazwisko }}</a>
+                    <br>
+                    {{ article.publishedAt | date('d.m.Y')}}
+                </p>
+            </div>
+            <div class="clearfix">
+                <a class="btn btn-light float-right" href="{{ path('app_article', {slug: article.slug}) }}">Czytaj dalej &rarr;</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+{% endblock %}

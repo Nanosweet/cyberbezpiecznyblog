@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Article;
 
 use App\Entity\Comment;
 use App\Form\CommentCreateFormType;

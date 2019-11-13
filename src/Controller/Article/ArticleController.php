@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Article;
 
 use App\Entity\Article;
 use App\Entity\Comment;
@@ -29,9 +29,9 @@ class ArticleController extends AbstractController
         /* Wyszukanie artykułu po zmiennej slug, czyli slangu - tytule */
         $article = $repository->findOneBy(['slug' => $slug]);
         /* Pobranie komentarzy z artykułów */
-        $comments = $article->getComments();
+       // $comments = $article->getComments();
         /* Wybranie komentarzy od najnowszego do najstarszego */
-        $comments = $commentRepository->findAllPublishedByNewest();
+       // $comments = $commentRepository->findAllPublishedByNewest();
 
         /* Pobranie id zalogowanego usera */
         
