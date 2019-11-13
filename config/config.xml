@@ -1,0 +1,8 @@
+<!-- app/config/config.xml -->
+
+        <!-- other valid 'db-driver' values are 'mongodb' and 'couchdb' -->
+        <fos_user:config
+            db-driver="orm"
+            firewall-name="main"
+            user-class="AppBundle\Entity\User"
+        />

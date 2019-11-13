@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ article.title }} {% endblock %}
+{% block title %}tytul art {# article.title #} {% endblock %}
 
 {% block body %}
 
@@ -12,10 +12,10 @@
         <div class="col">
           <div class="post-heading">
             <h1>{{ article.title }}</h1>
-            <h2 class="subheading">{{ article.subtitle }}</h2>
+            <h2 class="subheading">podtytul art{# article.subtitle #}</h2>
             <span class="meta">Dodał(a)
-              <a href="#">{{ article.author.imie }} {{ article.author.nazwisko }}</a>
-              {{ article.publishedAt | date('d.m.Y')}}
+              <a href="#">imie naziwsko autora{# article.author.imie #} {# article.author.nazwisko #}</a>
+              data publikacji{# article.publishedAt | date('d.m.Y')#}
             </span>
           </div>
         </div>
@@ -27,7 +27,7 @@
     <div class="container">
       <div class="row">
         <div class="col">
-          {{ article.content }}
+         kontent {# article.content #}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ article.title }} {% endblock %}
+{% block title %} tytul artykulu{# article.title #} {% endblock %}
 
 {% block body %}
 
@@ -12,10 +12,10 @@
         <div class="col">
           <div class="post-heading">
             <h1>{{ article.title }}</h1>
-            <h2 class="subheading">{{ article.subtitle }}</h2>
+            <h2 class="subheading">podtytul artykulu{# article.subtitle #}</h2>
             <span class="meta">Dodał(a)
-              <a href="#">{{ article.author.imie }} {{ article.author.nazwisko }}</a>
-              {{ article.publishedAt | date('d.m.Y')}}
+              <a href="#">imie i nazwisko{# article.author.imie #} {# article.author.nazwisko #}</a>
+              data publikacji{# article.publishedAt | date('d.m.Y')#}
             </span>
           </div>
         </div>
@@ -34,20 +34,21 @@
         <!-- petla warunkowa sprawdzajaca
          czy uzytkownik jest zalogowany
          czy uzytkownik jest autorem artykulu -->
-        {% if is_granted('ROLE_USER') and (user_id) is same as (article.author.id) %}
+       {# {% if is_granted('ROLE_USER') and (user_id) is same as (article.author.id) %}#}
         <div class="row">
             <div class="col text-center">
                 <hr>
-                <a href="{{ path('app_article_edit', {slug: article.slug}) }}">
+                <a href="{# path('app_article_edit', {slug: article.slug}) #}">
                     <button class="btn btn-light">
                         Edytuj
                     </button>
                 </a>
             </div>
         </div>
-        {% endif %}
+       {# {% endif %}#}
     </div>
   </article>
+    {#
   {% if is_granted('ROLE_USER') %}
   {{ form_start(commentForm)}}
   {{ form_row(commentForm.content, {
@@ -55,6 +56,7 @@
   }) }}
   {{ form_end(commentForm) }}
 {% endif %}
+#}
 
 
 
