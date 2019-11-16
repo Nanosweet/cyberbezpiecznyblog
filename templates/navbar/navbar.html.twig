@@ -17,13 +17,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_articles_list') }}">Artykuły</a>
                 </li>
-                
                 {% if is_granted('ROLE_USER') %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_create_article') }}">Napisz</a>
                     </li>
                     <li class="nav-item">
-                        <!-- TODO - dashboard konta -->
                         <a class="nav-link" href="#">Konto</a>
                     </li>
                     <li class="nav-item">
@@ -34,7 +32,7 @@
                         <a class="nav-link" href="{{ path('connect_google') }}">Logowanie</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_register') }}">Rejestracja</a>
+                        <a class="nav-link" href="{{ path('connect_google') }}">Rejestracja</a>
                     </li>
                 {% endif %}
             </ul>

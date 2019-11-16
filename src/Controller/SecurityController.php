@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/login1", name="app_login1")
      */
     public function _login(AuthenticationUtils $authenticationUtils)
     {
@@ -39,7 +39,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     *@Route("/register", name="app_register")
+     *@Route("/register1", name="app_register1")
      */
     public function _register(ValidatorInterface $validator, Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
     {

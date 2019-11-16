@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Security;
 
 use App\Entity\User;
@@ -18,13 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-
-/**
- * Created by IntelliJ IDEA.
- * User: mert
- * Date: 12/18/17
- * Time: 12:00 PM
- */
 class GoogleAuthenticator extends SocialAuthenticator
 {
     private $clientRegistry;
@@ -79,24 +66,7 @@ class GoogleAuthenticator extends SocialAuthenticator
             ->getClient('google');
     }
 
-    /**
-     * Returns a response that directs the user to authenticate.
-     *
-     * This is called when an anonymous request accesses a resource that
-     * requires authentication. The job of this method is to return some
-     * response that "helps" the user start into the authentication process.
-     *
-     * Examples:
-     *  A) For a form login, you might redirect to the login page
-     *      return new RedirectResponse('/login');
-     *  B) For an API token authentication system, you return a 401 response
-     *      return new Response('Auth header required', 401);
-     *
-     * @param Request $request The request that resulted in an AuthenticationException
-     * @param \Symfony\Component\Security\Core\Exception\AuthenticationException $authException The exception that started the authentication process
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
+    
     public function start(Request $request, \Symfony\Component\Security\Core\Exception\AuthenticationException $authException = null)
     {
         return new RedirectResponse('/login');
@@ -138,6 +108,6 @@ class GoogleAuthenticator extends SocialAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, $providerKey)
     {
-        // TODO: Implement onAuthenticationSuccess() method.
+        return new RedirectResponse($this->router->generate('app_homepage'));
     }
 }

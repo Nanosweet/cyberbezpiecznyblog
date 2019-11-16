@@ -34,6 +34,7 @@
   "build/vendor/bootstrap/css/bootstrap-reboot.css.map": "/build/vendor/bootstrap/css/bootstrap-reboot.css.map",
   "build/vendor/bootstrap/css/bootstrap-reboot.min.css": "/build/vendor/bootstrap/css/bootstrap-reboot.min.css",
   "build/vendor/bootstrap/css/bootstrap-reboot.min.css.map": "/build/vendor/bootstrap/css/bootstrap-reboot.min.css.map",
+  "build/vendor/bootstrap/css/bootstrap-social.css": "/build/vendor/bootstrap/css/bootstrap-social.css",
   "build/vendor/bootstrap/css/bootstrap.css": "/build/vendor/bootstrap/css/bootstrap.css",
   "build/vendor/bootstrap/css/bootstrap.css.map": "/build/vendor/bootstrap/css/bootstrap.css.map",
   "build/vendor/bootstrap/css/bootstrap.min.css": "/build/vendor/bootstrap/css/bootstrap.min.css",
