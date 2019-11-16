@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %} tytul artykulu{# article.title #} {% endblock %}
-
+{% block stylesheets  %}
+<style>
+    .img {  width: 100%;
+  height: auto;}
+</style>
+{% endblock  %}
 {% block body %}
 
 <body>
@@ -25,10 +30,10 @@
 
   <!-- Article Content -->
   <article>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col">
-          {{ article.content }}
+        <div class="col-lg-8 col-md-10 mx-auto ">
+          {{ article.content | raw}}
         </div>
       </div>
         <!-- petla warunkowa sprawdzajaca

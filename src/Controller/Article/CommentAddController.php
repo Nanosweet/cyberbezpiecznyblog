@@ -13,7 +13,7 @@ class CommentAddController extends AbstractController
     /**
      * @Route("article/{slug}/comment", name="app_article_comment_add")
      */
-    public function addComment(Request $request)
+    public function article_comment(Request $request)
 {
     $comment = new Comment();
     $comment->setAuthorName('name od autora');

@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Article;
 
 use App\Entity\Article;
-use App\Form\CreateArticleFormType;
+use App\Form\ArticleCreateFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CreateArticleController extends AbstractController
+class ArticleCreateController extends AbstractController
 {
     /**
-     * @Route("/create/article", name="app_create_article")
+     * @Route("/article/create", name="app_article_create")
      * @IsGranted("ROLE_USER")
      */
-    public function createArticle(Request $request)
+    public function article_create(Request $request)
     {
         $article = new Article();
         $article->setAuthor($this->getUser());
-        $form = $this->createForm(CreateArticleFormType::class, $article);
+        $form = $this->createForm(ArticleCreateFormType::class, $article);
 
         $form->handleRequest($request);
 
@@ -34,7 +34,7 @@ class CreateArticleController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        return $this->render('create_article/create_article.html.twig', [
+        return $this->render('article_create/article_create.html.twig', [
             'articleForm' => $form->createView(),
         ]);
     }

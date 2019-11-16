@@ -18,9 +18,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/article/{slug}", name="app_article")
+     * @Route("/{slug}", name="app_article")
      */
-    public function showArticle($slug, EntityManagerInterface $entityManager, Request $request, CommentRepository $commentRepository)
+    public function article($slug, EntityManagerInterface $entityManager, Request $request, CommentRepository $commentRepository)
     {
         /* Przypisanie repozytorium */
         $repository = $entityManager->getRepository(Article::class);
@@ -39,8 +39,8 @@ class ArticleController extends AbstractController
             /** @var User $user */
             $user = $this->getUser();
             $user_id = $user->getId();
-            $user_imie = $user->getImie();
-            $user_nazwisko = $user->getNazwisko();
+            //$user_imie = $user->getImie();
+            //$user_nazwisko = $user->getNazwisko();
             //dd($user_nazwisko);
             
 
@@ -78,7 +78,7 @@ class ArticleController extends AbstractController
             return $this->render('article/article.html.twig', [
                 'controller_name' => 'ArticleController',
                 'article' => $article,
-                'comments' => $comments,
+               // 'comments' => $comments,
                 'user_id' => $user_id,
                 'commentForm' => $form->createView(),
             ]);

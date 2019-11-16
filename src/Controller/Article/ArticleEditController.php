@@ -14,7 +14,7 @@ class ArticleEditController extends AbstractController
     /**
      * @Route("/article/{slug}/edit", name="app_article_edit")
      */
-    public function editArticle(Article $article, Request $request, EntityManagerInterface $entityManager)
+    public function article_edit(Article $article, Request $request, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(EditArticleFormType::class, $article);
 

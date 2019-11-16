@@ -9,12 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleListController extends AbstractController
 {
     /**
-     * @Route("/articles/list", name="app_articles_list")
+     * @Route("/article/list", name="app_article_list")
      */
     public function article_list(ArticleRepository $articleRepository)
     {
         $articles =  $articleRepository->findAllPublishedByNewest();
-        return $this->render('article_list/articles_list.html.twig', [
+        return $this->render('article_list/article_list.html.twig', [
             'articles' => $articles,
         ]);
     }
