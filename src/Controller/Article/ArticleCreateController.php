@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleCreateController extends AbstractController
 {
     /**
-     * @Route("/article/create", name="app_article_create")
+     * @Route("/create", name="app_article_create")
      * @IsGranted("ROLE_USER")
      */
     public function article_create(Request $request)

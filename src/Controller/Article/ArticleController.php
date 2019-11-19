@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/{slug}", name="app_article")
+     * @Route("/article/{slug}", name="app_article")
      */
     public function article($slug, EntityManagerInterface $entityManager, Request $request, CommentRepository $commentRepository)
     {

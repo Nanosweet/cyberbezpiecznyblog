@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleListController extends AbstractController
 {
     /**
-     * @Route("/article/list", name="app_article_list")
+     * @Route("/list", name="app_article_list")
      */
     public function article_list(ArticleRepository $articleRepository)
     {
