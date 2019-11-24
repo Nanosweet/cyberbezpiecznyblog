@@ -4,6 +4,7 @@
   "build/homepage.css": "/build/homepage.css",
   "build/runtime.js": "/build/runtime.js",
   "build/css/app.css": "/build/css/app.css",
+  "build/css/article.css": "/build/css/article.css",
   "build/css/clean-blog.css": "/build/css/clean-blog.css",
   "build/css/clean-blog.min.css": "/build/css/clean-blog.min.css",
   "build/css/homepage.css": "/build/css/homepage.css",
