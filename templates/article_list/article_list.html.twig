@@ -16,32 +16,36 @@
             </div>
         </div>
     </header>
-    {#
-{% for article in articles %}
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="post-preview">
-                <a href="{{ path('app_article', {slug: article.slug}) }}">
-                    <h2 class="post-title">
-                        {{ article.title }}
-                    </h2>
-                    <h3 class="post-subtitle">
-                        {{ article.subtitle }}
-                    </h3>
-                </a>
-                <p class="post-meta">Dodał(a)
-                    <a href="#">{{ article.author.imie }} {{ article.author.nazwisko }}</a>
-                    <br>
-                    {{ article.publishedAt | date('d.m.Y')}}
-                </p>
-            </div>
-            <div class="clearfix">
-                <a class="btn btn-light float-right" href="{{ path('app_article', {slug: article.slug}) }}">Czytaj dalej &rarr;</a>
+
+    {% for article in pagination %}
+
+        <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-preview">
+                    <a href="{{ path('app_article', {slug: article.slug}) }}">
+                        <h2 class="post-title">
+                            {{ article.title }}
+                        </h2>
+                        <h3 class="post-subtitle">
+                            {{ article.subtitle }}
+                        </h3>
+                    </a>
+                    <p class="post-meta">Dodał(a)
+                        <a href="#">{#{{ article.author.imie }} {{ article.author.nazwisko }}#}</a>
+                        <br>
+                        {{ article.publishedAt | date('d.m.Y')}}
+                    </p>
+                </div>
+                <div class="clearfix">
+                    <a class="btn btn-light float-right" href="{{ path('app_article', {slug: article.slug}) }}">Czytaj dalej &rarr;</a>
+                </div>
             </div>
         </div>
-    </div>
-    <hr>
+        <hr>
     {% endfor %}
-    #}
+
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>
 {% endblock %}

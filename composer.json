@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
+        "knplabs/knp-paginator-bundle": "^4.1",
         "knpuniversity/oauth2-client-bundle": "^1.30",
         "league/oauth2-google": "^3.0",
         "sensio/framework-extra-bundle": "^5.4",
