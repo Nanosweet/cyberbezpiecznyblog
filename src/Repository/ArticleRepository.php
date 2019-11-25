@@ -41,6 +41,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.publishedAt > CURRENT_DATE() - 3')
+            ->orderBy('a.publishedAt', 'DESC')
             ->getQuery()
             ->getResult()
             ;
