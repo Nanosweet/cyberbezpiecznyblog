@@ -21,9 +21,7 @@ class ArticleListController extends AbstractController
         $pagination = $paginator->paginate(
             $articles, $request->query->getInt('page', 1), 3);
         $pagination->setCustomParameters([
-            'position' => 'centered',
             'size' => 'small',
-            'rounded' => true,
         ]);
         return $this->render('article_list/article_list.html.twig', [
             'pagination' => $pagination,
