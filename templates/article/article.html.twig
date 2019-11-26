@@ -4,7 +4,6 @@
 
 {% block body %}
 
-<body>
 {% block stylesheets  %}
     <link href="{{ asset('build/css/article.css') }}" rel="stylesheet">
 {% endblock  %}
@@ -65,6 +64,6 @@
 
   <!-- Sekcja komentarzy -->
 {% include 'article_comments/article_comments.html.twig' %}
-</body>
+
 
 {% endblock %}
