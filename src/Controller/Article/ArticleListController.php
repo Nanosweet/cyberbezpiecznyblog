@@ -19,7 +19,7 @@ class ArticleListController extends AbstractController
         $articles=  $articleRepository->findAllPublishedByNewest();
 
         $pagination = $paginator->paginate(
-            $articles, $request->query->getInt('page', 1), 3);
+            $articles, $request->query->getInt('page', 1), 3);  // http://geekster.pl/symfony/knppaginatorbundle/
         $pagination->setCustomParameters([
             'size' => 'small',
         ]);
