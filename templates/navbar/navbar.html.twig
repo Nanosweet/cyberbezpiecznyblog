@@ -8,9 +8,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Cyberbezpieczeństwo</a>
-                </li>
+                <form action="{{ path('app_article_search') }}">
+                    <div class="input-group mb-3">
+                        <input type="text" name="q" class="form-control" placeholder="Szukaj..." >
+                    </div>
+                </form>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_article_news') }}">Najnowsze</a>
                 </li>

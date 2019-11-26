@@ -8,23 +8,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ArticleListController extends AbstractController
+class ArticleSearchController extends AbstractController
 {
     /**
-     * @Route("/list", name="app_article_list")
+     * @Route("/search", name="app_article_search")
      */
-    public function article_list(ArticleRepository $articleRepository, PaginatorInterface $paginator, Request $request)
+    public function index(ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator)
     {
-
-        $articles =  $articleRepository->findAllPublishedByNewest();
+        $q = $request->query->get('q');
+        $articles = $articleRepository->findAllPublishedByTitle($q);
 
         $pagination = $paginator->paginate(
             $articles, $request->query->getInt('page', 1), 3);  // http://geekster.pl/symfony/knppaginatorbundle/
         $pagination->setCustomParameters([
             'size' => 'small',
         ]);
-        return $this->render('article_list/article_list.html.twig', [
+
+        return $this->render('article_search/article_search.html.twig', [
             'pagination' => $pagination,
+            'articles' => $articles,
+            'q' => $q
         ]);
     }
 }

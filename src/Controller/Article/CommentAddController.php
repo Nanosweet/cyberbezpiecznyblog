@@ -34,7 +34,7 @@ dd($comment);
         return $this->redirectToRoute('app_homepage');
     }
 
-    return $this->render('comment_add/index.html.twig', [
+    return $this->render('comment_add/article_search.html.twig', [
         'articleForm' => $form->createView(),
     ]);
 }

@@ -55,4 +55,20 @@ class ArticleRepository extends ServiceEntityRepository
             ->orderBy('a.publishedAt', 'DESC')
         ;
     }
+    public function findAllPublishedByTitle(?string $term)
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        if ($term) {
+            $qb->andWhere('a.title LIKE :term' )
+                ->setParameter('term', '%'. $term . '%')
+                ;
+        }
+
+        return $qb
+            ->orderBy('a.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
