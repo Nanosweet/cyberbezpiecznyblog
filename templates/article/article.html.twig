@@ -1,69 +1,84 @@
+{# Widok odpwiedzialny za wyświetlanie artykułu #}
+{# Blok rozszerzający bazę widoków #}
 {% extends 'base.html.twig' %}
 
-{% block title %} tytul artykulu{# article.title #} {% endblock %}
+{# Blok wyświetlający tytuł artykułu #}
+{% block title %}
+    {{ article.title }}
+{% endblock %}
 
+{# Blok wyświetlający <body> strony #}
 {% block body %}
 
-{% block stylesheets  %}
-    <link href="{{ asset('build/css/article.css') }}" rel="stylesheet">
-{% endblock  %}
-  <header class="masthead">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="post-heading">
-            <h1>{{ article.title }}</h1>
-            <h2 class="subheading">podtytul artykulu{# article.subtitle #}</h2>
-            <span class="meta">Dodał(a)
-              <a href="#">imie i nazwisko{# article.author.imie #} {# article.author.nazwisko #}</a>
-              data publikacji{# article.publishedAt | date('d.m.Y')#}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
+    {# Blok implementujący style css #}
+    {% block stylesheets %}
+        <link href="{{ asset('build/css/article.css') }}" rel="stylesheet">
+    {% endblock %}
 
-  <!-- Article Content -->
-  <article>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto ">
-          {{ article.content | raw}}
-        </div>
-      </div>
-        <!-- petla warunkowa sprawdzajaca
-         czy uzytkownik jest zalogowany
-         czy uzytkownik jest autorem artykulu -->
-       {# {% if is_granted('ROLE_USER') and (user_id) is same as (article.author.id) %}#}
-        <div class="row">
-            <div class="col text-center">
-                <hr>
-                <a href="{# path('app_article_edit', {slug: article.slug}) #}">
-                    <button class="btn btn-light">
-                        Edytuj
-                    </button>
-                </a>
+    {# Nagłówek artukyłu #}
+    <header class="masthead">
+        <div class="overlay"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="post-heading">
+                        <h1>
+                            {# Tytuł artykułu #}
+                            {{ article.title }}
+                        </h1>
+                        <h2 class="subheading">
+                            {# Podtytuł artykułu #}
+                            {{ article.subtitle }}
+                        </h2>
+                        <span class="meta">
+                            Dodał(a)
+                            {# Autor artykułu #}
+                            {{ article.author.fullname }}
+                            |
+                            {# Data dodania artykułu #}
+                            {{ article.publishedAt | date('d.m.Y') }}
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
-       {# {% endif %}#}
-    </div>
-  </article>
-    {#
-  {% if is_granted('ROLE_USER') %}
-  {{ form_start(commentForm)}}
-  {{ form_row(commentForm.content, {
-      attr: { placeholder: 'Napisz swój komentarz...'}
-  }) }}
-  {{ form_end(commentForm) }}
-{% endif %}
-#}
-
-
-
-  <!-- Sekcja komentarzy -->
-{% include 'article_comments/article_comments.html.twig' %}
-
-
+    </header>
+    
+    {# Artykuł #}
+    <article>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    {# Zawartość artykułu, 'raw' gwarantuje poprawne wyświetlenie bez znaczników #}
+                    {{ article.content | raw }}
+                </div>
+            </div>
+            {# EDYCJA ARTYKULU #}
+            <!-- petla warunkowa sprawdzajaca
+             czy uzytkownik jest zalogowany
+             czy uzytkownik jest autorem artykulu -->
+            {# {% if is_granted('ROLE_USER') and (user_id) is same as (article.author.id) %}#}
+            <div class="row">
+                <div class="col text-center">
+                    <hr>
+                    <a href="{# path('app_article_edit', {slug: article.slug}) #}">
+                        <button class="btn btn-light">
+                            Edytuj
+                        </button>
+                    </a>
+                </div>
+            </div>
+            {# {% endif %}#}
+        </div>
+    </article>
+    {# Komentowanie artykułu #}
+    {% if is_granted('ROLE_USER') %}
+        {{ form_start(commentForm) }}
+        {{ form_row(commentForm.content, {
+            attr: { placeholder: 'Napisz swój komentarz...'}
+        }) }}
+        {{ form_end(commentForm) }}
+    {% endif %}
+    {# Sekcja komentarzy #}
+    {% include 'article_comments/article_comments.html.twig' %}
 {% endblock %}
