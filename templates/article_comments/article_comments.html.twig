@@ -1,57 +1,74 @@
+{# Widok odpowiedzialny za wyświetlanie komentarzy #}
+
 {% block body %}
-<!-- Widok odpowiedzialny za wyświetlanie komentarzy -->
-  <!-- Sekcja komentarzy -->
-  <comment>
-    <div class="container">
-      <div class="row">
-        <div class="col text-left">
-          <hr>
-          <small>
-              {#
-          <!-- Wyświetlanie ilości komentarzy -->
-              {{ article.comments | length}}
-              {% if (article.comments | length ) == 1 %}
-                <i>Komentarz</i>   
-              {% elseif (article.comments | length) in range(2, 3) %}
-                <i>Komentarze</i>
-              {% else %}
-                <i>Komentarzy</ii>
-              {% endif %}
-              #}
-              </small>
-          <br><br>
-        </div>
-      </div>
-    </div>
-    {# if (article.comments | length) >= 1 #}
-    <!-- Pętla, która zapętla komentarze -->
-    {#
-    {% for comment in article.comments %}
-    <div class="container">
-      <div class="row">
-        <div class="col d-flex justify-content-start">
-        <!-- Wyświetlanie danych autora -->
-          <small><i>{{ comment.authorName }} {{ comment.authorForname }}</i></small>
-        </div>
-        <div class="col d-flex justify-content-end">
-        <!-- Wyświetlanie daty dodania komentarza -->
-          <small>{{ comment.createdAt | date('d.m.Y') }}</small>
-        </div>
-        <hr>
+
+    {# Sekcja komentarzy  #}
+    <comment>
         <div class="container">
-          <div class="row">
-            <div class="col">
-              <small>
-              <!-- Wyświetlanie treści komentarza -->
-               {{ comment.content }}
-              </small>
-              <hr>
+            <div class="row">
+                <div class="col text-left">
+                    <hr>
+                    <small>
+                        {# Wyświetlanie ilości komentarzy #}
+                        {{ article.comments | length }}
+
+                        {# Warunek sprawdza ile jest komentarzy #}
+                        {# Wyświetla odpowiedno: Komentarz, Komentarze lub Komentarzy #}
+
+                        {# Jeżeli jest 1 komentarz #}
+                        {% if (article.comments | length ) == 1 %}
+
+                            <i>Komentarz</i>
+
+                            {# Jeżeli są dwa lub cztery  komentarze #}
+                            {# i nie jest w granicach od 11 do 21 to wyświetla się: Komentarze #}
+                            {# Warunek sprawdzalem na https://twigfiddle.com/ #}
+                        {% elseif ((article.comments | length) | last ) in range(2, 4) and (article.comments | length)  not in range(11, 21) %}
+
+                            <i>Komentarze</i>
+
+                            {# Jeżeli jest wiecej komentarzy #}
+                        {% else %}
+
+                            <i>Komentarzy</i>
+
+                            {# Koniec warunku #}
+                        {% endif %}
+                    </small>
+                    <br><br>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    {% endfor %}
-    #}
-  </comment>
+        {# Pętla, która zapętla komentarze #}
+        {% for comment in article.comments %}
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex justify-content-start">
+                        <small>
+                            {# Wyświetlanie nazwy  autora komentarza #}
+                            <i> {{ comment.authorName }}</i>
+                        </small>
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <small>
+                            {# Wyświetlanie daty dodania komentarza  #}
+                            {{ comment.createdAt | date('d.m.Y') }}
+                        </small>
+                    </div>
+                    <hr>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <small>
+                                    {# Wyświetlanie treści komentarza, 'raw' nie wyświetla znaczników html, a już odpowiednio sformatowany tekst #}
+                                    {{ comment.content | raw }}
+                                </small>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </comment>
 {% endblock %}
