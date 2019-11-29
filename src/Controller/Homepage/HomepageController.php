@@ -1,6 +1,6 @@
 <?php
 /*
- * Kontroler odpowiedzialny za wyswietlenie strony domowej */
+ * Kontroler odpowiedzialny za wyswietlenie strony głównej */
 
 namespace App\Controller\Homepage;
 
