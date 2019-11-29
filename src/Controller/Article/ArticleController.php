@@ -22,69 +22,81 @@ class ArticleController extends AbstractController
      */
     public function article($slug, EntityManagerInterface $entityManager, Request $request, CommentRepository $commentRepository)
     {
-        /* Przypisanie repozytorium */
+
         $repository = $entityManager->getRepository(Article::class);
         /** @var Article $article */
-
-        /* Wyszukanie artykułu po zmiennej slug, czyli slangu - tytule */
         $article = $repository->findOneBy(['slug' => $slug]);
-        /* Pobranie komentarzy z artykułów */
-       // $comments = $article->getComments();
-        /* Wybranie komentarzy od najnowszego do najstarszego */
-       // $comments = $commentRepository->findAllPublishedByNewest();
 
-        /* Pobranie id zalogowanego usera */
-        
+        /*
+         * Warunek, sprawdza czy istnieje odpowieni artykul */
+
+        if (!$article) {
+            throw $this->createNotFoundException(sprintf('Brak artykułu: "%s"', $slug));
+        }
+
+        /*
+         * Pobranie komentarzy
+         * Wybranie komentarzy od najnowszego do najstarszego */
+
+        $comments = $commentRepository->findAllPublishedByNewest();
+
+        /*
+         * Warunek, sprawdza czy uzytkownik jest zalogowany
+         * Jesli jest dodana funkcjonalnosc pisania komentarzy */
         if ($this->isGranted("IS_AUTHENTICATED_FULLY")) {
+
             /** @var User $user */
             $user = $this->getUser();
             $user_id = $user->getId();
-            //$user_imie = $user->getImie();
-            //$user_nazwisko = $user->getNazwisko();
-            //dd($user_nazwisko);
-            
+            $user_fullname = $user->getFullname();
 
-            if (!$article) {
-                throw $this->createNotFoundException(sprintf('Brak artykułu: "%s"', $slug));
-            }
-
-            /* Tworzenie komentarza */
+            /*
+             * Tworzenie komentarza */
             $comment = new Comment();
 
-            $article ->getId();
+            /*
+             * Pobranie id artykulu */
+            $article->getId();
 
-            
-
-
+            /*
+             * Tworzenie formularza do komentowania */
             $form = $this->createForm(CommentCreateFormType::class, $comment);
             $form->handleRequest($request);
 
+            /*
+             * Warunek, sprawdzajacy formularz */
             if ($form->isSubmitted() && $form->isValid()) {
 
-                $comment ->setAuthorName($user_imie)
-                         ->setAuthorForname($user_nazwisko)
-                         ->setArticle($article);
-                $comment = $form->getData();
-                //dd($comment);
+                /*
+                 * Ustawienie autora artykulu */
+                $comment->setAuthorName($user_fullname)
+                    ->setArticle($article);
 
+                /*
+                 * Pobranie danych z formularza */
+                $comment = $form->getData();
+
+                /*
+                 * Wprowadzenie danych do bazy danych */
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($comment);
                 $entityManager->flush();
+
             }
 
-        
-
-
+            /*
+             * Wyswietlenie widoku artykulu dla zalogowanego uzytkwonika */
             return $this->render('article/article.html.twig', [
                 'controller_name' => 'ArticleController',
                 'article' => $article,
-               // 'comments' => $comments,
+                'comments' => $comment,
                 'user_id' => $user_id,
                 'commentForm' => $form->createView(),
             ]);
         }
 
-        /* Wyświetlanie widoku dla anonimowego użytkownika */
+        /*
+         * Wyswietlanie widoku dla anonimowego uzytkownika */
         return $this->render('article/article_annonymous.html.twig', [
             'controller_name' => 'ArticleController',
             'article' => $article,
