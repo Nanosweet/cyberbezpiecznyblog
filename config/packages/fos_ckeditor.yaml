@@ -7,9 +7,14 @@ fos_ck_editor:
     input_sync: true
     default_config: base_config
     configs:
+        # Główna konfiguracja CKEditor
         base_config:
             toolbar: [["Bold"]["Italic"]["BulletedList"]["Blockquote"]["Link"]["Image"] ] # Toolbar z opcjami do pisania wpisu
-            image_prefillDimensions: false # Wylaczenie automatycznego pobierania wymiarow z adresu URL obrazka
+            # Wylaczenie automatycznego pobierania wymiarow z adresu URL obrazu
+            image_prefillDimensions: false
+        # Konfiguracja pisania komentarza
+        comment_config:
+            toolbar: [["Bold"]["Italic"] ]
 
 
 
