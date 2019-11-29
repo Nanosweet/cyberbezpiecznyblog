@@ -36,39 +36,37 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
     */
-    /* Funkcja wybierajaca z bazy artykuly udostepnione w ciągu ostatnich trzech dni */
+
+    /*
+     * Funkcja wybierajaca z bazy artykuly udostepnione w ciągu ostatnich trzech dni */
     public function findAllPublishedLastThreeDays()
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.publishedAt > CURRENT_DATE() - 3')
-            ->orderBy('a.publishedAt', 'DESC')
-            ->getQuery()
-            ->getResult()
-            ;
+            ->orderBy('a.publishedAt', 'DESC');
     }
 
-    /* Funkcja wybierajaca z bazy wszystkie artykuly, wyswietlajac je od najnowszego */
+    /*
+     * Funkcja wybierajaca z bazy wszystkie artykuly, wyswietlajac je od najnowszego */
     public function findAllPublishedByNewest()
     {
-        return $this->createQueryBuilder('a')
+        return $this -> createQueryBuilder('a')
             ->andWhere('a.publishedAt IS NOT NULL')
-            ->orderBy('a.publishedAt', 'DESC')
-        ;
+            ->orderBy('a.publishedAt', 'DESC');
     }
+
     public function findAllPublishedByTitle(?string $term)
     {
-        $qb = $this->createQueryBuilder('a');
+        $qb = $this -> createQueryBuilder('a');
 
         if ($term) {
-            $qb->andWhere('a.title LIKE :term' )
-                ->setParameter('term', '%'. $term . '%')
-                ;
+            $qb -> andWhere('a.title LIKE :term')
+                -> setParameter('term', '%' . $term . '%');
         }
 
         return $qb
             ->orderBy('a.publishedAt', 'DESC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }
