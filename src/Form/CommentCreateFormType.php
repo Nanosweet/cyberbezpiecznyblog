@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Comment;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -14,7 +15,9 @@ class CommentCreateFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', TextareaType::class)
+            ->add('content', CKEditorType::class, array(
+                'config_name' => 'comment_config',
+                ))
             ->add('skomentuj', SubmitType::class)
         ;
     }
