@@ -1,5 +1,6 @@
 <?php
-
+/*
+ * Kontroler odpowiedzialny za wyswietlenie strony domowej */
 namespace App\Controller\Homepage;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,14 +11,8 @@ class HomepageController extends AbstractController
     /**
      * @Route("/", name="app_homepage")
      */
-    public function homepage(/*ArticleRepository $articleRepository*/)
+    public function homepage()
     {
-        /* Wybranie artykulow dodanych aktualnego dnia */
-       // $articles = $articleRepository->findAllPublishedToday();
-
-        
-        return $this->render('homepage/homepage.html.twig'/*, [
-            'articles' =>$articles,
-        ]*/);
+        return $this->render('homepage/homepage.html.twig');
     }
 }
