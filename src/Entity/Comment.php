@@ -28,17 +28,12 @@ class Comment
      * @ORM\Column(type="text")
      */
     private $content;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $author_forname;
 
     public function getId(): ?int
     {
@@ -77,18 +72,6 @@ class Comment
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
-
-        return $this;
-    }
-
-    public function getAuthorForname(): ?string
-    {
-        return $this->author_forname;
-    }
-
-    public function setAuthorForname(string $author_forname): self
-    {
-        $this->author_forname = $author_forname;
 
         return $this;
     }
