@@ -3,6 +3,9 @@
 {% block title %}Najnowsze | Cyberbezpiecznyblog{% endblock %}
 
 {% block body %}
+    {% block stylesheets %}
+        <link href="{{ asset('build/css/pagination.css') }}" rel="stylesheet">
+    {% endblock %}
     <header class="masthead" style="background-image: url('{{ asset('build/img/closeup-photo-of-black-and-blue-keyboard-1194713.jpg') }}')">
         <div class="overlay"></div>
         <div class="container">
@@ -16,32 +19,44 @@
             </div>
         </div>
     </header>
-    
-{% for article in articles %}
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="post-preview">
-                <a href="{{ path('app_article', {slug: article.slug}) }}">
-                    <h2 class="post-title">
-                        {{ article.title }}
-                    </h2>
-                    <h3 class="post-subtitle">
-                        {{ article.subtitle }}
-                    </h3>
-                </a>
-                <p class="post-meta">Dodał(a)
-                    <a href="#">{#{{ article.author.imie }} {{ article.author.nazwisko }}#}</a>
-                    <br>
-                    {{ article.publishedAt | date('d.m.Y')}}
-                </p>
-            </div>
-            <div class="clearfix">
-                <a class="btn btn-light float-right" href="{{ path('app_article', {slug: article.slug}) }}">Czytaj dalej &rarr;</a>
+
+    <!-- Articles -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {% for article in pagination %}
+                    <article>
+                        <div class="post-preview">
+                            <a href="{{ path('app_article', {slug: article.slug}) }}">
+                                <h2 class="post-title">
+                                    {{ article.title }}
+                                </h2>
+                                <h3 class="post-subtitle">
+                                    {{ article.subtitle }}
+                                </h3>
+                            </a>
+                            <p class="post-meta">
+                                {{ article.author.fullname }} |  {{ article.publishedAt | date('d.m.Y') }}
+                            </p>
+                        </div>
+                        <div class="clearfix">
+                            <a class="btn btn-light float-right" href="{{ path('app_article', {slug: article.slug}) }}">Czytaj
+                                dalej &rarr;</a>
+                        </div>
+                        <hr>
+                    </article>
+                {% endfor %}
             </div>
         </div>
     </div>
-    <hr>
-    {% endfor %}
-    
+    <!-- Pagination -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="pagination justify-content-center">
+                    {{ knp_pagination_render(pagination) }}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

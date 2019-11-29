@@ -38,7 +38,7 @@
                                 </h3>
                             </a>
                             <p class="post-meta">Dodał(a)
-                                <a href="#">{#{{ article.author.imie }} {{ article.author.nazwisko }}#}</a>
+                                {{ article.author.fullname }}
                                 <br>
                                 {{ article.publishedAt | date('d.m.Y') }}
                             </p>

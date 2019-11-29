@@ -15,11 +15,10 @@ class ArticleListController extends AbstractController
      */
     public function article_list(ArticleRepository $articleRepository, PaginatorInterface $paginator, Request $request)
     {
-
-        $articles =  $articleRepository->findAllPublishedByNewest();
+        $articles = $articleRepository -> findAllPublishedByNewest();
 
         $pagination = $paginator->paginate(
-            $articles, $request->query->getInt('page', 1), 3);  // http://geekster.pl/symfony/knppaginatorbundle/
+            $articles, $request->query->getInt('page', 1), 5);  // http://geekster.pl/symfony/knppaginatorbundle/
         $pagination->setCustomParameters([
             'size' => 'small',
         ]);
