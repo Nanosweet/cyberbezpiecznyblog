@@ -1,6 +1,7 @@
 <?php
 /*
  * Kontroler odpowiedzialny za wyświetlanie listy artykułów */
+
 namespace App\Controller\Article;
 
 use App\Repository\ArticleRepository;
@@ -18,15 +19,17 @@ class ArticleListController extends AbstractController
     {
         /*
          * Wybranie artykułów od najnowszego
-         * Funkcja pytająca w src/Repository/ArticleRepository */
-        $articles = $articleRepository -> findAllPublishedByNewest();
+         * Funkcja query w src/Repository/ArticleRepository */
+        $articles = $articleRepository->findAllPublishedByNewest();
 
         /*
-         * Dodanie paginacji */
+         * Dodanie paginacji
+         * http://geekster.pl/symfony/knppaginatorbundle/
+         * Ustawienie małego rozmiaru paginacji */
         $pagination = $paginator->paginate(
-            $articles, $request->query->getInt('page', 1), 5);  // http://geekster.pl/symfony/knppaginatorbundle/
+            $articles, $request->query->getInt('page', 1), 5);
         $pagination->setCustomParameters([
-            'size' => 'small', // Ustawienie małego rozmiaru paginacji
+            'size' => 'small',
         ]);
 
         /*
