@@ -1,8 +1,8 @@
 {# Widok odpowiedzialny za wyświetlanie komentarzy #}
-
+{# Blok <body> strony #}
 {% block body %}
 
-    {# Sekcja komentarzy  #}
+    {# Kontener komentarzy  #}
     <comment>
         <div class="container">
             <div class="row">
@@ -39,6 +39,7 @@
                 </div>
             </div>
         </div>
+        
         {# Pętla, która zapętla komentarze #}
         {% for comment in article.comments %}
             <div class="container">
