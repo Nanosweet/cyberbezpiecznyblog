@@ -1,5 +1,6 @@
 <?php
-
+/*
+ * Kontroler odpowiedzialny za wyświetlanie konkretnego artykułu */
 namespace App\Controller\Article;
 
 use App\Entity\Article;
@@ -45,6 +46,10 @@ class ArticleController extends AbstractController
          * Jesli jest dodana funkcjonalnosc pisania komentarzy */
         if ($this->isGranted("IS_AUTHENTICATED_FULLY")) {
 
+            /*
+             * $user - przypisanie zalogowanego użytkownika
+             * $user_id - pobranie id zalogowanego użytkownika
+             * $user_fullname - pobranie nazwy zalogowanego użytkownika */
             /** @var User $user */
             $user = $this->getUser();
             $user_id = $user->getId();

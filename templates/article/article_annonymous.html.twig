@@ -1,39 +1,61 @@
+{# Widok odpwiedzialny za wyświetlanie artykułu #}
+{# Blok rozszerzający bazę widoków #}
 {% extends 'base.html.twig' %}
 
-{% block title %}tytul art {# article.title #} {% endblock %}
+{# Blok wyświetlający tytuł artykułu #}
+{% block title %}
+    {{ article.title }} | Cyberbezpiecznyblog
+{% endblock %}
 
+{# Blok wyświetlający <body> strony #}
 {% block body %}
 
-<body>
-  <header class="masthead">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="post-heading">
-            <h1>{{ article.title }}</h1>
-            <h2 class="subheading">podtytul art{# article.subtitle #}</h2>
-            <span class="meta">Dodał(a)
-              <a href="#">imie naziwsko autora{# article.author.imie #} {# article.author.nazwisko #}</a>
-              data publikacji{# article.publishedAt | date('d.m.Y')#}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-  <!-- Article Content -->
-  <article>
-    <div class="container">
-      <div class="row">
-        <div class="col">
-         kontent {# article.content #}
-        </div>
-      </div>
-    </div>
-  </article>
-  <!-- Sekcja komentarzy -->
-  {% include 'article_comments/article_comments.html.twig' %}
-</body>
+    {# Blok implementujący style css #}
+    {% block stylesheets %}
+        <link href="{{ asset('build/css/article.css') }}" rel="stylesheet">
+    {% endblock %}
 
+    {# Nagłówek artukyłu #}
+    <header class="masthead">
+        <div class="overlay"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="post-heading">
+                        <h1>
+                            {# Tytuł artykułu #}
+                            {{ article.title }}
+                        </h1>
+                        <h2 class="subheading">
+                            {# Podtytuł artykułu #}
+                            {{ article.subtitle }}
+                        </h2>
+                        <span class="meta">
+                            Dodał(a)
+                            {# Autor artykułu #}
+                            {{ article.author.fullname }}
+                            |
+                            {# Data dodania artykułu #}
+                            {{ article.publishedAt | date('d.m.Y') }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {# Artykuł #}
+    <article>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    {# Zawartość artykułu, 'raw' gwarantuje poprawne wyświetlenie bez znaczników #}
+                    {{ article.content | raw }}
+                </div>
+            </div>
+        </div>
+    </article>
+
+  {# Sekcja komentarzy #}
+  {% include 'article_comments/article_comments.html.twig' %}
 {% endblock %}
