@@ -15,6 +15,7 @@ fos_ck_editor:
         # Konfiguracja pisania komentarza
         comment_config:
             toolbar: [["Bold"]["Italic"] ]
+            height: '5em'
 
 
 

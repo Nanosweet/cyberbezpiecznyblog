@@ -4,9 +4,9 @@
 
     {# Kontener komentarzy  #}
     <comment>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col text-left">
+                <div class="col-lg-8 col-md-10 mx-auto">
                     <hr>
                     <small>
                         {# Wyświetlanie ilości komentarzy #}
@@ -35,31 +35,29 @@
                             {# Koniec warunku #}
                         {% endif %}
                     </small>
-                    <br><br>
                 </div>
             </div>
         </div>
 
         {# Pętla, która zapętla komentarze #}
-        {% for comment in article.comments %}
-            <div class="container">
+        {% for comment in comments %}
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col d-flex justify-content-start">
+                    <div class="col-lg-4 col-md-5 mx-auto">
                         <small>
-                            {# Wyświetlanie nazwy  autora komentarza #}
-                            <i> {{ comment.authorName }}</i>
-                        </small>
-                    </div>
-                    <div class="col d-flex justify-content-end">
-                        <small>
-                            {# Wyświetlanie daty dodania komentarza  #}
-                            {{ comment.createdAt | date('d.m.Y') }}
+                            <i>
+                                {# Wyświetlanie nazwy  autora komentarza #}
+                                {{ comment.authorName }}
+                                |
+                                {# Wyświetlanie daty dodania komentarza  #}
+                                {{ comment.createdAt | date('d.m.Y') }}
+                            </i>
                         </small>
                     </div>
                     <hr>
-                    <div class="container">
+                    <div class="container-fluid">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-lg-8 col-md-10 mx-auto">
                                 <small>
                                     {# Wyświetlanie treści komentarza, 'raw' nie wyświetla znaczników html, a już odpowiednio sformatowany tekst #}
                                     {{ comment.content | raw }}

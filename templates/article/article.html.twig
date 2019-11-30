@@ -42,7 +42,7 @@
             </div>
         </div>
     </header>
-    
+
     {# Artykuł #}
     <article>
         <div class="container-fluid">
@@ -65,6 +65,7 @@
                             Edytuj
                         </button>
                     </a>
+                    <hr>
                 </div>
             </div>
             {# {% endif %}#}
@@ -72,11 +73,23 @@
     </article>
     {# Komentowanie artykułu #}
     {% if is_granted('ROLE_USER') %}
-        {{ form_start(commentForm) }}
-        {{ form_row(commentForm.content, {
-            attr: { placeholder: 'Napisz swój komentarz...'}
-        }) }}
-        {{ form_end(commentForm) }}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    {{ form_start(commentForm) }}
+                    {{ form_row(commentForm.content, {
+                        attr: { placeholder: 'Napisz swój komentarz...', }
+                    }) }}
+                    <div class="text-center">
+
+                        {{ form_row((commentForm.skomentuj)) }}
+                    </div>
+
+                    {{ form_end(commentForm) }}
+                </div>
+            </div>
+        </div>
+
     {% endif %}
     {# Sekcja komentarzy #}
     {% include 'article_comments/article_comments.html.twig' %}

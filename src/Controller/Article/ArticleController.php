@@ -26,8 +26,14 @@ class ArticleController extends AbstractController
     {
 
         $repository = $entityManager->getRepository(Article::class);
+
         /** @var Article $article */
         $article = $repository->findOneBy(['slug' => $slug]);
+
+        /*
+         * Pobranie komentarzy
+         * Wybranie komentarzy od najnowszego do najstarszego */
+        $comments = $commentRepository->findAllPublishedByNewest();
 
         /*
          * Warunek, sprawdza czy istnieje odpowieni artykul */
@@ -35,12 +41,6 @@ class ArticleController extends AbstractController
         if (!$article) {
             throw $this->createNotFoundException(sprintf('Brak artykułu: "%s"', $slug));
         }
-
-        /*
-         * Pobranie komentarzy
-         * Wybranie komentarzy od najnowszego do najstarszego */
-
-        $comments = $commentRepository->findAllPublishedByNewest();
 
         /*
          * Warunek, sprawdza czy uzytkownik jest zalogowany
@@ -88,14 +88,17 @@ class ArticleController extends AbstractController
                 $entityManager->persist($comment);
                 $entityManager->flush();
 
+                return $this->redirect($request->getUri());
+
             }
+
+
 
             /*
              * Wyswietlenie widoku artykulu dla zalogowanego uzytkwonika */
             return $this->render('article/article.html.twig', [
-                'controller_name' => 'ArticleController',
                 'article' => $article,
-                'comments' => $comment,
+                'comments' => $comments,
                 'user_id' => $user_id,
                 'commentForm' => $form->createView(),
             ]);
@@ -104,7 +107,6 @@ class ArticleController extends AbstractController
         /*
          * Wyswietlanie widoku dla anonimowego uzytkownika */
         return $this->render('article/article_annonymous.html.twig', [
-            'controller_name' => 'ArticleController',
             'article' => $article,
             'comments' => $comments,
         ]);
