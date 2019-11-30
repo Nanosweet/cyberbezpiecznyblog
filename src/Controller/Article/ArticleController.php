@@ -1,6 +1,7 @@
 <?php
 /*
- * Kontroler odpowiedzialny za wyświetlanie konkretnego artykułu */
+ * Kontroler odpowiedzialny za wyświetlanie konkretnego artykułu
+ * Kontroler odpowiedzialny za tworzenie komentarzy */
 namespace App\Controller\Article;
 
 use App\Entity\Article;
