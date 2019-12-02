@@ -53,22 +53,24 @@
                 </div>
             </div>
             {# EDYCJA ARTYKULU #}
-            <!-- petla warunkowa sprawdzajaca
+            {#
+             Petla warunkowa sprawdzajaca
              czy uzytkownik jest zalogowany
-             czy uzytkownik jest autorem artykulu -->
-            {# {% if is_granted('ROLE_USER') and (user_id) is same as (article.author.id) %}#}
-            <div class="row">
-                <div class="col text-center">
-                    <hr>
-                    <a href="{# path('app_article_edit', {slug: article.slug}) #}">
-                        <button class="btn btn-light">
-                            Edytuj
-                        </button>
-                    </a>
-                    <hr>
+             czy uzytkownik jest autorem artykulu
+            #}
+            {% if is_granted('ROLE_USER') and (user_id) is same as (article.author.id) %}
+                <div class="row">
+                    <div class="col text-center">
+                        <hr>
+                        <a href="{{ path('app_article_edit', {slug: article.slug}) }}">
+                            <button class="btn btn-light">
+                                Edytuj
+                            </button>
+                        </a>
+                        <hr>
+                    </div>
                 </div>
-            </div>
-            {# {% endif %}#}
+            {% endif %}
         </div>
     </article>
     {# Komentowanie artykułu #}
@@ -82,7 +84,9 @@
                     }) }}
                     <div class="text-center">
 
-                        {{ form_row((commentForm.skomentuj)) }}
+                        {{ form_row(commentForm.skomentuj, {
+                            'attr': {'class': 'btn btn-light'}
+                        }) }}
                     </div>
 
                     {{ form_end(commentForm) }}

@@ -40,6 +40,7 @@
         </div>
 
         {# Pętla, która zapętla komentarze #}
+        {% if (article.comments | length ) >= 1 %}
         {% for comment in comments %}
             <div class="container-fluid">
                 <div class="row">
@@ -69,5 +70,6 @@
                 </div>
             </div>
         {% endfor %}
+        {% endif %}
     </comment>
 {% endblock %}

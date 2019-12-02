@@ -1,5 +1,6 @@
 <?php
-
+/*
+ * Kontroler odpowiedzialny za edytowanie artykułu */
 namespace App\Controller\Article;
 
 use App\Entity\Article;
@@ -17,6 +18,9 @@ class ArticleEditController extends AbstractController
     public function article_edit(Article $article, Request $request, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(EditArticleFormType::class, $article);
+        /*
+         * Pobranie $slug do parametru RedirectToRoute*/
+        $slug = $article->getSlug();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -25,7 +29,7 @@ class ArticleEditController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_article', ['slug'=>$slug]);
 
         }
 

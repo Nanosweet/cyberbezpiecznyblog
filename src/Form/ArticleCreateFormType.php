@@ -23,7 +23,7 @@ class ArticleCreateFormType extends AbstractType
                 'required' => false
             ])
             ->add('content', CKEditorType::class, [
-                'label' => 'Treść'
+                'label' => 'Treść',
             ])
             ->add('publikuj', SubmitType::class)
         ;

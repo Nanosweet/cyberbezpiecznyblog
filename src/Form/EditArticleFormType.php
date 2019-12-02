@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,8 +23,8 @@ class EditArticleFormType extends AbstractType
                 'label' => 'Podtytuł',
                 'required' => false
             ])
-            ->add('content', TextareaType::class, [
-                'label' => 'Treść'
+            ->add('content', CKEditorType::class, [
+                'label' => 'Treść',
             ])
             ->add('aktualizuj', SubmitType::class)
         ;
