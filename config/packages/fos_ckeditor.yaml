@@ -12,12 +12,8 @@ fos_ck_editor:
             toolbar: [["Bold"]["Italic"]["BulletedList"]["Blockquote"]["Link"]["Image"]["JustifyLeft"]["JustifyCenter"] ["JustifyRight"] ] # Toolbar z opcjami do pisania wpisu
             # Wylaczenie automatycznego pobierania wymiarow z adresu URL obrazu
             image_prefillDimensions: false
-        # Konfiguracja edycji artykułu
-        edit_config:
-            toolbar: [["Bold"]["Italic"]["BulletedList"]["Blockquote"]["Link"]["Image"]["JustifyLeft"]["JustifyCenter"] ["JustifyRight"]] # Toolbar z opcjami do pisania wpisu
-            # Wylaczenie automatycznego pobierania wymiarow z adresu URL obrazu
-            image_prefillDimensions: false
             height: '50em'
+
         # Konfiguracja pisania komentarza
         comment_config:
             toolbar: [["Bold"]["Italic"] ]
