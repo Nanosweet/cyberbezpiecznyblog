@@ -11,8 +11,10 @@ use App\Form\CommentCreateFormType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,6 +31,7 @@ class ArticleController extends AbstractController
 
         /** @var Article $article */
         $article = $repository->findOneBy(['slug' => $slug]);
+        $likes = $article->getLikes();
 
         /*
          * Pobranie komentarzy
@@ -93,13 +96,14 @@ class ArticleController extends AbstractController
             }
 
 
-
             /*
              * Wyswietlenie widoku artykulu dla zalogowanego uzytkwonika */
             return $this->render('article/article.html.twig', [
                 'article' => $article,
                 'comments' => $comments,
+                'likes' => $likes,
                 'user_id' => $user_id,
+                'slug' => $slug,
                 'commentForm' => $form->createView(),
             ]);
         }
@@ -108,8 +112,22 @@ class ArticleController extends AbstractController
          * Wyswietlanie widoku dla anonimowego uzytkownika */
         return $this->render('article/article_annonymous.html.twig', [
             'article' => $article,
+            'slug' => $slug,
             'comments' => $comments,
         ]);
+    }
+
+    /**
+     * @Route("article/{slug}/like", name="app_article_like")
+     */
+    public function article_like($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
+    {
+        $article->incrementLikes();
+        $entityManager->flush();
+        $logger->info('Article is being hearted!');
+
+
+        return new JsonResponse(['likes' => $article->getLikes()]);
     }
 
 

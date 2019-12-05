@@ -78,6 +78,11 @@ class Article
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $likes = 0;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -187,6 +192,25 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLikes(): ?int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(?int $likes): self
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+
+    public function incrementLikes(): self
+    {
+        $this->likes = $this->likes + 1;
 
         return $this;
     }

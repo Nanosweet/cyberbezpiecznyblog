@@ -16,7 +16,7 @@ p {
 }
 
 p a {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 h1,
@@ -30,12 +30,12 @@ h6 {
 }
 
 a {
-  color: #212529;
+  color: inherit;
   transition: all 0.2s;
 }
 
 a:focus, a:hover {
-  color: #0085A1;
+  color: inherit;
 }
 
 blockquote {
@@ -160,7 +160,7 @@ img::-moz-selection {
     color: #212529;
   }
   #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus, #mainNav.is-fixed .navbar-nav > li.nav-item > a:hover {
-    color: #0085A1;
+    color: inherit;
   }
   #mainNav.is-visible {
     /* if the user changes the scrolling direction, we show the header */
@@ -273,7 +273,7 @@ header.masthead .post-heading .meta a {
 
 .post-preview > a:focus, .post-preview > a:hover {
   text-decoration: none;
-  color: #0085A1;
+  color: inherit;
 }
 
 .post-preview > a > .post-title {
@@ -301,7 +301,7 @@ header.masthead .post-heading .meta a {
 
 .post-preview > .post-meta > a:focus, .post-preview > .post-meta > a:hover {
   text-decoration: underline;
-  color: #0085A1;
+  color: inherit;
 }
 
 @media only screen and (min-width: 768px) {
