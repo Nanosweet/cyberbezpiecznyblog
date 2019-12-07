@@ -34,6 +34,7 @@
   "build/img/woman-standing-while-carrying-laptop-1181354.jpg": "/build/img/woman-standing-while-carrying-laptop-1181354.jpg",
   "build/js/app.js": "/build/js/app.js",
   "build/js/article_like.js": "/build/js/article_like.js",
+  "build/js/article_unlike.js": "/build/js/article_unlike.js",
   "build/js/clean-blog.js": "/build/js/clean-blog.js",
   "build/js/clean-blog.min.js": "/build/js/clean-blog.min.js",
   "build/js/contact_me.js": "/build/js/contact_me.js",

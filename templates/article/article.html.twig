@@ -37,9 +37,12 @@
                             {# Data dodania artykułu #}
                             {{ article.publishedAt | date('d.m.Y') }}
                         </span>
+                        {# Polubienie artykułu #}
                         <span class="article-details">
+                            {{ user_id }}
                         <span class="js-like-article-count">{{ article.likes }}</span>
                             <a href="{{ path('app_article_like', {slug: article.slug}) }}" class="fa fa-heart-o js-like-article" style="text-decoration: none; color: red;" aria-hidden="true"></a>
+                            <a href="{{ path('app_article_like', {slug: article.slug}) }}" class="fa fa-heart js-unlike-article" style="text-decoration: none; color: red;" aria-hidden="true"></a>
                         </span>
                     </div>
                 </div>
@@ -111,6 +114,6 @@
     {% block javascripts %}
         {{ parent() }}
 
-        <script src="{{ asset('build/js/article_like.js') }}">
-        </script>
+        <script src="{{ asset('build/js/article_like.js') }}"></script>
+        <script src="{{ asset('build/js/article_unlike.js') }}"></script>
     {% endblock %}

@@ -21,6 +21,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ArticleController extends AbstractController
 {
+    private $isLiked = false;
+
     /**
      * @Route("/article/{slug}", name="app_article")
      */
@@ -122,8 +124,17 @@ class ArticleController extends AbstractController
      */
     public function article_like($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
     {
-        $article->incrementLikes();
-        $entityManager->flush();
+
+
+
+
+            //$article->incrementLikes();
+            //$entityManager->flush();
+
+            $article->decrementLikes();
+            $entityManager->flush();
+
+
         $logger->info('Article is being hearted!');
 
 
