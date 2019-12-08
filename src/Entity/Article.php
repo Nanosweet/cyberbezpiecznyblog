@@ -214,4 +214,10 @@ class Article
 
         return $this;
     }
+    public function decrementLikes(): self
+    {
+        $this->likes = $this->likes - 1;
+
+        return $this;
+    }
 }

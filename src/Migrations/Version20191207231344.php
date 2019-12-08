@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20191207183354 extends AbstractMigration
+final class Version20191207231344 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,9 @@ final class Version20191207183354 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE article CHANGE subtitle subtitle VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE article ADD user_liked_id INT DEFAULT NULL, CHANGE subtitle subtitle VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE article ADD CONSTRAINT FK_23A0E66260FC79 FOREIGN KEY (user_liked_id) REFERENCES user (id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_23A0E66260FC79 ON article (user_liked_id)');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +32,8 @@ final class Version20191207183354 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE article CHANGE subtitle subtitle VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT \'NULL\' COLLATE `utf8mb4_unicode_ci`');
+        $this->addSql('ALTER TABLE article DROP FOREIGN KEY FK_23A0E66260FC79');
+        $this->addSql('DROP INDEX UNIQ_23A0E66260FC79 ON article');
+        $this->addSql('ALTER TABLE article DROP user_liked_id, CHANGE subtitle subtitle VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT \'NULL\' COLLATE `utf8mb4_unicode_ci`');
     }
 }

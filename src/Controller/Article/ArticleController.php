@@ -6,6 +6,7 @@ namespace App\Controller\Article;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Likes;
 use App\Entity\User;
 use App\Form\CommentCreateFormType;
 use App\Repository\ArticleRepository;
@@ -123,6 +124,18 @@ class ArticleController extends AbstractController
     public function article_like($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
     {
         $article->incrementLikes();
+        $entityManager->flush();
+        $logger->info('Article is being hearted!');
+
+
+        return new JsonResponse(['likes' => $article->getLikes()]);
+    }
+    /**
+     * @Route("article/{slug}/unlike", name="app_article_unlike")
+     */
+    public function article_unlike($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
+    {
+        $article->decrementLikes();
         $entityManager->flush();
         $logger->info('Article is being hearted!');
 
