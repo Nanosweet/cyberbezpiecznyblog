@@ -38,8 +38,25 @@
                             {{ article.publishedAt | date('d.m.Y') }}
                         </span>
                         <span class="article-details">
-                        <span class="js-like-article-count">{{ article.likes }}</span>
-                            <a href="{{ path('app_article_like', {slug: article.slug}) }}" class="fa fa-heart-o js-like-article" style="text-decoration: none; color: red;" aria-hidden="true"></a>
+                        <span class="js-like-article-count">
+                            {{ article.likes }}
+                        </span>
+                            {# Jesli user lubi artykuł #}
+                            <a href="{{ path('app_article_like', {slug: article.slug}) }}"
+                               class="fa fa-thumbs-up js-like-article"
+                               style="text-decoration: none; color: green;"
+                               aria-hidden="true"
+                               id="like"></a>
+
+                            <a href="{{ path('app_article_unlike', {slug: article.slug}) }}"
+                               class="fa fa-thumbs-down js-unlike-article" style="text-decoration: none;
+                               color: red;"
+                               aria-hidden="true" id="unlike"></a>
+                            {# Jesli user nie lubi artykulu #}
+
+
+
+
                         </span>
                     </div>
                 </div>

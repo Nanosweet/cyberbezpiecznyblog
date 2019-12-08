@@ -83,9 +83,15 @@ class Article
      */
     private $likes = 0;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Likes", mappedBy="articleID")
+     */
+    private $likesCount = 0;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->likesCount = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,6 +223,43 @@ class Article
     public function decrementLikes(): self
     {
         $this->likes = $this->likes - 1;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Likes[]
+     */
+    public function getLikesCount(): Collection
+    {
+        return $this->likesCount;
+    }
+
+    public function addLikesCount(Likes $likesCount): self
+    {
+        if (!$this->likesCount->contains($likesCount)) {
+            $this->likesCount[] = $likesCount;
+            $likesCount->setArticleID($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikesCount(Likes $likesCount): self
+    {
+        if ($this->likesCount->contains($likesCount)) {
+            $this->likesCount->removeElement($likesCount);
+            // set the owning side to null (unless already changed)
+            if ($likesCount->getArticleID() === $this) {
+                $likesCount->setArticleID(null);
+            }
+        }
+
+        return $this;
+    }
+    public function incrementLikesCount(): self
+    {
+        $this->likesCount = $this->likesCount + 1;
 
         return $this;
     }

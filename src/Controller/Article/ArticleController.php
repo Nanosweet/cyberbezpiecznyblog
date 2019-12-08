@@ -9,16 +9,14 @@ use App\Entity\Comment;
 use App\Entity\Likes;
 use App\Entity\User;
 use App\Form\CommentCreateFormType;
-use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
+use App\Repository\LikesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class ArticleController extends AbstractController
 {
@@ -59,6 +57,21 @@ class ArticleController extends AbstractController
             $user = $this->getUser();
             $user_id = $user->getId();
             $user_fullname = $user->getFullname();
+            /*
+             * Sprawdzam czy user polubil artykul
+             * Dostosuje odpowiednie serduszko w twigu */
+            $repository = $entityManager->getRepository(Likes::class);
+            $like = $repository->findAllLikedByUserID($user_id);
+            if ($like != null)
+            {
+                $user_like = $like[0]->getUserID();
+                $user_like_id = $user_like->getId();
+            } else
+                $user_like_id = null;
+
+
+            //dd($user_like_id);
+
 
             /*
              * Tworzenie komentarza */
@@ -102,6 +115,7 @@ class ArticleController extends AbstractController
             return $this->render('article/article.html.twig', [
                 'article' => $article,
                 'comments' => $comments,
+                'user_like_id' => $user_like_id,
                 'likes' => $likes,
                 'user_id' => $user_id,
                 'slug' => $slug,
@@ -117,13 +131,30 @@ class ArticleController extends AbstractController
             'comments' => $comments,
         ]);
     }
-
+    /* DODAC ZE USER MUSI BYC ZALOGOWANY */
     /**
      * @Route("article/{slug}/like", name="app_article_like")
      */
     public function article_like($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
     {
+
+
+        /** @var User $user */
+        $user = $this->getUser();
+        $user_id = $user->getId();
+        $user_fullname = $user->getFullname();
+
+
         $article->incrementLikes();
+
+        $likes = new Likes();
+
+       $likes->setArticleID($article);
+       $likes->setUserID($user);
+       $likes->setCount($article->getLikes());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($likes);
         $entityManager->flush();
         $logger->info('Article is being hearted!');
 
@@ -135,7 +166,23 @@ class ArticleController extends AbstractController
      */
     public function article_unlike($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
     {
+        /*
+         * Pobranie user_id*/
+        $user = $this->getUser();
+        $user_id = $user->getId();
+
+        /*
+         * Pobranie LikesRepo
+         * Zapytanie o polubienie przez zalogowanego usera */
+        $repository = $entityManager->getRepository(Likes::class);
+        $like = $repository->findAllLikedByUserID($user_id);
+        $tablica = $like[0];
+
+
         $article->decrementLikes();
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($tablica);
         $entityManager->flush();
         $logger->info('Article is being hearted!');
 

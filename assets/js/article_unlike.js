@@ -3,13 +3,19 @@ $(document).ready(function () {
         e.preventDefault(); // browser doesn't follow the link
 
         var $link = $(e.currentTarget);
-        $link.toggleClass('fa-heart').toggleClass('fa-heart-o');
+        //$link.removeClass('fa-thumbs-down');
+        //$link.addClass('fa-thumbs-o-up');
 
         $.ajax({
             method: 'POST',
             url: $link.attr('href')
         }).done(function (data) {
             $('.js-like-article-count').html(data.likes);
-        })
+        });
+
+
+        function disableUnLike(a){
+            document.getElementById(a.unlike).disabled = true;
+        }
     });
 });
