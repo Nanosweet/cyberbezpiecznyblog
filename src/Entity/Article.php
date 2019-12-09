@@ -88,6 +88,11 @@ class Article
      */
     private $likesCount = 0;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $reported;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -260,6 +265,18 @@ class Article
     public function incrementLikesCount(): self
     {
         $this->likesCount = $this->likesCount + 1;
+
+        return $this;
+    }
+
+    public function getReported(): ?bool
+    {
+        return $this->reported;
+    }
+
+    public function setReported(?bool $reported): self
+    {
+        $this->reported = $reported;
 
         return $this;
     }

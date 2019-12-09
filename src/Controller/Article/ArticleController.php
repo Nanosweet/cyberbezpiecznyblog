@@ -189,6 +189,18 @@ class ArticleController extends AbstractController
 
         return new JsonResponse(['likes' => $article->getLikes()]);
     }
+    /**
+     * @Route("/article/{slug}/report", name="app_article_report")
+     */
+    public function article_report($slug,EntityManagerInterface $entityManager, Article $article, Request $request)
+    {
+        $article_report = $article->setReported(true);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager -> persist($article);
+        $entityManager -> flush();
+
+        return $this->redirectToRoute("app_homepage");
+    }
 
 
 }

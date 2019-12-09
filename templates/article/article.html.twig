@@ -4,7 +4,7 @@
 
 {# Blok wyświetlający tytuł artykułu #}
 {% block title %}
-    {{ article.title }}
+    {{ article.title }} | Cyberbezpiecznyblog
 {% endblock %}
 
 {# Blok wyświetlający <body> strony #}
@@ -41,7 +41,6 @@
                         <span class="js-like-article-count">
                             {{ article.likes }}
                         </span>
-                            {# Jesli user lubi artykuł #}
                             <a href="{{ path('app_article_like', {slug: article.slug}) }}"
                                class="fa fa-thumbs-up js-like-article"
                                style="text-decoration: none; color: green;"
@@ -52,11 +51,8 @@
                                class="fa fa-thumbs-down js-unlike-article" style="text-decoration: none;
                                color: red;"
                                aria-hidden="true" id="unlike"></a>
-                            {# Jesli user nie lubi artykulu #}
-
-
-
-
+                            {# Zgłaszanie artykulu #}
+                            <a href="{{ path('app_article_report', {slug: article.slug}) }}"><i>Zgłoś</i></a>
                         </span>
                     </div>
                 </div>
