@@ -128,6 +128,7 @@ class ArticleController extends AbstractController
         return $this->render('article/article_annonymous.html.twig', [
             'article' => $article,
             'slug' => $slug,
+            'likes' => $likes,
             'comments' => $comments,
         ]);
     }
@@ -194,7 +195,7 @@ class ArticleController extends AbstractController
      */
     public function article_report($slug,EntityManagerInterface $entityManager, Article $article, Request $request)
     {
-        $article_report = $article->setReported(true);
+        $article->setReported(true);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager -> persist($article);
         $entityManager -> flush();

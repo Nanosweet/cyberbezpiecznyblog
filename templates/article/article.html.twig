@@ -41,6 +41,8 @@
                         <span class="js-like-article-count">
                             {{ article.likes }}
                         </span>
+                            <i class="fa fa-heart" style="color: red"></i><br>
+
                             <a href="{{ path('app_article_like', {slug: article.slug}) }}"
                                class="fa fa-thumbs-up js-like-article"
                                style="text-decoration: none; color: green;"

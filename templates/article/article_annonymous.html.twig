@@ -37,6 +37,12 @@
                             {# Data dodania artykułu #}
                             {{ article.publishedAt | date('d.m.Y') }}
                         </span>
+                        <span class="article-details">
+                        <span class="js-like-article-count">
+                            {{ article.likes }}
+                        </span>
+                            <i class="fa fa-heart" style="color: red"></i><br>
+                        </span>
                     </div>
                 </div>
             </div>

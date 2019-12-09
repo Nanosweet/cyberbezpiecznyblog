@@ -227,7 +227,10 @@ class Article
     }
     public function decrementLikes(): self
     {
-        $this->likes = $this->likes - 1;
+        if ($this->likes > 0)
+            $this->likes = $this->likes - 1;
+        else
+            $this->likes = $this->likes = 0;
 
         return $this;
     }
