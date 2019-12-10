@@ -48,7 +48,8 @@
                         <small>
                             <i>
                                 {# Wyświetlanie nazwy  autora komentarza #}
-                                {{ comment.authorName }}
+                                {{ comment.authorFirstName }}
+                                {{ comment.authorLastName }}
                                 |
                                 {# Wyświetlanie daty dodania komentarza  #}
                                 {{ comment.createdAt | date('d.m.Y') }}
