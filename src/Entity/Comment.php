@@ -20,11 +20,6 @@ class Comment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $authorName;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -34,24 +29,22 @@ class Comment
      */
     private $article;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $authorFirstName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $authorLastName;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    public function getAuthorName(): ?string
-    {
-        return $this->authorName;
-    }
-
-    public function setAuthorName(string $authorName): self
-    {
-        $this->authorName = $authorName;
-
-        return $this;
-    }
-
+    
     public function getContent(): ?string
     {
         return $this->content;
@@ -72,6 +65,30 @@ class Comment
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getAuthorFirstName(): ?string
+    {
+        return $this->authorFirstName;
+    }
+
+    public function setAuthorFirstName(string $authorFirstName): self
+    {
+        $this->authorFirstName = $authorFirstName;
+
+        return $this;
+    }
+
+    public function getAuthorLastName(): ?string
+    {
+        return $this->authorLastName;
+    }
+
+    public function setAuthorLastName(string $authorLastName): self
+    {
+        $this->authorLastName = $authorLastName;
 
         return $this;
     }

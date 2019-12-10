@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccountController!{% endblock %}
+{% block title %} Szczegóły konta | Cyberbezpiecznyblog {% endblock %}
 
 {% block body %}
     <header class="masthead" style="background-image: url('{{ asset('build/img/computer-content-control-data-270700.jpg') }}')">
@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
                     <div class="site-heading">
-                        <span class="subheading">Szczegóły konta {{ user.fullname }}</span>
+                        <span class="subheading">Szczegóły konta {{ user.firstname }}{{ user.lastname }}</span>
                     </div>
                 </div>
             </div>
@@ -31,49 +31,36 @@
                 </ul>
                 <div class="tab-content py-4">
                     <div class="tab-pane active" id="profile">
-                            <form role="form">
+                            <form method="get" action="{{ path('app_account_change') }}" role="form">
                                 <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                                    <label class="col-lg-3 col-form-label form-control-label">Imię</label>
                                     <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="Jane">
+                                        <input class="form-control" type="text" name="firstname" value="{{ user.firstname }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                                    <label class="col-lg-3 col-form-label form-control-label">Nazwisko</label>
                                     <div class="col-lg-9">
-                                        <input class="form-control" type="text" value="">
+                                        <input class="form-control" type="text" name="lastname" value="{{ user.lastname }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Email</label>
                                     <div class="col-lg-9">
-                                        <input class="form-control" type="email" value="email@gmail.com">
+                                        <span class="form-control" type="text" >{{ user.email }}</span>
                                     </div>
                                 </div>
-
-
-
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label"></label>
                                     <div class="col-lg-6">
+                                        <a href="#">
+                                            <input type="reset" class="btn btn-secondary" value="Anuluj">
+                                        </a>
+                                            <input type="submit" class="btn btn-primary" value="Zmień">
 
-                                    </div>
-                                    <div class="col-lg-3">
-
-                                    </div>
-                                </div>
-
-
-
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label"></label>
-                                    <div class="col-lg-6">
-                                        <input type="reset" class="btn btn-secondary" value="Cancel">
-                                        <input type="button" class="btn btn-primary" value="Save Changes">
                                     </div>
                                 </div>
                             </form>
-
                         <!--/row-->
                     </div>
                     <div class="tab-pane" id="messages">

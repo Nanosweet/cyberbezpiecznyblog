@@ -27,7 +27,11 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $fullname;
+    private $firstname;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $lastname;
 
     /**
      * @ORM\Column(type="datetime")
@@ -60,14 +64,25 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getFullname(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->fullname;
+        return $this->firstname;
     }
 
-    public function setFullname(string $fullname): self
+    public function setFirstname(string $firstname): self
     {
-        $this->fullname = $fullname;
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
 
         return $this;
     }
