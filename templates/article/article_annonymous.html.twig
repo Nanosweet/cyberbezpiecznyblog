@@ -32,7 +32,8 @@
                         </h2>
                         <span class="meta">
                             {# Autor artykułu #}
-                            {{ article.author.fullname }}
+                            {{ article.author.firstname }}
+                            {{ article.author.lastname }}
                             |
                             {# Data dodania artykułu #}
                             {{ article.publishedAt | date('d.m.Y') }}
