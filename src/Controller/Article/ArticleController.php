@@ -56,7 +56,8 @@ class ArticleController extends AbstractController
             /** @var User $user */
             $user = $this->getUser();
             $user_id = $user->getId();
-            $user_fullname = $user->getFullname();
+            $user_firstname = $user->getFirstname();
+            $user_lastname = $user->getLastname();
             /*
              * Sprawdzam czy user polubil artykul
              * Dostosuje odpowiednie serduszko w twigu */
@@ -92,8 +93,9 @@ class ArticleController extends AbstractController
 
                 /*
                  * Ustawienie autora artykulu */
-                $comment->setAuthorName($user_fullname)
-                    ->setArticle($article);
+                $comment -> setAuthorFirstName($user_firstname)
+                         -> setAuthorLastName($user_lastname)
+                         -> setArticle($article);
 
                 /*
                  * Pobranie danych z formularza */
@@ -143,7 +145,8 @@ class ArticleController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $user_id = $user->getId();
-        $user_fullname = $user->getFullname();
+        $user_firstname = $user->getFirstname();
+        $user_lastname = $user->getLastname();
 
 
         $article->incrementLikes();
