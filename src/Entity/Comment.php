@@ -39,6 +39,12 @@ class Comment
      */
     private $authorLastName;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $author;
+
 
     public function getId(): ?int
     {
@@ -89,6 +95,18 @@ class Comment
     public function setAuthorLastName(string $authorLastName): self
     {
         $this->authorLastName = $authorLastName;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

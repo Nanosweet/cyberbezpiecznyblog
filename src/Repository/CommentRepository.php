@@ -56,4 +56,15 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+    /*
+     * Query pobranie komentarzy użytkownika
+     */
+    public function findAllCommentedByUser($term)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author =' .$term)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

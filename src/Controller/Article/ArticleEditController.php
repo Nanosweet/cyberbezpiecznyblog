@@ -6,6 +6,7 @@ namespace App\Controller\Article;
 use App\Entity\Article;
 use App\Form\EditArticleFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,6 +15,7 @@ class ArticleEditController extends AbstractController
 {
     /**
      * @Route("/article/{slug}/edit", name="app_article_edit")
+     * @IsGranted("ROLE_USER")
      */
     public function article_edit(Article $article, Request $request, EntityManagerInterface $entityManager)
     {

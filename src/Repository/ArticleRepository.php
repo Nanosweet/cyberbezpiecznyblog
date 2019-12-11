@@ -72,4 +72,15 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    /*
+     * Query wybiera artykuly autorstwa zalogowanego uzytkownika
+     */
+    public function findAllPublishedByUser($term)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author =' .$term)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

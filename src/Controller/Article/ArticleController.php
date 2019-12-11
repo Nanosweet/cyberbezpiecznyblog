@@ -13,6 +13,7 @@ use App\Repository\CommentRepository;
 use App\Repository\LikesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,9 +94,11 @@ class ArticleController extends AbstractController
 
                 /*
                  * Ustawienie autora artykulu */
-                $comment -> setAuthorFirstName($user_firstname)
-                         -> setAuthorLastName($user_lastname)
-                         -> setArticle($article);
+                $comment
+                        -> setAuthorFirstName($user_firstname)
+                        -> setAuthorLastName($user_lastname)
+                        -> setAuthor($user)
+                        -> setArticle($article);
 
                 /*
                  * Pobranie danych z formularza */
@@ -137,6 +140,7 @@ class ArticleController extends AbstractController
     /* DODAC ZE USER MUSI BYC ZALOGOWANY */
     /**
      * @Route("article/{slug}/like", name="app_article_like")
+     * @IsGranted("ROLE_USER")
      */
     public function article_like($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
     {
@@ -167,6 +171,7 @@ class ArticleController extends AbstractController
     }
     /**
      * @Route("article/{slug}/unlike", name="app_article_unlike")
+     * @IsGranted("ROLE_USER")
      */
     public function article_unlike($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
     {
@@ -195,6 +200,7 @@ class ArticleController extends AbstractController
     }
     /**
      * @Route("/article/{slug}/report", name="app_article_report")
+     * @IsGranted("ROLE_USER")
      */
     public function article_report($slug,EntityManagerInterface $entityManager, Article $article, Request $request)
     {
