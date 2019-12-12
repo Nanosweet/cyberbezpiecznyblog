@@ -2,7 +2,7 @@
 
 namespace App\Controller\Account;
 
-
+use App\Entity\Comment;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
@@ -66,6 +66,28 @@ class AccountController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+        return $this->redirectToRoute("app_account");
+    }
+
+    /**
+     * @Route("/account/comment/delete", name="app_comment_delete")
+     */
+    public function account_comment_delete(EntityManagerInterface $entityManager, Request $request)
+    {
+        /*
+         * Pobranie id komentarza do usuniecia
+         * pobranie repozytorium
+         * query
+         */
+        $commentID = $request->get('commentID');
+        $repository = $entityManager->getRepository(Comment::class);
+        $comment = $repository->find($commentID);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
 
         return $this->redirectToRoute("app_account");
     }

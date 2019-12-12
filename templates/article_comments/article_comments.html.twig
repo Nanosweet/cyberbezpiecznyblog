@@ -41,7 +41,7 @@
 
         {# Pętla, która zapętla komentarze #}
         {% if (article.comments | length ) >= 1 %}
-        {% for comment in comments %}
+        {% for comment in article.comments %}
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-4 col-md-5 mx-auto">

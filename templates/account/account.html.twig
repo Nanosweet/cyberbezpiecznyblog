@@ -58,33 +58,39 @@
                                             <input type="reset" class="btn btn-secondary" value="Anuluj">
                                         </a>
                                             <input type="submit" class="btn btn-primary" value="Zmień">
-
                                     </div>
                                 </div>
                             </form>
                         <!--/row-->
                     </div>
-                    {# Panel listy artykuluw uzytkownika #}
+                    {# Panel listy artyklów uzytkownika #}
                     <div class="tab-pane" id="articles">
-
-                        {#                            <div class="alert alert-info alert-dismissable">
-                            <a class="panel-close close" data-dismiss="alert">×</a> This is an <strong>.{{ row.slug }}</strong>.
-
-                        </div>#}
-
-
-
-
-                        <table class="table table-hover table-striped">
+                        <table class="table table-hover table-striped" style="font-size: small;">
                             <tbody>
+                            <tr>
+                                <th>Tytuł Artykułu</th>
+                                <th>Publikacja</th>
+                                <th></th>
+                            </tr>
                             {% for row in article %}
                             <tr>
                                 <td>
-                                    <span class="float-right font-weight-bold">{{ row.publishedAt | date('d.m.Y') }}</span>
-                                    {{ row.title }}
                                     <a href="{{ path('app_article', { slug: row.slug}) }}" style="text-decoration: none;">
+                                        {{ row.title }}
                                         <i class="fa fa-long-arrow-right"></i>
                                     </a>
+                                </td>
+                                <td>
+                                    <span class="float-right font-weight-bold">{{ row.publishedAt | date('d.m.Y') }}</span>
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_article_edit', {slug: row.slug}) }}"
+                                       style="text-decoration: none"
+                                    >
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+
+                                    <i class="fa fa-trash-o"></i>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -92,54 +98,58 @@
                         </table>
                     </div>
                     {# Panel listy komentarzy uzytkownika #}
-                    <div class="tab-pane" id="comments">
-                        {% for row in comment %}
-                            <div class="alert alert-info alert-dismissable">
-                                <a class="panel-close close" data-dismiss="alert">×</a> This is an <strong>{{ row.content|raw }}</strong>. Use this to show important messages to the user.
-                            </div>
-                        {% endfor %}
-
-                        <table class="table table-hover table-striped">
+                    <div class="tab-pane " id="comments">
+                        <table class="table table-hover table-striped" style="font-size: small;">
                             <tbody>
                             <tr>
-                                <td>
-                                    <span class="float-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the..
-                                </td>
+                                <th>Komentarz</th>
+                                <th>Artykuł</th>
+                                {#<th>Zamieszczono</th>#}
+                                <th></th>
                             </tr>
-                            <tr>
-                                <td>
-                                    <span class="float-right font-weight-bold">Yesterday</span> There has been a request on your account since that was..
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="float-right font-weight-bold">9/10</span> Porttitor vitae ultrices quis, dapibus id dolor. Morbi venenatis lacinia rhoncus.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="float-right font-weight-bold">9/4</span> Vestibulum tincidunt ullamcorper eros eget luctus.
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="float-right font-weight-bold">9/4</span> Maxamillion ais the fix for tibulum tincidunt ullamcorper eros.
-                                </td>
-                            </tr>
+                            {% for row in comment %}
+                                <tr>
+                                    <td>
+                                            {{ row.content }}
+                                        <br>
+                                        <strong><i>Dodano - {{ row.createdAt | date('d.m.Y') }}</i></strong>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('app_article', { slug: row.article.slug}) }}" style="text-decoration: none;">
+                                            {{ row.article.title }}
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                    {#<td>
+                                        <span class="float-right font-weight-bold">{{ row.createdAt | date('d.m.Y') }}</span>
+                                    </td>#}
+                                    <td>
+
+                                        <form method="get" action="{{ path('app_comment_delete') }}">
+                                                <input class="form-control"
+                                                       type="hidden"
+                                                       name="commentID" value="{{ row.id }}"
+                                                >
+                                            <a href="{{ path('app_comment_delete') }}"></a>
+                                            <button type="submit"
+                                                    class="fa fa-trash-o"
+                                                    style="background-color: transparent;
+                                                           border-color: transparent;
+                                                           box-shadow: none;"
+                                            ></button>
+                                        </form>
+
+
+
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            {#            <div class="col-lg-4 order-lg-1 text-center">
-                <img src="//placehold.it/150" class="mx-auto img-fluid img-circle d-block" alt="avatar">
-                <h6 class="mt-2">Upload a different photo</h6>
-                <label class="custom-file">
-                    <input type="file" id="file" class="custom-file-input">
-                    <span class="custom-file-control">Choose file</span>
-                </label>
-            </div>#}
-
         </div>
     </div>
 {% endblock %}
