@@ -10,20 +10,20 @@
                     <hr>
                     <small>
                         {# Wyświetlanie ilości komentarzy #}
-                        {{ article.comments | length }}
+                        {{ article.nonDeletedComments | length }}
 
                         {# Warunek sprawdza ile jest komentarzy #}
                         {# Wyświetla odpowiedno: Komentarz, Komentarze lub Komentarzy #}
 
                         {# Jeżeli jest 1 komentarz #}
-                        {% if (article.comments | length ) == 1 %}
+                        {% if (article.nonDeletedComments | length ) == 1 %}
 
                             <i>Komentarz</i>
 
                             {# Jeżeli są dwa lub cztery  komentarze #}
                             {# i nie jest w granicach od 11 do 21 to wyświetla się: Komentarze #}
                             {# Warunek sprawdzalem na https://twigfiddle.com/ #}
-                        {% elseif ((article.comments | length) | last ) in range(2, 4) and (article.comments | length)  not in range(11, 21) %}
+                        {% elseif ((article.nonDeletedComments | length) | last ) in range(2, 4) and (article.nonDeletedComments | length)  not in range(11, 21) %}
 
                             <i>Komentarze</i>
 
@@ -40,8 +40,8 @@
         </div>
 
         {# Pętla, która zapętla komentarze #}
-        {% if (article.comments | length ) >= 1 %}
-        {% for comment in article.comments %}
+        {% if (article.nonDeletedComments | length ) >= 1 %}
+        {% for comment in article.nonDeletedComments %}
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-4 col-md-5 mx-auto">
