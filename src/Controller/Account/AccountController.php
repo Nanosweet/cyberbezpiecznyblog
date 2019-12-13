@@ -98,38 +98,26 @@ class AccountController extends AbstractController
      */
     public function article_delete(EntityManagerInterface $entityManager, Request $request)
     {
-        $Arepository = $entityManager->getRepository(Article::class);
-        $Lrepository = $entityManager->getRepository(Likes::class);
-        $Crepository = $entityManager->getRepository(Comment::class);
 
+        $repository = $entityManager->getRepository(Article::class);
+
+        /*
+         * Pobranie id artykułu i wyszukanie go po id
+         */
         $articleID = $request->get('articleID');
-        $article = $Arepository->find($articleID);
-
-
-
-
-        $user = $this->getUser()->getId();
-
-        $comments = $Crepository->findAllByArticleID($articleID);
-
-        $article->removeComment($comments[0]);
-
-        //$a = $article->removeComment($comments);
-
-
-        
-
-
-
+        $article = $repository->find($articleID);
+        $article
+            ->setIsDeleted(true);
 
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        $entityManager->remove($article);
+        $entityManager->persist($article);
 
         $entityManager->flush();
 
         return $this->redirectToRoute("app_account");
+
 
     }
 }
