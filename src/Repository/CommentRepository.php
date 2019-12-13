@@ -67,4 +67,12 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+    public function findAllByArticleID($term)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.article =' .$term)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

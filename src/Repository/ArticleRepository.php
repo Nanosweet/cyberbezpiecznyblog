@@ -83,4 +83,12 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+    public function findByID($term)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.id =' .$term)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

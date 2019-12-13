@@ -2,7 +2,9 @@
 
 namespace App\Controller\Account;
 
+use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Likes;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
@@ -90,5 +92,44 @@ class AccountController extends AbstractController
 
 
         return $this->redirectToRoute("app_account");
+    }
+    /**
+     * @Route("/account/article/delete", name="app_article_delete")
+     */
+    public function article_delete(EntityManagerInterface $entityManager, Request $request)
+    {
+        $Arepository = $entityManager->getRepository(Article::class);
+        $Lrepository = $entityManager->getRepository(Likes::class);
+        $Crepository = $entityManager->getRepository(Comment::class);
+
+        $articleID = $request->get('articleID');
+        $article = $Arepository->find($articleID);
+
+
+
+
+        $user = $this->getUser()->getId();
+
+        $comments = $Crepository->findAllByArticleID($articleID);
+
+        $article->removeComment($comments[0]);
+
+        //$a = $article->removeComment($comments);
+
+
+        
+
+
+
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($article);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute("app_account");
+
     }
 }

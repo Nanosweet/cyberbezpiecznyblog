@@ -63,5 +63,14 @@ class LikesRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+    public function findAllByArticleUserID($term1, $term2)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.articleID =' .$term1)
+            ->andWhere('a.userID =' .$term2)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 }
