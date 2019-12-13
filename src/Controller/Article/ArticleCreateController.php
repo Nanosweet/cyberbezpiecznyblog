@@ -20,6 +20,7 @@ class ArticleCreateController extends AbstractController
         $article = new Article();
         $article->setAuthor($this->getUser());
         $article->setReported(false);
+        $article->setIsDeleted(false);
         $form = $this->createForm(ArticleCreateFormType::class, $article);
 
         $form->handleRequest($request);

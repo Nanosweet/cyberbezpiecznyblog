@@ -95,10 +95,11 @@ class ArticleController extends AbstractController
                 /*
                  * Ustawienie autora artykulu */
                 $comment
-                        -> setAuthorFirstName($user_firstname)
-                        -> setAuthorLastName($user_lastname)
-                        -> setAuthor($user)
-                        -> setArticle($article);
+                        ->setAuthorFirstName($user_firstname)
+                        ->setAuthorLastName($user_lastname)
+                        ->setAuthor($user)
+                        ->setIsDeleted(false)
+                        ->setArticle($article);
 
                 /*
                  * Pobranie danych z formularza */
