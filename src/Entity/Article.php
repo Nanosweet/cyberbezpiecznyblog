@@ -93,6 +93,11 @@ class Article
      */
     private $reported;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDeleted;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -182,6 +187,18 @@ class Article
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+    public function getNonDeletedComments(): Collection
+    {
+        $comments = [];
+
+        foreach ($this->getComments() as $comment) {
+            if (!$comment->getIsDeleted()) {
+                $comments[] = $comment;
+            }
+        }
+
+        return new ArrayCollection($comments);
     }
 
     public function addComment(Comment $comment): self
@@ -280,6 +297,18 @@ class Article
     public function setReported(?bool $reported): self
     {
         $this->reported = $reported;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }
