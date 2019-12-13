@@ -51,6 +51,7 @@ class CommentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.createdAt IS NOT NULL')
+            ->andWhere('a.isDeleted != TRUE')
             ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
@@ -63,6 +64,7 @@ class CommentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.author =' .$term)
+            ->andWhere('a.isDeleted != TRUE')
             ->getQuery()
             ->getResult()
             ;
@@ -71,6 +73,7 @@ class CommentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.article =' .$term)
+            ->andWhere('a.isDeleted != TRUE')
             ->getQuery()
             ->getResult()
             ;

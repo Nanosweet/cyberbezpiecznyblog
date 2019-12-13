@@ -44,6 +44,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->andWhere('a.publishedAt > CURRENT_DATE() - 3')
             ->andWhere('a.reported != TRUE')
+            ->andWhere('a.isDeleted != TRUE')
             ->orderBy('a.publishedAt', 'DESC');
     }
 
@@ -54,6 +55,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this -> createQueryBuilder('a')
             ->andWhere('a.publishedAt IS NOT NULL')
             ->andWhere('a.reported != TRUE')
+            ->andWhere('a.isDeleted != TRUE')
             ->orderBy('a.publishedAt', 'DESC');
     }
 
@@ -64,6 +66,7 @@ class ArticleRepository extends ServiceEntityRepository
         if ($term) {
             $qb -> andWhere('a.title LIKE :term')
                 -> andWhere('a.reported != TRUE')
+                -> andWhere('a.isDeleted != TRUE')
                 -> setParameter('term', '%' . $term . '%');
         }
 
@@ -79,6 +82,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.author =' .$term)
+            ->andWhere('a.isDeleted != TRUE')
             ->getQuery()
             ->getResult()
             ;
