@@ -53,6 +53,12 @@
                                 |
                                 {# Wyświetlanie daty dodania komentarza  #}
                                 {{ comment.createdAt | date('d.m.Y') }}
+                                {% if is_granted('ROLE_USER') and (user_id) is same as (comment.author.id) %}
+                                    |
+                                    <i class="fa fa-edit"></i>
+                                    <input type="submit" value="{{ comment.content|raw }}">
+
+                                {% endif %}
                             </i>
                         </small>
                     </div>
