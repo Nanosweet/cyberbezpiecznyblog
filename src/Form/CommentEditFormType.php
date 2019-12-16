@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CommentCreateFormType extends AbstractType
+class CommentEditFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,7 +19,7 @@ class CommentCreateFormType extends AbstractType
                 /*'config_name' =>'comment_config',*/
                 'label' => /*'Napisz swój komentarz...'*/ false
                 ))
-            ->add('skomentuj', SubmitType::class)
+            ->add('aktualizuj', SubmitType::class)
         ;
     }
 

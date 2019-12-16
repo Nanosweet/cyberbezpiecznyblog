@@ -135,21 +135,36 @@
                                         <span class="float-right font-weight-bold">{{ row.createdAt | date('d.m.Y') }}</span>
                                     </td>#}
                                     <td>
+                                        {# Usuwanie komentarza #}
 
 
-                                        <form method="get" action="{{ path('app_comment_delete') }}">
+                                            <form method="get" action="{{ path('app_comment_delete') }}">
                                                 <input class="form-control"
                                                        type="hidden"
                                                        name="commentID" value="{{ row.id }}"
                                                 >
-                                            <a href="{{ path('app_comment_delete') }}"></a>
+                                                <button type="submit"
+                                                        class="fa fa-trash-o"
+                                                        style="background-color: transparent;
+                                                           border-color: transparent;
+                                                           box-shadow: none;"
+                                                ></button>
+                                            </form>
+                                        <form method="get" action="{{ path('app_comment_edit') }}">
+                                            <input class="form-control"
+                                                   type="hidden"
+                                                   name="commentID" value="{{ row.id }}"
+                                            >
                                             <button type="submit"
-                                                    class="fa fa-trash-o"
+                                                    class="fa fa-edit"
                                                     style="background-color: transparent;
                                                            border-color: transparent;
                                                            box-shadow: none;"
                                             ></button>
                                         </form>
+
+
+
 
 
 

@@ -3,6 +3,7 @@
 {% block body %}
 
     {# Kontener komentarzy  #}
+
     <comment>
         <div class="container-fluid">
             <div class="row">
@@ -35,48 +36,108 @@
                             {# Koniec warunku #}
                         {% endif %}
                     </small>
+                    <hr>
                 </div>
             </div>
         </div>
+        {% if is_granted('ROLE_USER') %}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        {{ form_start(commentForm) }}
+                        {{ form_row(commentForm.content, {
+                            attr: { placeholder: 'Dołącz do dyskusji...', }
+                        }) }}
+                        <div class="text-left">
+
+                            {{ form_row(commentForm.skomentuj, {
+                                'attr': {'class': 'btn btn-light'}
+                            }) }}
+                        </div>
+
+                        {{ form_end(commentForm) }}
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
 
         {# Pętla, która zapętla komentarze #}
         {% if (article.nonDeletedComments | length ) >= 1 %}
-        {% for comment in article.nonDeletedComments %}
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-4 col-md-5 mx-auto">
-                        <small>
-                            <i>
-                                {# Wyświetlanie nazwy  autora komentarza #}
-                                {{ comment.authorFirstName }}
-                                {{ comment.authorLastName }}
-                                |
-                                {# Wyświetlanie daty dodania komentarza  #}
-                                {{ comment.createdAt | date('d.m.Y') }}
-                                {% if is_granted('ROLE_USER') and (user_id) is same as (comment.author.id) %}
-                                    |
-                                    <i class="fa fa-edit"></i>
-                                    <input type="submit" value="{{ comment.content|raw }}">
+            {% for comment in article.nonDeletedComments %}
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5 mx-auto">
+                            <small>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            {{ comment.authorFirstName }}
+                                            {{ comment.authorLastName }}
+                                            |
+                                            {{ comment.createdAt | date('d.m.Y') }}
+                                            |
+                                        </td>
+                                        {% if is_granted('ROLE_USER') and (user_id) is same as (comment.author.id) %}
+                                        <td>
+                                            <a href="{{ path('app_account') }}" style="text-decoration: none">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            {#                                            <form  method="get" action="{{ path('app_comment_edit') }}">
+                                                <input class="form-control"
+                                                       type="hidden"
+                                                       name="commentID" value="{{ comment.id }}"
+                                                >
+                                                <button type="submit"
+                                                        class="fa fa-edit"
+                                                        style="background-color: transparent;
+                                                           border-color: transparent;
+                                                           box-shadow: none;"
+                                                ></button>
+                                            </form>#}
 
-                                {% endif %}
-                            </i>
-                        </small>
-                    </div>
-                    <hr>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-8 col-md-10 mx-auto">
-                                <small>
-                                    {# Wyświetlanie treści komentarza, 'raw' nie wyświetla znaczników html, a już odpowiednio sformatowany tekst #}
-                                    {{ comment.content | raw }}
-                                </small>
-                                <hr>
+                                        </td>
+                                        <td>
+                                            {#                                            <form method="get" action="{{ path('app_comment_delete') }}">
+                                                <input class="form-control"
+                                                       type="hidden"
+                                                       name="commentID" value="{{ comment.id }}"
+                                                >
+                                                <button type="submit"
+                                                        class="fa fa-trash-o"
+                                                        style="background-color: transparent;
+                                                           border-color: transparent;
+                                                           box-shadow: none;"
+                                                ></button>
+                                            </form>
+                                            #}
+                                            <a href="{{ path('app_account') }}" style="text-decoration: none">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+
+                                </table>
+
+                            </small>
+                        </div>
+                        <hr>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-8 col-md-10 mx-auto">
+                                    <small>
+                                        {# Wyświetlanie treści komentarza, 'raw' nie wyświetla znaczników html, a już odpowiednio sformatowany tekst #}
+                                        {{ comment.content | raw }}
+                                    </small>
+                                    <hr>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
         {% endif %}
     </comment>
 {% endblock %}

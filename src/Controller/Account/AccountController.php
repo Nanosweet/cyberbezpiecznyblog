@@ -6,6 +6,8 @@ use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Likes;
 use App\Entity\User;
+use App\Form\CommentEditFormType;
+use App\Form\EditArticleFormType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -117,6 +119,69 @@ class AccountController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute("app_account");
+    }
+    /**
+     * @Route("/aa/account/comment/edit/")
+     */
+    public function comment_edit(EntityManagerInterface $em, Request $request, Comment $comment)
+    {
+        $form = $this->createForm(CommentEditFormType::class);
+        $form->handleRequest($request);
+
+        $comment = $em->getRepository(Comment::class);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            /** @var Comment $comment */
+            $comment = $form->getData();
+            dd($comment);
+
+            $em->persist($comment);
+            $em->flush();
+
+            $this->addFlash('success', 'Article Created! Knowledge is power!');
+            return $this->redirectToRoute('app_account');
+        }
+
+        return $this->render('article_comments_edit/article_comments.html.twig', [
+            'editForm' => $form->createView()
+        ]);
+
+    }
+    /**
+     * @Route("/account/comment/edit", name="app_comment_edit")
+     */
+    public function comment_edition(EntityManagerInterface $entityManager, Request $request)
+    {
+        $commentID = $request->get('commentID');
+
+        $commentRepository = $entityManager->getRepository(Comment::class);
+        $_comment = $commentRepository->findOneBy(['id'=>$commentID]);
+
+        $form = $this->createForm(CommentEditFormType::class, $_comment);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            /** @var Comment $comment */
+            $comment = $form->getData();
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+
+            return $this->redirectToRoute('app_account');
+        }
+
+        return $this->render('article_comment_edit/article_comment_edit.html.twig', [
+            'comment' => $_comment,
+            'editForm' => $form->createView()
+        ]);
+
+
+
+
+
 
 
     }
