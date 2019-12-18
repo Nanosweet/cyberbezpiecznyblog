@@ -78,4 +78,13 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+    public function findAllPublishedNonDeleted()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.createdAt IS NOT NULL')
+            ->andWhere('a.isDeleted != TRUE')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

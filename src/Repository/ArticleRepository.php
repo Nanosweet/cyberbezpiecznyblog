@@ -47,6 +47,16 @@ class ArticleRepository extends ServiceEntityRepository
             ->andWhere('a.isDeleted != TRUE')
             ->orderBy('a.publishedAt', 'DESC');
     }
+    public function findAllPublishedRecently()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.publishedAt > CURRENT_DATE() - 3')
+            ->andWhere('a.reported != TRUE')
+            ->andWhere('a.isDeleted != TRUE')
+            ->orderBy('a.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
     /*
      * Funkcja wybierajaca z bazy wszystkie artykuly, wyswietlajac je od najnowszego */
@@ -91,6 +101,17 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.id =' .$term)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findAllPublishedNonDeletedNonReported()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.publishedAt IS NOT NULL')
+            ->andWhere('a.reported != TRUE')
+            ->andWhere('a.isDeleted != TRUE')
+            ->orderBy('a.publishedAt', 'DESC')
             ->getQuery()
             ->getResult()
             ;

@@ -223,7 +223,7 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                    <h1 class="h3 mb-0 text-gray-800">Panel Główny</h1>
                     <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                 </div>
 
@@ -236,8 +236,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Użytkownicy</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">liczba wszystkich userów</div>
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Wszystkich Użytkowników</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ user | length }}</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -253,8 +253,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Artykuły</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">liczba wszystkich artykułów</div>
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Wszystkich artykułów</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ articles | length }}</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-newspaper fa-2x text-gray-300"></i>
@@ -271,8 +271,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Komentarze</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">liczba wszystkich komentarzy</div>
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Wszystkich Komentarzy</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ comment | length }}</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -288,10 +288,10 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Polubienia</div>
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Wszystkie Polubienia</div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">liczba wszystkich polubień</div>
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ likes | length }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -320,9 +320,9 @@
                                             <table class="table">
                                                 <thead class="bg-light">
                                                     <tr class="border-0">
-                                                        <th class="border-0">#</th>
+                                                        <th class="border-0">Id</th>
                                                         <th class="border-0">Tytuł</th>
-                                                        <th class="border-0">Slug</th>
+                                                        <th class="border-0">Podtytuł</th>
                                                         <th class="border-0">Komentarzy</th>
                                                         <th class="border-0">Polubienia</th>
                                                         <th class="border-0">Data publikacji</th>
@@ -331,16 +331,22 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                {% for row in article %}
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>Product #1 </td>
-                                                        <td>id000001 </td>
-                                                        <td>20</td>
-                                                        <td>$80.00</td>
-                                                        <td>27-08-2018 01:22:12</td>
-                                                        <td>Patricia J. King </td>
+                                                        <td>{{ row.id }}</td>
+                                                        <td>
+                                                            <a href="{{ path('app_article', {slug: row.slug}) }}" style="text-decoration: none;">
+                                                                {{ row.title }}
+                                                            </a>
+                                                        </td>
+                                                        <td>{{ row.subtitle }} </td>
+                                                        <td>{{ row.comments|length }}</td>
+                                                        <td>{{ row.likes }}</td>
+                                                        <td>{{ row.publishedAt | date('d.m.Y') }}</td>
+                                                        <td>{{ row.author.firstname }} {{ row.author.lastname }}</td>
                                                         <td><span class="badge-dot badge-brand mr-1"></span>InTransit </td>
                                                     </tr>
+                                                {% endfor %}
                                                 </tbody>
                                             </table>
                                         </div>
