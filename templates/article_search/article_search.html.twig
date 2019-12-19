@@ -56,7 +56,8 @@
                             </a>
                             <p class="post-meta">Dodał(a)
                                 {# Nazwa autora artykułu #}
-                                {{ article.author.fullname }}
+                                {{ article.author.firstname }}
+                                {{ article.author.lastname }}
                                 |
                                 {# Data publikacji artykułu #}
                                 {{ article.publishedAt | date('d.m.Y') }}
