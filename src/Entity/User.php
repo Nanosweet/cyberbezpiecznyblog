@@ -38,11 +38,12 @@ class User implements UserInterface
      */
     private $created_at;
 
+    /*
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Likes", mappedBy="userID")
-     */
-    private $likes;
 
+    private $likes;
+*/
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
      */
@@ -129,10 +130,11 @@ class User implements UserInterface
     {
         return null;
     }
+    /*
 
     /**
      * @return Collection|Likes[]
-     */
+
     public function getLikes(): Collection
     {
         return $this->likes;
@@ -160,6 +162,7 @@ class User implements UserInterface
 
         return $this;
     }
+    */
 
     /**
      * @return Collection|Comment[]

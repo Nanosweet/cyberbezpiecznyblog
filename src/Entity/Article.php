@@ -83,11 +83,13 @@ class Article
      */
     private $likes = 0;
 
+    /*
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Likes", mappedBy="articleID")
-     */
+
     private $likesCount = 0;
 
+    */
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -252,9 +254,10 @@ class Article
         return $this;
     }
 
+    /*
     /**
      * @return Collection|Likes[]
-     */
+
     public function getLikesCount(): Collection
     {
         return $this->likesCount;
@@ -282,12 +285,14 @@ class Article
 
         return $this;
     }
+
     public function incrementLikesCount(): self
     {
         $this->likesCount = $this->likesCount + 1;
 
         return $this;
     }
+    */
 
     public function getReported(): ?bool
     {

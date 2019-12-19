@@ -20,19 +20,23 @@ class Likes
      * @ORM\Column(type="integer")
      */
     private $count;
+    /*
+     *
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="likesCount")
      * @ORM\JoinColumn(nullable=false)
-     */
+
+
     private $articleID;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="likes")
      * @ORM\JoinColumn(nullable=false)
-     */
-    private $userID;
 
+    private $userID;
+    */
     public function getId(): ?int
     {
         return $this->id;
@@ -50,10 +54,12 @@ class Likes
         return $this;
     }
 
+    /*
     public function getArticleID(): ?Article
     {
         return $this->articleID;
     }
+
 
     public function setArticleID(?Article $articleID): self
     {
@@ -73,6 +79,7 @@ class Likes
 
         return $this;
     }
+    */
     public function incrementLikesCount(): self
     {
         $this->count = $this->count + 1;

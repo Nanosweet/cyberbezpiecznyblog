@@ -62,6 +62,7 @@ class ArticleController extends AbstractController
             /*
              * Sprawdzam czy user polubil artykul
              * Dostosuje odpowiednie serduszko w twigu */
+            /*
             $repository = $entityManager->getRepository(Likes::class);
             $like = $repository->findAllLikedByUserID($user_id);
             if ($like != null)
@@ -70,7 +71,7 @@ class ArticleController extends AbstractController
                 $user_like_id = $user_like->getId();
             } else
                 $user_like_id = null;
-
+*/
 
             //dd($user_like_id);
 
@@ -121,8 +122,8 @@ class ArticleController extends AbstractController
             return $this->render('article/article.html.twig', [
                 'article' => $article,
                 'comments' => $comments,
-                'user_like_id' => $user_like_id,
-                'likes' => $likes,
+                /*'user_like_id' => $user_like_id,*/
+                /*'likes' => $likes,*/
                 'user_id' => $user_id,
                 'slug' => $slug,
                 'commentForm' => $form->createView(),
@@ -134,7 +135,7 @@ class ArticleController extends AbstractController
         return $this->render('article/article_annonymous.html.twig', [
             'article' => $article,
             'slug' => $slug,
-            'likes' => $likes,
+            /*'likes' => $likes,*/
             'comments' => $comments,
         ]);
     }
@@ -158,8 +159,8 @@ class ArticleController extends AbstractController
 
         $likes = new Likes();
 
-       $likes->setArticleID($article);
-       $likes->setUserID($user);
+       //$likes->setArticleID($article);
+       //$likes->setUserID($user);
        $likes->setCount($article->getLikes());
 
         $entityManager = $this->getDoctrine()->getManager();

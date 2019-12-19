@@ -31,10 +31,10 @@
                             {{ article.subtitle }}
                         </h2>
                         <span class="meta">
-                            {# Autor artykułu #}
-                            {{ article.author.firstname }}
-                            {{ article.author.lastname }}
-                            |
+                            {# Autor artykułu
+                            {{ article.author }}
+                            {{ article.author }}
+                            |#}
                             {# Data dodania artykułu #}
                             {{ article.publishedAt | date('d.m.Y') }}
                             |
@@ -63,6 +63,7 @@
                         </span>
                         <i class="fa fa-heart" style="color: red"></i>
                         </span>
+                        {#
                         <span class="article-details">
 
 
@@ -86,6 +87,7 @@
                             ></a>
 
                         </span>
+                        #}
                     </div>
                 </div>
             </div>
