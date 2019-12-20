@@ -37,16 +37,16 @@ class ArticleRepository extends ServiceEntityRepository
     }
     */
 
+
+    // ===== PANEL ADMINISTRATORA =====
     /*
-     * Funkcja wybierajaca z bazy artykuly udostepnione w ciągu ostatnich trzech dni */
-    public function findAllPublishedLastThreeDays()
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.publishedAt > CURRENT_DATE() - 3')
-            ->andWhere('a.reported != TRUE')
-            ->andWhere('a.isDeleted != TRUE')
-            ->orderBy('a.publishedAt', 'DESC');
-    }
+     * src/Controller/Admin/AdminController
+     * Artykuły dodane w ciągu ostatnich 3 dni
+     * Nie są zgłoszone
+     * Nie są usunięte
+     * Posortowane od najnowszego
+     */
+
     public function findAllPublishedRecently()
     {
         return $this->createQueryBuilder('a')
@@ -59,7 +59,91 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /*
-     * Funkcja wybierajaca z bazy wszystkie artykuly, wyswietlajac je od najnowszego */
+     * src/Controller/Admin/AdminController
+     * Wszystkie artykuły
+     * Nie są zgłoszone
+     * Nie sa usunięte
+     * Posortowane od najnowszego
+     */
+
+    public function findAllPublishedNonDeletedNonReported()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.publishedAt IS NOT NULL')
+            ->andWhere('a.reported != TRUE')
+            ->andWhere('a.isDeleted != TRUE')
+            ->orderBy('a.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /*
+     * /src/Controller/Admin/AdminController
+     * Wyswietlenie zgłoszonych artykułów
+     * Są zgłoszone
+     * Nie są usuniete
+     * Posortowane od najnowszego
+     */
+
+    public function findAllArticlesReported()
+    {
+        return $this -> createQueryBuilder('a')
+            ->andWhere('a.publishedAt IS NOT NULL')
+            ->andWhere('a.reported = TRUE')
+            ->andWhere('a.isDeleted != TRUE')
+            ->orderBy('a.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /*
+     * src/Controller/Admin/AdminController
+     * Wszystkie opublikowane
+     * Nie są zgłoszone
+     * Nie są usunięte
+     * Posortowane od najnowszego
+     */
+
+    public function findAllPublishedAdmin()
+    {
+        return $this -> createQueryBuilder('a')
+            ->andWhere('a.publishedAt IS NOT NULL')
+            ->andWhere('a.reported != TRUE')
+            ->andWhere('a.isDeleted != TRUE')
+            ->orderBy('a.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // ===== ARTYKUŁ =====
+    /*
+     * src/Controller/Article/ArticleNewsListController
+     * Artykuły dodane w ciągu ostatnich 3 dni
+     * Nie są zgłoszone
+     * Nie są usunięte
+     * Posortowane od najnowszego
+     * Wyświetlanie listy najnowszych artykułów
+     */
+
+    public function findAllPublishedLastThreeDays()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.publishedAt > CURRENT_DATE() - 3')
+            ->andWhere('a.reported != TRUE')
+            ->andWhere('a.isDeleted != TRUE')
+            ->orderBy('a.publishedAt', 'DESC');
+    }
+
+    /*
+     * src/Controller/Article/ArticleListController
+     * Wszystkie opublikowane artykuły
+     * Nie są zgłoszone
+     * Nie są usuniete
+     * Posortowane od najnowszego
+     */
+
     public function findAllPublishedByNewest()
     {
         return $this -> createQueryBuilder('a')
@@ -68,6 +152,14 @@ class ArticleRepository extends ServiceEntityRepository
             ->andWhere('a.isDeleted != TRUE')
             ->orderBy('a.publishedAt', 'DESC');
     }
+
+    /*
+     * /src/Controller/Article/ArticleSearchController
+     * Wyszukiwanie artykułu po TYTULE
+     * Nie jest zgłoszony
+     * Nie jest usunięty
+     * Posortowane od najnowszego
+     */
 
     public function findAllPublishedByTitle(?string $term)
     {
@@ -85,35 +177,37 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
+    // ===== ACCOUNT =====
     /*
-     * Query wybiera artykuly autorstwa zalogowanego uzytkownika
+     * src/Controller/Account/AccountController
+     * Artykuł dodany przez zalogowanego użytkownika
+     * Nie jest zgłoszony
+     * Nie jest usuniety
      */
+
     public function findAllPublishedByUser($term)
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.author =' .$term)
+            ->andWhere('a.reported != TRUE')
             ->andWhere('a.isDeleted != TRUE')
             ->getQuery()
             ->getResult()
             ;
     }
-    public function findByID($term)
+
+    // ===== BEZ USAGE =====
+    /*
+     * Wyszukanie artykuły po ID
+     */
+    /*public function findByID($term)
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.id =' .$term)
             ->getQuery()
             ->getResult()
             ;
-    }
-    public function findAllPublishedNonDeletedNonReported()
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.publishedAt IS NOT NULL')
-            ->andWhere('a.reported != TRUE')
-            ->andWhere('a.isDeleted != TRUE')
-            ->orderBy('a.publishedAt', 'DESC')
-            ->getQuery()
-            ->getResult()
-            ;
-    }
+    }*/
 }
