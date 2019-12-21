@@ -50,6 +50,21 @@ class Comment
      */
     private $isDeleted;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isReported;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $reportedAt;
+
 
     public function getId(): ?int
     {
@@ -124,6 +139,42 @@ class Comment
     public function setIsDeleted(bool $isDeleted): self
     {
         $this->isDeleted = $isDeleted;
+
+        return $this;
+    }
+
+    public function getIsReported(): ?bool
+    {
+        return $this->isReported;
+    }
+
+    public function setIsReported(bool $isReported): self
+    {
+        $this->isReported = $isReported;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getReportedAt(): ?\DateTimeInterface
+    {
+        return $this->reportedAt;
+    }
+
+    public function setReportedAt(?\DateTimeInterface $reportedAt): self
+    {
+        $this->reportedAt = $reportedAt;
 
         return $this;
     }
