@@ -106,6 +106,7 @@
                     <th class="border-0">Komentarzy</th>
                     <th class="border-0">Polubienia</th>
                     <th class="border-0">Data publikacji</th>
+                    <th class="border-0">Data usunięcia</th>
                     <th class="border-0">Autor</th>
                     <th class="border-0">Status</th>
                   </tr>
@@ -123,6 +124,7 @@
                       <td>{{ row.comments|length }}</td>
                       <td>{{ row.likes }}</td>
                       <td>{{ row.publishedAt | date('d.m.Y') }}</td>
+                      <td>{{ row.deletedAt | date('d.m.Y') }}</td>
                       <td>{{ row.author.firstname }} {{ row.author.lastname }}</td>
                       <td>Usunięty <i class="fa fa-exclamation-circle alert-danger"></i> </td>
                     </tr>
