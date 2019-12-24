@@ -7,7 +7,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Tables</title>
+  {% block title %}
+    <title>Zgłoszone artykuły | Cyberbezpiecznyblog</title>
+  {% endblock %}
 
   <!-- Custom fonts for this template -->
   <link href="{{ asset('build/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -111,6 +113,7 @@
                     <th class="border-0">Status</th>
                     <th class="border-0">Edytuj</th>
                     <th class="border-0">Usuń</th>
+                    <th class="border-0">Publikuj</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -130,22 +133,34 @@
                       <td>{{ row.author.firstname }} {{ row.author.lastname }}</td>
                       <td>Zgłoszony <i class="fa fa-exclamation-circle alert-danger"></i> </td>
                       <td>
-                        <a href="{{ path('admin_articles_edit', {slug: row.slug}) }}"
+                        <a href="{{ path('admin_articles_reported_edit', {slug: row.slug}) }}"
                            style="text-decoration: none">
                           <i class="fa fa-edit"></i>
                         </a>
                       </td>
                       <td>
-                        <form method="get" action="{{ path('admin_articles_all_delete') }}">
+                        <form method="get" action="{{ path('admin_articles_reported_delete') }}">
                           <input class="form-control"
                                  type="hidden"
                                  name="articleID" value="{{ row.id }}"
                           >
                           <button type="submit"
                                   class="fa fa-times"
-                                  style="background-color: transparent;border-color: transparent;box-shadow: none;"
+                                  style="background-color: transparent;
+                                  border-color: transparent;
+                                  box-shadow: none;"
                           ></button>
                         </form>
+                      </td>
+                      <td>
+                        <a href="{{ path('admin_articles_unreport', {slug: row.slug}) }}"
+                           style="text-decoration: none; cursor: pointer;"
+                           data-toggle="tooltip"
+                           title="Publikuj"
+
+                        >
+                          <i class="fa fa-check"></i>
+                        </a>
                       </td>
                     </tr>
                   {% endfor %}
@@ -188,14 +203,6 @@
   <!-- Custom scripts for all pages-->
 <!-- <script src="js/sb-admin-2.min.js"></script>-->
   <script src="{{ asset('build/js/sb-admin-2.min.js') }}"></script>
-
-  <!-- Page level plugins -->
-  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
-
 </body>
 
 {% endblock %}
