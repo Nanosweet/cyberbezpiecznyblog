@@ -1,0 +1,23 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+fos_ck_editor:
+    input_sync: true
+    default_config: base_config
+    configs:
+        # Główna konfiguracja CKEditor
+        base_config:
+            toolbar: [["Bold"]["Italic"]["BulletedList"]["Blockquote"]["Link"]["Image"]["JustifyLeft"]["JustifyCenter"] ["JustifyRight"] ] # Toolbar z opcjami do pisania wpisu
+            # Wylaczenie automatycznego pobierania wymiarow z adresu URL obrazu
+            image_prefillDimensions: false
+            height: '50em'
+
+        # Konfiguracja pisania komentarza
+        comment_config:
+            toolbar: [["Bold"]["Italic"] ]
+            height: '5em'
+
+
+

@@ -1,0 +1,182 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Szczegóły konta | Cyberbezpiecznyblog {% endblock %}
+
+{% block body %}
+    <header class="masthead" style="background-image: url('{{ asset('build/img/computer-content-control-data-270700.jpg') }}')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <span class="subheading">Szczegóły konta {{ user.firstname }} {{ user.lastname }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row my-2">
+            <div class="col-lg-8 col-md-10 mx-auto order-lg-2">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" data-target="#articles" data-toggle="tab" class="nav-link">Moje Artykuły</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" data-target="#comments" data-toggle="tab" class="nav-link">Moje Komentarze</a>
+                    </li>
+                </ul>
+                <div class="tab-content py-4">
+                    {# Panel profilu uzytkownika #}
+                    <div class="tab-pane active" id="profile">
+                            <form method="get" action="{{ path('app_account_change') }}" role="form">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Imię</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="text" name="firstname" value="{{ user.firstname }}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Nazwisko</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="text" name="lastname" value="{{ user.lastname }}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                    <div class="col-lg-9">
+                                        <span class="form-control" type="text" >{{ user.email }}</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label"></label>
+                                    <div class="col-lg-6">
+                                        <a href="#">
+                                            <input type="reset" class="btn btn-secondary" value="Anuluj">
+                                        </a>
+                                            <input type="submit" class="btn btn-primary" value="Zmień">
+                                    </div>
+                                </div>
+                            </form>
+                        <!--/row-->
+                    </div>
+                    {# Panel listy artyklów uzytkownika #}
+                    <div class="tab-pane" id="articles">
+                        <table class="table table-hover table-striped" style="font-size: small;">
+                            <tbody>
+                            <tr>
+                                <th>Tytuł Artykułu</th>
+                                <th>Publikacja</th>
+                                <th></th>
+                            </tr>
+                            {% for row in article %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('app_article', { slug: row.slug}) }}" style="text-decoration: none;">
+                                        {{ row.title }}
+                                        <i class="fa fa-long-arrow-right"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="float-right font-weight-bold">{{ row.publishedAt | date('d.m.Y') }}</span>
+                                </td>
+                                <td>
+                                    <a href="{{ path('app_article_edit', {slug: row.slug}) }}"
+                                       style="text-decoration: none"
+                                    >
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <form method="get" action="{{ path('app_article_delete') }}">
+                                        <input class="form-control"
+                                               type="hidden"
+                                               name="articleID" value="{{ row.id }}"
+                                        >
+                                        <a href="{{ path('app_comment_delete') }}"></a>
+                                        <button type="submit"
+                                                class="fa fa-trash-o"
+                                                style="background-color: transparent;
+                                                           border-color: transparent;
+                                                           box-shadow: none;"
+                                        ></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {# Panel listy komentarzy uzytkownika #}
+                    <div class="tab-pane " id="comments">
+                        <table class="table table-hover table-striped" style="font-size: small;">
+                            <tbody>
+                            <tr>
+                                <th>Komentarz</th>
+                                <th>Artykuł</th>
+                                {#<th>Zamieszczono</th>#}
+                                <th></th>
+                            </tr>
+                            {% for row in comment %}
+                                <tr>
+                                    <td>
+                                            {{ row.content }}
+                                        <br>
+                                        <strong><i>Dodano - {{ row.createdAt | date('d.m.Y') }}</i></strong>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('app_article', { slug: row.article.slug}) }}" style="text-decoration: none;">
+                                            {{ row.article.title }}
+                                            <i class="fa fa-long-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                    {#<td>
+                                        <span class="float-right font-weight-bold">{{ row.createdAt | date('d.m.Y') }}</span>
+                                    </td>#}
+                                    <td>
+                                        {# Usuwanie komentarza #}
+
+
+                                            <form method="get" action="{{ path('app_comment_delete') }}">
+                                                <input class="form-control"
+                                                       type="hidden"
+                                                       name="commentID" value="{{ row.id }}"
+                                                >
+                                                <button type="submit"
+                                                        class="fa fa-trash-o"
+                                                        style="background-color: transparent;
+                                                           border-color: transparent;
+                                                           box-shadow: none;"
+                                                ></button>
+                                            </form>
+                                        <form method="get" action="{{ path('app_comment_edit') }}">
+                                            <input class="form-control"
+                                                   type="hidden"
+                                                   name="commentID" value="{{ row.id }}"
+                                            >
+                                            <button type="submit"
+                                                    class="fa fa-edit"
+                                                    style="background-color: transparent;
+                                                           border-color: transparent;
+                                                           box-shadow: none;"
+                                            ></button>
+                                        </form>
+
+
+
+
+
+
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

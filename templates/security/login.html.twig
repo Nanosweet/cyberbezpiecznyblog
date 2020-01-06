@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Logowanie
+{% endblock %}
+
+{% block nav %}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Logowanie</h5>
+
+                        <!-- FORMULARZ LOGOWANIA -->
+
+                        {{ form_start(loginForm) }}
+                        <!-- BŁĘDY W FORMULARZU -->
+                        {% if error %}
+                            <div class="alert alert-danger" >{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        {{ form_row(loginForm.email) }}
+
+                        {{ form_row(loginForm.password) }}
+
+
+
+                        <!-- CHECKBOX REMEMBER_ME -->
+                        <!-- Default unchecked -->
+                        <hr>
+                        <div class="custom-control custom-checkbox text-center">
+                            <input type="checkbox" name="remember_me" class="custom-control-input" id="defaultUnchecked">
+                            <label class="custom-control-label" for="defaultUnchecked">Zapamiętaj mnie</label>
+                        </div>
+                        <hr>
+                        <button class="btn btn-lg btn-light btn-block" type="submit">
+                            Zaloguj się
+                        </button>
+                        <hr>
+                        <a class="btn btn-lg btn-light btn-block" href="{{ path('app_register') }}">
+                            <span class="button-text">Stwórz konto</span>
+                        </a>
+                        {{ form_end(loginForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

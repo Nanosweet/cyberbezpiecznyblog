@@ -1,0 +1,67 @@
+{# Widok odpwiedzialny za wyświetlanie artykułu #}
+{# Blok rozszerzający bazę widoków #}
+{% extends 'base.html.twig' %}
+
+{# Blok wyświetlający tytuł artykułu #}
+{% block title %}
+    {{ article.title }} | Cyberbezpiecznyblog
+{% endblock %}
+
+{# Blok wyświetlający <body> strony #}
+{% block body %}
+
+    {# Blok implementujący style css #}
+    {% block stylesheets %}
+        <link href="{{ asset('build/css/article.css') }}" rel="stylesheet">
+    {% endblock %}
+
+    {# Nagłówek artukyłu #}
+    <header class="masthead">
+        <div class="overlay"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="post-heading">
+                        <h1>
+                            {# Tytuł artykułu #}
+                            {{ article.title }}
+                        </h1>
+                        <h2 class="subheading">
+                            {# Podtytuł artykułu #}
+                            {{ article.subtitle }}
+                        </h2>
+                        <span class="meta">
+                            {# Autor artykułu #}
+                            {{ article.author.firstname }}
+                            {{ article.author.lastname }}
+                            |
+                            {# Data dodania artykułu #}
+                            {{ article.publishedAt | date('d.m.Y') }}
+                        </span>
+                        <span class="article-details">
+                        <span class="js-like-article-count">
+                            {{ article.likes }}
+                        </span>
+                            <i class="fa fa-heart" style="color: red"></i><br>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {# Artykuł #}
+    <article>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    {# Zawartość artykułu, 'raw' gwarantuje poprawne wyświetlenie bez znaczników #}
+                    {{ article.content | raw }}
+                </div>
+            </div>
+        </div>
+    </article>
+
+  {# Sekcja komentarzy #}
+  {% include 'article_comments/article_comments.html.twig' %}
+{% endblock %}
