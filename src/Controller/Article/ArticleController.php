@@ -9,6 +9,7 @@ use App\Entity\Comment;
 use App\Entity\Likes;
 use App\Entity\User;
 use App\Form\CommentCreateFormType;
+use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Repository\LikesRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -100,6 +101,7 @@ class ArticleController extends AbstractController
                         ->setAuthorLastName($user_lastname)
                         ->setAuthor($user)
                         ->setIsDeleted(false)
+                        ->setIsReported(false)
                         ->setArticle($article);
 
                 /*
@@ -206,12 +208,40 @@ class ArticleController extends AbstractController
      */
     public function article_report($slug,EntityManagerInterface $entityManager, Article $article, Request $request)
     {
-        $article->setReported(true);
+        $article->setReported(true)
+                ->setReportedAt(new \DateTime());
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager -> persist($article);
         $entityManager -> flush();
 
         return $this->redirectToRoute("app_homepage");
+    }
+
+    /**
+     * @Route("/comment/report", name="app_comment_report")
+     */
+    public function comment_report(EntityManagerInterface $entityManager, Request $request, ArticleRepository $articleRepository)
+    {
+        /*
+         * Pobranie id komentarza do usuniecia
+         * pobranie repozytorium
+         */
+
+        $commentID = $request->get('commentID');
+        $repository = $entityManager->getRepository(Comment::class);
+        $comment = $repository->find($commentID);
+        $slug = $comment->getArticle()->getSlug();
+        //dd($a);
+        $comment
+            ->setIsReported(true)
+            ->setReportedAt(new \DateTime());
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($comment);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_article', ['slug'=>$slug]);
     }
 
 

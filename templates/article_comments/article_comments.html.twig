@@ -81,9 +81,9 @@
                                         {% if is_granted('ROLE_USER') and (user_id) is same as (comment.author.id) %}
                                         <td>
                                             <a href="{{ path('app_account') }}" style="text-decoration: none">
-                                                <i class="fa fa-edit"></i>
+                                                <i class="fas fa-edit"></i>
                                             </a>
-                                            {#                                            <form  method="get" action="{{ path('app_comment_edit') }}">
+                                            <form  method="get" action="{{ path('app_comment_edit') }}">
                                                 <input class="form-control"
                                                        type="hidden"
                                                        name="commentID" value="{{ comment.id }}"
@@ -94,11 +94,10 @@
                                                            border-color: transparent;
                                                            box-shadow: none;"
                                                 ></button>
-                                            </form>#}
-
+                                            </form>
                                         </td>
                                         <td>
-                                            {#                                            <form method="get" action="{{ path('app_comment_delete') }}">
+                                            <form method="get" action="{{ path('app_comment_delete') }}">
                                                 <input class="form-control"
                                                        type="hidden"
                                                        name="commentID" value="{{ comment.id }}"
@@ -110,12 +109,27 @@
                                                            box-shadow: none;"
                                                 ></button>
                                             </form>
-                                            #}
+
                                             <a href="{{ path('app_account') }}" style="text-decoration: none">
                                                 <i class="fa fa-trash-o"></i>
                                             </a>
-
                                         </td>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_USER') %}
+                                            <td>
+                                                <form method="get" action="{{ path('app_comment_report')}}">
+                                                    <input class="form-control"
+                                                           type="hidden"
+                                                           name="commentID" value="{{ comment.id }}"
+                                                    >
+                                                    <button type="submit"
+                                                            class="fa fa-exclamation-circle"
+                                                            style="background-color: transparent;
+                                                           border-color: transparent;
+                                                           box-shadow: none;"
+                                                    ></button>
+                                                </form>
+                                            </td>
                                         {% endif %}
                                     </tr>
 
