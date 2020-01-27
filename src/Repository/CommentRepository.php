@@ -34,7 +34,7 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Comment
@@ -46,45 +46,128 @@ class CommentRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    /* Funkcja wybierajaca z bazy wszystkie komentarze, wyswietlajac je od najnowszego */
-    public function findAllPublishedByNewest()
+    */
+
+    // ===== ADMIN =====
+    /*
+     * src/Controller/Admin/AdminController
+     * Wyświetlenie wszystkich
+     * Nie sa zgłoszone
+     * Nie sa usuniete
+     */
+    public function findAllPublishedNonDeletedNonReported()
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.createdAt IS NOT NULL')
             ->andWhere('a.isDeleted != TRUE')
+            ->andWhere('a.isReported != TRUE')
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /*
+     * src/Controller/Account/AccountController
+     * Wybranie komentarzy dodanych przez zalogowanego użytkwonika
+     * Parametr id usera
+     * Posortowane od najnowszego
+     * Wyswietla wszystkie nawet usuniete i zgłoszone
+     */
+    public function findAllCommentedByUser($term)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author =' .$term)
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+    /*
+     * src/Controller/Admin/AdminController
+     * Wyświetlenie zgłoszonych komentarzy
+     */
+
+    public function findAllReported()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.createdAt IS NOT NULL')
+            ->andWhere('a.isDeleted != TRUE')
+            ->andWhere('a.isReported = TRUE')
             ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
             ;
     }
     /*
-     * Query pobranie komentarzy użytkownika
+     * src/Controller/Admin/AdminController
      */
-    public function findAllCommentedByUser($term)
+    public function findAllDeleted()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.author =' .$term)
-            ->andWhere('a.isDeleted != TRUE')
+            ->andWhere('a.createdAt IS NOT NULL')
+            ->andWhere('a.isDeleted = TRUE')
+            ->andWhere('a.isReported != TRUE')
+            ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
             ;
     }
+    /*
+     * Znajdź wszystkie komentarze, które są do tego artykułu
+     */
     public function findAllByArticleID($term)
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.article =' .$term)
-            ->andWhere('a.isDeleted != TRUE')
+            ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
             ;
     }
-    public function findAllPublishedNonDeleted()
+
+    // ===== ARTYKUŁ =====
+    /*
+     * src/Controller/Article/ArticleController
+     * Funkcja wybierajaca z bazy wszystkie komentarze
+     * Nie sa zgłoszone
+     * Nie sa usunięte
+     * Posortowane od najnowszego
+     */
+
+    public function findAllPublishedByNewest()
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.createdAt IS NOT NULL')
             ->andWhere('a.isDeleted != TRUE')
+            ->andWhere('a.isReported != TRUE')
+            ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
             ;
     }
+
+    // ===== ACCOUNT =====
+    /*
+     * src/Controller/Account/AccountController
+     * Wybranie komentarzy dodanych przez zalogowanego użytkwonika
+     * Parametr id usera
+     * Nie sa zgłoszone
+     * Nie sa usuniete
+     * Posortowane od najnowszego
+     */
+    public function findAllCommentedByUserNonDeletedNonReported($term)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author =' .$term)
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // ===== BEZ USAGE =====
+
 }

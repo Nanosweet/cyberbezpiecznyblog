@@ -46,7 +46,6 @@ class ArticleRepository extends ServiceEntityRepository
      * Nie są usunięte
      * Posortowane od najnowszego
      */
-
     public function findAllPublishedRecently()
     {
         return $this->createQueryBuilder('a')
@@ -57,6 +56,23 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    /*
+     * src/Controller/Admin/AdminController
+     * Artykuły dodane przez usera
+     * Parametr user id
+     * Pokazuje wszyskie usuniete i zgloszone
+     * Sortowane od najnowszego
+     */
+    public function findAllPublishedByUser($term)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author =' .$term)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
 
     /*
      * src/Controller/Admin/AdminController
@@ -205,7 +221,7 @@ class ArticleRepository extends ServiceEntityRepository
      * Nie jest usuniety
      */
 
-    public function findAllPublishedByUser($term)
+    public function findAllPublishedByUserNonDeletedNonReported($term)
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.author =' .$term)
