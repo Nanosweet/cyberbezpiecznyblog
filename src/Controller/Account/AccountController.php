@@ -15,9 +15,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
 class AccountController extends AbstractController
 {
+    /*
+     * Funkcjonalność - Wyświetlenie szczegółów użytkownika
+     */
+
     /**
      * @Route("/account", name="app_account")
      * @IsGranted("ROLE_USER")
@@ -32,9 +37,9 @@ class AccountController extends AbstractController
         $userID = $user->getId();
 
         /*
-         * Wybranie artykułów autorstwa usera
+         * Wybranie artykułów autorstwa użytkownika
          */
-        $article = $articleRepository->findAllPublishedByUser($userID);
+        $article = $articleRepository->findAllPublishedByUserNonDeletedNonReported($userID);
 
         /*
          * Wybreanie artykułów skomentowanych przez usera
@@ -50,29 +55,53 @@ class AccountController extends AbstractController
             'comment' => $comment,
         ]);
     }
+
+    /*
+     * Funkcjonlaność - Zmiana danych użytkownika
+     */
+
     /**
      * @Route("/account/change", name="app_account_change")
      */
     public function account_change(EntityManagerInterface $entityManager, Request $request)
     {
+        /*
+         * Pobranie użytkownika
+         */
         $repository = $entityManager->getRepository(User::class);
         $user = $repository->find($this->getUser());
 
+        /*
+         * Pobranie danych z formularza
+         */
         $firstname = $request->get('firstname');
         $lastname = $request->get('lastname');
 
 
+        /*
+         * Wprowadzenie zmian do bazy danych
+         */
         $user
             ->setFirstname($firstname)
-            ->setLastname($lastname);
+            ->setLastname($lastname)
+        ;
 
+        /*
+         * Zapisanie nowych danych do bazy danych
+         */
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
+        /*
+         * Powrót do widoku /account
+         */
         return $this->redirectToRoute("app_account");
     }
+
+    /*
+     * Funkcjonalność - Usunięcie własnego komentarza
+     */
 
     /**
      * @Route("/account/comment/delete", name="app_comment_delete")
@@ -87,77 +116,85 @@ class AccountController extends AbstractController
         $commentID = $request->get('commentID');
         $repository = $entityManager->getRepository(Comment::class);
         $comment = $repository->find($commentID);
+        $comment
+            ->setIsDeleted(true)
+            ->setDeletedAt(new \DateTime());
 
+
+        /*
+         * Zapisanie zmian do bazy danych
+         */
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($comment);
+        $entityManager->persist($comment);
         $entityManager->flush();
 
-
+        /*
+         * Przekierowanie do /account
+         */
         return $this->redirectToRoute("app_account");
     }
+
+    /*
+     * Funkcjonalność - Usuniecie wlasnego artykułu
+     */
+
     /**
      * @Route("/account/article/delete", name="app_article_delete")
      */
     public function article_delete(EntityManagerInterface $entityManager, Request $request)
     {
-
+        /*
+         * Pobranie repozytorium klasy Article
+         */
         $repository = $entityManager->getRepository(Article::class);
 
         /*
-         * Pobranie id artykułu i wyszukanie go po id
+         * Pobranie id artykułu z formularza
+         * Wyszukanie artykulu po id
          */
         $articleID = $request->get('articleID');
         $article = $repository->find($articleID);
         $article
-            ->setIsDeleted(true);
+            ->setIsDeleted(true)
+            ->setDeletedAt(new \DateTime());
 
 
+        /*
+         * Zapisanie zmian do bazy danych
+         */
         $entityManager = $this->getDoctrine()->getManager();
-
         $entityManager->persist($article);
-
         $entityManager->flush();
 
+        /*
+         * Przekierowanie do /account
+         */
         return $this->redirectToRoute("app_account");
     }
-    /**
-     * @Route("/aa/account/comment/edit/")
+
+    /*
+     * Funkcjonalność - Edycja komentarzab
      */
-    public function comment_edit(EntityManagerInterface $em, Request $request, Comment $comment)
-    {
-        $form = $this->createForm(CommentEditFormType::class);
-        $form->handleRequest($request);
 
-        $comment = $em->getRepository(Comment::class);
-
-        if($form->isSubmitted() && $form->isValid())
-        {
-            /** @var Comment $comment */
-            $comment = $form->getData();
-            dd($comment);
-
-            $em->persist($comment);
-            $em->flush();
-
-            $this->addFlash('success', 'Article Created! Knowledge is power!');
-            return $this->redirectToRoute('app_account');
-        }
-
-        return $this->render('article_comments_edit/article_comments.html.twig', [
-            'editForm' => $form->createView()
-        ]);
-
-    }
     /**
      * @Route("/account/comment/edit", name="app_comment_edit")
      */
     public function comment_edition(EntityManagerInterface $entityManager, Request $request)
     {
+        /*
+         * Pobranie id komenatrza z formularza
+         */
         $commentID = $request->get('commentID');
 
+        /*
+         * Wyszukanie komentarza z bazy
+         */
         $commentRepository = $entityManager->getRepository(Comment::class);
         $_comment = $commentRepository->findOneBy(['id'=>$commentID]);
 
+        /*
+         * Tworzenie formularza
+         */
         $form = $this->createForm(CommentEditFormType::class, $_comment);
         $form->handleRequest($request);
 
@@ -170,19 +207,18 @@ class AccountController extends AbstractController
             $entityManager->flush();
 
 
+            /*
+             * Przekierowanie do /account
+             */
             return $this->redirectToRoute('app_account');
         }
 
+        /*
+         * Renderowanie widoku edycji komentarza
+         */
         return $this->render('article_comment_edit/article_comment_edit.html.twig', [
             'comment' => $_comment,
             'editForm' => $form->createView()
         ]);
-
-
-
-
-
-
-
     }
 }
