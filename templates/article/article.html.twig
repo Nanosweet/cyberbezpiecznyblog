@@ -31,14 +31,14 @@
                             {{ article.subtitle }}
                         </h2>
                         <span class="meta">
-                            {# Autor artykułu
-                            {{ article.author }}
-                            {{ article.author }}
-                            |#}
+                            {# Autor artykułu #}
+                            {{ article.author.firstname }}
+                            {{ article.author.lastname }}
+                            |
                             {# Data dodania artykułu #}
                             {{ article.publishedAt | date('d.m.Y') }}
                             |
-
++
                             {% if is_granted('ROLE_USER') and (user_id) is same as (article.author.id) %}
                                 <a href="{{ path('app_article_edit', {slug: article.slug}) }}"
                                    style="text-decoration: none; cursor: pointer;"
