@@ -19,19 +19,19 @@
                         {# Jeżeli jest 1 komentarz #}
                         {% if (article.nonDeletedComments | length ) == 1 %}
 
-                            <i>Komentarz</i>
+                            <i>Komentarz <i class="fas fa-comment"></i></i>
 
                             {# Jeżeli są dwa lub cztery  komentarze #}
                             {# i nie jest w granicach od 11 do 21 to wyświetla się: Komentarze #}
                             {# Warunek sprawdzalem na https://twigfiddle.com/ #}
                         {% elseif ((article.nonDeletedComments | length) | last ) in range(2, 4) and (article.nonDeletedComments | length)  not in range(11, 21) %}
 
-                            <i>Komentarze</i>
+                            <i>Komentarze <i class="fas fa-comments"></i></i>
 
                             {# Jeżeli jest wiecej komentarzy #}
                         {% else %}
 
-                            <i>Komentarzy</i>
+                            <i>Komentarzy <i class="fas fa-comments"></i></i>
 
                             {# Koniec warunku #}
                         {% endif %}
