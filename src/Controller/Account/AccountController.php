@@ -104,9 +104,9 @@ class AccountController extends AbstractController
      */
 
     /**
-     * @Route("/account/comment/delete", name="app_comment_delete")
+     * @Route("/account/comment/delete/{slug}", name="app_comment_delete")
      */
-    public function account_comment_delete(EntityManagerInterface $entityManager, Request $request)
+    public function account_comment_delete(EntityManagerInterface $entityManager, Request $request, $slug)
     {
         /*
          * Pobranie id komentarza do usuniecia
@@ -131,7 +131,7 @@ class AccountController extends AbstractController
         /*
          * Przekierowanie do /account
          */
-        return $this->redirectToRoute("app_account");
+        return $this->redirectToRoute('app_article', ['slug'=>$slug]);
     }
 
     /*
