@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Likes;
+use App\Entity\User;
+use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @method Likes|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,34 +22,6 @@ class LikesRepository extends ServiceEntityRepository
         parent::__construct($registry, Likes::class);
     }
 
-    // /**
-    //  * @return Likes[] Returns an array of Likes objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Likes
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
     public function findAllLiked()
     {
         return $this->createQueryBuilder('a')
@@ -58,19 +33,35 @@ class LikesRepository extends ServiceEntityRepository
     public function findAllLikedByUserID($term)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.userID =' .$term)
+            ->andWhere('a.userid =' .$term)
             ->getQuery()
             ->getResult()
             ;
     }
+    public function findLikedPostByUser(Article $article, User $user): ?Likes
+    {
+        try {
+            return $this->createQueryBuilder('a')
+                ->andWhere('a.postid = :article_id')
+                ->andWhere('a.userid = :user_id')
+                ->setParameter('article_id', $article->getId())
+                ->setParameter('user_id', $user->getId())
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
     public function findAllByArticleUserID($term1, $term2)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.articleID =' .$term1)
-            ->andWhere('a.userID =' .$term2)
+            ->andWhere('a.postid =' .$term1)
+            ->andWhere('a.userid =' .$term2)
             ->getQuery()
             ->getResult()
             ;
     }
+
 
 }

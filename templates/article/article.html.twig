@@ -38,7 +38,6 @@
                             {# Data dodania artykułu #}
                             {{ article.publishedAt | date('d.m.Y') }}
                             |
-+
                             {% if is_granted('ROLE_USER') and (user_id) is same as (article.author.id) %}
                                 <a href="{{ path('app_article_edit', {slug: article.slug}) }}"
                                    style="text-decoration: none; cursor: pointer;"
@@ -57,12 +56,42 @@
                             >
                                 <i class="fa fa-exclamation"></i>
                             </a>
-                            |
-                        <span class="js-like-article-count">
+
+                            </span>
+                        <span class="likes">
                             {{ article.likes }}
+                        {#<i class="fa fa-heart" style="color: red"></i>#}
                         </span>
-                        <i class="fa fa-heart" style="color: red"></i>
-                        </span>
+                            {#====== POLUBIENIE ARTYKUŁU =====#}
+
+                            // podoba mi się
+
+                        {#
+                        // nie podoba mi się
+                        <span id="unlike"><a href="{{ path('app_article_unlike', {id: article.id}) }}" class="fa fa-heart unlike"
+                                  id="{{ article.id }}"
+                                  style="color: red; text-decoration: none;"
+                                  title="Nie podoba mi się"
+                            >
+                                    unlike
+                                </a>
+                            </span>#}
+                        <span>
+                            <a href="" class="fa {{ isLiked == 'false' ? 'fa-heart-o' : 'fa-heart' }} like"
+                               like-href="{{ path('app_article_like', {id: article.id}) }}"
+                               unlike-href="{{ path('app_article_unlike', {id: article.id}) }}"
+                               {#polubiony czy nie#}
+                               value="{{ isLiked }}"
+                                      style="color: red; text-decoration: none;"
+                                      title="Podoba mi się"
+                                >
+                                    like
+                                </a>
+                            </span>
+
+
+
+
                         {#
                         <span class="article-details">
 
@@ -126,4 +155,93 @@
 
         <script src="{{ asset('build/js/article_like.js') }}"></script>
         <script src="{{ asset('build/js/article_unlike.js') }}"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript">
+
+
+            $(document).ready(function () {
+                // when the user clicks on like
+                $('.like').click(function (e) {
+                    e.preventDefault(); // unikanie reddirect
+                    //pobranie atrybutu value
+                    const isChecked = this.getAttribute('value');
+                    //stan startowy url po to zeby byla zmienna zeby sie nie rozjebalo
+                    let url = '';
+                    let likesValue = parseInt($('.likes').eq(0).html());
+
+                    // spradzam czy polubione i przypisuje odpowiedniego route
+                    if (isChecked === 'true') {
+                        url = this.getAttribute('unlike-href');
+                        const likes = likesValue - 1;
+                        $('.likes').eq(0).text(likes);
+                    } else {
+                        url = this.getAttribute('like-href');
+                        const likes = likesValue + 1;
+                        $('.likes').eq(0).text(likes);
+                    }
+
+
+                    // zmiana value jak like to true jak unlike to false
+                    this.setAttribute('value', isChecked === 'true' ? 'false' : 'true');
+
+                    // zmiana serduczka z otwartego na zamkniete
+                    const $link = $(e.currentTarget);
+                    $link.toggleClass('fa-heart-o').toggleClass('fa-heart');
+
+                    $.ajax({
+                        method: 'POST',
+                        url: url
+                    }).done(function(data) {
+                        $('.likes').html(data.likes);
+
+                    });
+                });
+            });
+
+
+             /*
+            $(document).ready(function () {
+                // when the user clicks on like
+                $('.like').click(function (e) {
+                    e.preventDefault();
+                    var postid = $(this).attr('id');
+                    var $link = $(e.currentTarget);
+                    $.ajax({
+                        url: $link.attr('href'),
+                        type: 'post',
+                        success:function () {
+
+                        }
+                    });
+
+
+
+                });
+            });*/
+
+        </script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                // when the user clicks on like
+                $('.unlike').click(function (e) {
+                    //e.preventDefault();
+
+                    var $link = $(e.currentTarget);
+                    $link.toggleClass('fa-heart').toggleClass('fa-heart-o');
+
+                    $.ajax({
+                        method: 'POST',
+                        url: $link.attr('href')
+                    }).done(function(data) {
+                        //$('.likes').html(data.hearts);
+                    });
+
+                    $('.unlike').addClass('like');
+                    $('.unlike').removeClass('unlike');
+                })
+
+            });
+
+        </script>
     {% endblock %}

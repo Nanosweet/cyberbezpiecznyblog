@@ -25,8 +25,16 @@ class ArticleController extends AbstractController
     /**
      * @Route("/article/{slug}", name="app_article")
      */
-    public function article($slug, EntityManagerInterface $entityManager, Request $request, CommentRepository $commentRepository)
+    public function article($slug, EntityManagerInterface $entityManager, Request $request, CommentRepository $commentRepository, LikesRepository $likesRepository)
     {
+
+
+
+
+
+
+
+
 
         $repository = $entityManager->getRepository(Article::class);
 
@@ -84,6 +92,13 @@ class ArticleController extends AbstractController
             /*
              * Pobranie id artykulu */
             $article->getId();
+            $articleID = $article->getId();
+
+
+            $likes1 = $likesRepository->findAllByArticleUserID($articleID, $user_id);
+            $likes = count($likes1);
+            //dd($likes);
+
 
             /*
              * Tworzenie formularza do komentowania */
@@ -118,6 +133,7 @@ class ArticleController extends AbstractController
 
             }
 
+            $isLiked = is_null($likesRepository->findLikedPostByUser($article, $user)) ? 'false' : 'true';
 
             /*
              * Wyswietlenie widoku artykulu dla zalogowanego uzytkwonika */
@@ -125,10 +141,11 @@ class ArticleController extends AbstractController
                 'article' => $article,
                 'comments' => $comments,
                 /*'user_like_id' => $user_like_id,*/
-                /*'likes' => $likes,*/
+                'likes' => $likes,
                 'user_id' => $user_id,
                 'slug' => $slug,
                 'commentForm' => $form->createView(),
+                'isLiked' => $isLiked
             ]);
         }
 
@@ -143,64 +160,75 @@ class ArticleController extends AbstractController
     }
     /* DODAC ZE USER MUSI BYC ZALOGOWANY */
     /**
-     * @Route("article/{slug}/like", name="app_article_like")
+     * @Route("article/{id}/like", name="app_article_like")
      * @IsGranted("ROLE_USER")
      */
-    public function article_like($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
+    public function article_like($id, ArticleRepository $articleRepository, EntityManagerInterface $em, LikesRepository $likesRepository)
     {
-
-
-        /** @var User $user */
+        $article = $articleRepository->find($id);
+        $slug = $article->getSlug();
         $user = $this->getUser();
-        $user_id = $user->getId();
-        $user_firstname = $user->getFirstname();
-        $user_lastname = $user->getLastname();
+
+        $userID = $user->getId();
+
+        $likes=$likesRepository->findAllLikedByUserID($userID);
+
+        //dd(count($likes));
 
 
-        $article->incrementLikes();
+            $like = new Likes();
 
-        $likes = new Likes();
+            $like
+                ->setUserid($userID)
+                ->setPostid($id)
+                ;
 
-       //$likes->setArticleID($article);
-       //$likes->setUserID($user);
-       $likes->setCount($article->getLikes());
+            $article->incrementLikes();
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($likes);
-        $entityManager->flush();
-        $logger->info('Article is being hearted!');
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($like);
+            $em->flush();
 
 
-        return new JsonResponse(['likes' => $article->getLikes()]);
     }
+
     /**
-     * @Route("article/{slug}/unlike", name="app_article_unlike")
+     * @Route("article/{id}/info")
+     */
+    public function info($id, ArticleRepository $articleRepository, EntityManagerInterface $em, LikesRepository $likesRepository)
+    {
+        $article = $articleRepository->find($id);
+        $user = $this->getUser();
+        $userID = $user->getId();
+
+        dd($article);
+    }
+
+    /**
+     * @Route("article/{id}/unlike", name="app_article_unlike")
      * @IsGranted("ROLE_USER")
      */
-    public function article_unlike($slug, LoggerInterface $logger, EntityManagerInterface $entityManager, Article $article)
+    public function article_unlike($id, ArticleRepository $articleRepository, EntityManagerInterface $em, LikesRepository $likesRepository)
     {
-        /*
-         * Pobranie user_id*/
+        $article = $articleRepository->find($id);
+        $slug = $article->getSlug();
         $user = $this->getUser();
-        $user_id = $user->getId();
+        $userID = $user->getId();
 
-        /*
-         * Pobranie LikesRepo
-         * Zapytanie o polubienie przez zalogowanego usera */
-        $repository = $entityManager->getRepository(Likes::class);
-        $like = $repository->findAllLikedByUserID($user_id);
-        $tablica = $like[0];
-
-
+        $likes = $likesRepository->findAllByArticleUserID($id, $userID);
         $article->decrementLikes();
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($tablica);
-        $entityManager->flush();
-        $logger->info('Article is being hearted!');
+
+        foreach ($likes as $like) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($like);
+            $em->flush();
+        }
 
 
-        return new JsonResponse(['likes' => $article->getLikes()]);
+
+        $em->flush();
+        dd($article);
     }
     /**
      * @Route("/article/{slug}/report", name="app_article_report")

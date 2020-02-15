@@ -16,10 +16,22 @@ class Likes
      */
     private $id;
 
+    /*
+    /**
+     * @ORM\Column(type="integer")
+
+    private $count;
+    */
+
     /**
      * @ORM\Column(type="integer")
      */
-    private $count;
+    private $userid;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $postid;
     /*
      *
 
@@ -42,10 +54,12 @@ class Likes
         return $this->id;
     }
 
+    /*
     public function getCount(): ?int
     {
         return $this->count;
     }
+
 
     public function setCount(int $count): self
     {
@@ -53,6 +67,7 @@ class Likes
 
         return $this;
     }
+    */
 
     /*
     public function getArticleID(): ?Article
@@ -83,6 +98,30 @@ class Likes
     public function incrementLikesCount(): self
     {
         $this->count = $this->count + 1;
+
+        return $this;
+    }
+
+    public function getUserid(): ?int
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(int $userid): self
+    {
+        $this->userid = $userid;
+
+        return $this;
+    }
+
+    public function getPostid(): ?int
+    {
+        return $this->postid;
+    }
+
+    public function setPostid(int $postid): self
+    {
+        $this->postid = $postid;
 
         return $this;
     }
