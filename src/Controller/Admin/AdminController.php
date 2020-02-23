@@ -20,11 +20,6 @@ use function MongoDB\Driver\Monitoring\addSubscriber;
 
 class AdminController extends AbstractController
 {
-    /*
-     * Pobranie danych
-     * Wyświetlenie panelu administratora
-     */
-
     /**
      * @Route("/admin", name="admin")
      */
@@ -75,402 +70,7 @@ class AdminController extends AbstractController
     }
 
     /*
-     * Funkcjonalność - Wyświetlanie zgłoszonych artykułów
-     */
-
-    /**
-     * @Route("/admin/articles/reported", name="admin_articles_reported")
-     */
-    public function admin_articles_reported(ArticleRepository $articleRepository)
-    {
-        /*
-         * Wybranie wyłącznie zgłoszonych artykułów
-         */
-        $article = $articleRepository->findAllArticlesReported();
-
-        /*
-         * Renderowanie wiodku
-         * Ustawienie zmiennych do Twig
-         */
-        return $this->render('admin/articles_reported.html.twig', [
-            'article' => $article,
-        ]);
-    }
-
-    /*
-     * Funkcjonalność - Wyświetlenie usuniętych artykułów
-     */
-
-    /**
-     * @Route("/admin/articles/deleted", name="admin_articles_deleted")
-     */
-    public function admin_articles_deleted(ArticleRepository $articleRepository)
-    {
-        $article = $articleRepository->findAllDeleted();
-
-        return $this->render('admin/articles_deleted.html.twig', [
-            'article' => $article,
-        ]);
-    }
-
-    /*
-     * Funkcjonalność - Usunięcie zgłoszonych artykułów
-     */
-
-    /**
-     * @Route("/admin/articles/reported/delete", name="admin_articles_reported_delete")
-     */
-    public function admin_articles_reported_delete(EntityManagerInterface $entityManager, Request $request, ArticleRepository $articleRepository)
-    {
-        /*
-         * Pobranie id artykułu z request
-         * Wybranie  z bazy danych tego artykułu
-         * Ustawienie isDeleted na true
-         */
-        $articleID = $request->get('articleID');
-        $article = $articleRepository->find($articleID);
-        $article
-            ->setIsDeleted(true);
-
-        /*
-         * Wprowadzenie zmian do bazy danych
-         */
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($article);
-        $entityManager->flush();
-
-        /*
-         * Renderowanie widoku
-         * Powrót do /admin/articles/reported
-         */
-        return $this->redirectToRoute("admin_articles_reported");
-    }
-
-    /*
-     * Funkcjonalność - Wyswietlenie listy wszystkich artykułów
-     */
-
-    /**
-     * @Route("/admin/articles/all", name="admin_articles_all")
-     */
-    public function admin_articles_all(ArticleRepository $articleRepository)
-    {
-        /*
-         * Pobranie wszystkich artykułów z bazy danych
-         */
-        $article = $articleRepository->findAllPublishedAdmin();
-
-        /*
-         * Renderowanie widoku
-         * Ustawienie zmiennych do Twig
-         */
-        return $this->render('admin/articles_all.html.twig', [
-            'article' => $article,
-        ]);
-    }
-
-    /*
-     * Funkcjonalność - Usunięcie dowolnego artykułu
-     */
-
-    /**
-     * @Route("/admin/articles/all/delete", name="admin_articles_all_delete")
-     */
-    public function articles_all_delete(Request $request, ArticleRepository $articleRepository)
-    {
-        /*
-         * Pobranie id artykułu z input
-         * Wybranie  z bazy danych tego artykułu
-         * Ustawienie isDeleted na true
-         */
-        $articleID = $request->get('articleID');
-        $article = $articleRepository->find($articleID);
-        $article
-            ->setIsDeleted(true)
-            ->setDeletedAt(new \DateTime());
-
-        /*
-         * Wprowadzenie zmian do bazy danych
-         */
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($article);
-        $entityManager->flush();
-
-        /*
-         * Renderowanie widoku
-         * Powrót do /admin/articles/all
-         */
-        return $this->redirectToRoute("admin_articles_all");
-    }
-    /*
-     * Funkcjonalnosc - Usuniecie zglosoznego artykulu
-     */
-    /**
-     * @Route("/admin/articles/reported/delete", name="admin_articles_reported_delete")
-     */
-    public function articles_reported_delete(Request $request, ArticleRepository $articleRepository)
-    {
-        /*
-         * Pobranie id artykułu z input
-         * Wybranie  z bazy danych tego artykułu
-         * Ustawienie isDeleted na true
-         */
-        $articleID = $request->get('articleID');
-        $article = $articleRepository->find($articleID);
-        $article
-            ->setIsDeleted(true)
-            ->setDeletedAt(new \DateTime());
-
-        /*
-         * Wprowadzenie zmian do bazy danych
-         */
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($article);
-        $entityManager->flush();
-
-        /*
-         * Renderowanie widoku
-         * Powrót do /admin/articles/all
-         */
-        return $this->redirectToRoute("admin_articles_reported");
-    }
-
-    /*
-     * Funkcjonalność - Edycja dowolnego artykułu
-     */
-
-    /**
-     * @Route("/admin/articles/edit/{slug}", name="admin_articles_edit")
-     */
-    public function articles_edit(Article $article, Request $request, EntityManagerInterface $entityManager)
-    {
-        $form = $this->createForm(EditArticleFormType::class, $article);
-        /*
-         * Pobranie $slug do parametru RedirectToRoute*/
-        $slug = $article->getSlug();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Article $article */
-
-            $entityManager->persist($article);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_articles_all');
-
-        }
-
-        return $this->render('article_edit/article_edit.html.twig', [
-            'articleForm' => $form->createView(),
-        ]);
-    }
-    /*
-     * Funkcjonalność - Edycja zgłoszonego artykułu
-     */
-    /**
-     * @Route("/admin/articles/reported/edit/{slug}", name="admin_articles_reported_edit")
-     */
-    public function articles_reported_edit(Article $article, Request $request, EntityManagerInterface $entityManager)
-    {
-        $form = $this->createForm(EditArticleFormType::class, $article);
-        /*
-         * Pobranie $slug do parametru RedirectToRoute*/
-        $slug = $article->getSlug();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Article $article */
-
-            $entityManager->persist($article);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('admin_articles_reported');
-
-        }
-
-
-        return $this->render('article_edit/article_edit.html.twig', [
-            'articleForm' => $form->createView(),
-        ]);
-    }
-    /*
-     * Funkcjonalość - zmiana zgłoszonego artykułu na opublikowany
-     */
-    /**
-     * @Route("/admin/articles/{slug}/unreport", name="admin_articles_unreport")
-     */
-    public function article_unreport($slug, EntityManagerInterface $entityManager, Article $article, Request $request)
-    {
-        $article->setReported(false);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($article);
-        $entityManager->flush();
-
-        return $this->redirectToRoute("admin_articles_reported");
-    }
-
-
-    // KOMENTARZE
-
-    /*
-     * Funkcjonalność - Wyświetlenie listy wszystkich komentarzy
-     */
-
-    /**
-     * @Route("/admin/comments/all", name="admin_comments_all")
-     */
-    public function comments_all(CommentRepository $commentRepository)
-    {
-        $comment = $commentRepository->findAllPublishedNonDeletedNonReported();
-
-        return $this->render('admin/comments_all.html.twig', [
-            'comment' => $comment,
-        ]);
-    }
-
-    /*
-     * Funkcjonalność - Usunięcie dowolnego komentarza
-     */
-
-    /**
-     * @Route("/admin/comments/all/delete", name="admin_comments_all_delete")
-     */
-    public function admin_comment_delete(EntityManagerInterface $entityManager, Request $request)
-    {
-        /*
-         * Pobranie id komentarza do usuniecia
-         * pobranie repozytorium
-         * query
-         */
-
-        $commentID = $request->get('commentID');
-        $repository = $entityManager->getRepository(Comment::class);
-        $comment = $repository->find($commentID);
-        $comment
-            ->setIsDeleted(true)
-            ->setDeletedAt(new \DateTime());
-
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($comment);
-        $entityManager->flush();
-
-        return $this->redirectToRoute("admin_comments_all");
-    }
-
-    /*
-     * Funkcjonalność - Wyświetlenie listy zgłoszonych komentarzy
-     */
-
-    /**
-     * @Route("/admin/comments/reported", name="admin_comments_reported")
-     */
-    public function comments_reported(CommentRepository $commentRepository)
-    {
-        $comment = $commentRepository->findAllReported();
-
-        return $this->render('admin/comments_reported.html.twig', [
-            'comment' => $comment,
-        ]);
-    }
-
-    /*
-     * Funkcjonalność - Usunięcie zgłoszonego komentarza
-     */
-
-    /**
-     * @Route("/admin/comments/reported/delete", name="admin_comments_reported_delete")
-     */
-    public function admin_comments_reported_delete(EntityManagerInterface $entityManager, Request $request)
-    {
-        /*
-         * Pobranie id komentarza do usuniecia
-         * pobranie repozytorium
-         */
-
-        $commentID = $request->get('commentID');
-        $repository = $entityManager->getRepository(Comment::class);
-        $comment = $repository->find($commentID);
-        $comment
-            ->setIsDeleted(true)
-            ->setDeletedAt(new \DateTime());
-
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($comment);
-        $entityManager->flush();
-
-        return $this->redirectToRoute("admin_comments_reported");
-    }
-
-    /*
-     * Funkcjonalność - Wyświetlenie listy usuniętych komentarzy
-     */
-
-    /**
-     * @Route("/admin/comments/deleted", name="admin_comments_deleted")
-     */
-    public function comments_deleted(CommentRepository $commentRepository)
-    {
-        $comment = $commentRepository->findAllDeleted();
-
-        return $this->render('admin/comments_deleted.html.twig', [
-            'comment' => $comment,
-        ]);
-    }
-
-    /*
-     * Funkcjonalność - Edycja dowolnego komentarza
-     */
-
-    /**
-     * @Route("/admin/comments/edit", name="admin_comments_edit")
-     */
-    public function admin_comments_edit(EntityManagerInterface $entityManager, Request $request)
-    {
-        $commentID = $request->get('commentID');
-
-        $commentRepository = $entityManager->getRepository(Comment::class);
-        $_comment = $commentRepository->findOneBy(['id' => $commentID]);
-
-        $form = $this->createForm(CommentEditFormType::class, $_comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Comment $comment */
-            $comment = $form->getData();
-
-            $entityManager->persist($comment);
-            $entityManager->flush();
-
-
-            return $this->redirectToRoute('admin_comments_all');
-        }
-
-        return $this->render('article_comment_edit/article_comment_edit.html.twig', [
-            'comment' => $_comment,
-            'editForm' => $form->createView()
-        ]);
-    }
-
-    /*
-     * Funkcjonalność - Wyświetlenie listy wszystkich użytkowników w panelu administratora
-     */
-
-    /**
-     * @Route("/admin/users/all", name="admin_users_all")
-     */
-    public function admin_users_all(UserRepository $userRepository)
-    {
-        $user = $userRepository->findAll();
-
-        return $this->render('admin/users_all.html.twig', [
-            'user' => $user
-        ]);
-    }
-
-    /*
-     * Funkcjonalność - Usuwanie dowolnego użytkownika
+     * Funkcjonalność - Mozliwosc usuniecia dowolnego uzytkownika
      */
     /**
      * @Route("/admin/user/delete/{id}", name="admin_user_delete")
@@ -518,21 +118,387 @@ class AdminController extends AbstractController
 
     }
 
-
+    /*
+     * Funkcjonalność - Mozliwosc usuniecia dowolnego artykulu
+     */
     /**
-     * @Route("/show")
+     * @Route("/admin/articles/all/delete", name="admin_articles_all_delete")
+     */
+    public function articles_all_delete(Request $request, ArticleRepository $articleRepository)
+    {
+        /*
+         * Pobranie id artykułu z input
+         * Wybranie  z bazy danych tego artykułu
+         * Ustawienie isDeleted na true
+         */
+        $articleID = $request->get('articleID');
+        $article = $articleRepository->find($articleID);
+        $article
+            ->setIsDeleted(true)
+            ->setDeletedAt(new \DateTime());
+
+        /*
+         * Wprowadzenie zmian do bazy danych
+         */
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($article);
+        $entityManager->flush();
+
+        /*
+         * Renderowanie widoku
+         * Powrót do /admin/articles/all
+         */
+        return $this->redirectToRoute("admin_articles_all");
+    }
+
+    /*
+     * Funkcjonalność - Mozliwosc usuniecia dowolnego komentarza
+     */
+    /**
+     * @Route("/admin/comments/all/delete", name="admin_comments_all_delete")
+     */
+    public function admin_comment_delete(EntityManagerInterface $entityManager, Request $request)
+    {
+        /*
+         * Pobranie id komentarza do usuniecia
+         * pobranie repozytorium
+         * query
+         */
+
+        $commentID = $request->get('commentID');
+        $repository = $entityManager->getRepository(Comment::class);
+        $comment = $repository->find($commentID);
+        $comment
+            ->setIsDeleted(true)
+            ->setDeletedAt(new \DateTime());
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($comment);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("admin_comments_all");
+    }
+
+    /*
+     * Funkcjonalność - Mozliwosc usunięcia zgłoszonego artykulu
+     */
+    /**
+     * @Route("/admin/articles/reported/delete", name="admin_articles_reported_delete")
+     */
+    public function admin_articles_reported_delete(EntityManagerInterface $entityManager, Request $request, ArticleRepository $articleRepository)
+    {
+        /*
+         * Pobranie id artykułu z request
+         * Wybranie  z bazy danych tego artykułu
+         * Ustawienie isDeleted na true
+         */
+        $articleID = $request->get('articleID');
+        $article = $articleRepository->find($articleID);
+        $article
+            ->setIsDeleted(true);
+
+        /*
+         * Wprowadzenie zmian do bazy danych
+         */
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($article);
+        $entityManager->flush();
+
+        /*
+         * Renderowanie widoku
+         * Powrót do /admin/articles/reported
+         */
+        return $this->redirectToRoute("admin_articles_reported");
+    }
+
+    /*
+     * Funkcjonalość - Mozliwosc ponownej publikacji zgloszonego artykulu
+     */
+    /**
+     * @Route("/admin/articles/{slug}/unreport", name="admin_articles_unreport")
+     */
+    public function article_unreport($slug, EntityManagerInterface $entityManager, Article $article, Request $request)
+    {
+        $article->setReported(false);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($article);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("admin_articles_reported");
+    }
+
+    /*
+     * Funkcjonalnosc - Mozliwosc ponownej publikacji zgloszonego komentarza
+     */
+    /**
+     * @Route("/admin/comments/{id}/unreport", name="admin_comments_unreport")
+     */
+    public function comment_unreport($id, EntityManagerInterface $entityManager, Comment $comment, Request $request)
+    {
+        $comment->setIsReported(false);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($comment);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_comments_reported');
+    }
+
+    /*
+     * Funkcjonalność - Mozliwosc usuniecia zgloszonego komentarza
+     */
+    /**
+     * @Route("/admin/comments/reported/delete", name="admin_comments_reported_delete")
+     */
+    public function admin_comments_reported_delete(EntityManagerInterface $entityManager, Request $request)
+    {
+        /*
+         * Pobranie id komentarza do usuniecia
+         * pobranie repozytorium
+         */
+
+        $commentID = $request->get('commentID');
+        $repository = $entityManager->getRepository(Comment::class);
+        $comment = $repository->find($commentID);
+        $comment
+            ->setIsDeleted(true)
+            ->setDeletedAt(new \DateTime());
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($comment);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("admin_comments_reported");
+    }
+
+    /*
+     * Funkcjonalność - Mozliwosc edycji dowolnego artykulu
+     */
+    /**
+     * @Route("/admin/articles/edit/{slug}", name="admin_articles_edit")
+     */
+    public function articles_edit(Article $article, Request $request, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(EditArticleFormType::class, $article);
+        /*
+         * Pobranie $slug do parametru RedirectToRoute*/
+        $slug = $article->getSlug();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Article $article */
+
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_articles_all');
+
+        }
+
+        return $this->render('article_edit/article_edit.html.twig', [
+            'articleForm' => $form->createView(),
+        ]);
+    }
+
+
+    /*
+     * Funkcjonalność - Mozliwosc edycji dowolnego komentarza
+     */
+    /**
+     * @Route("/admin/comments/edit", name="admin_comments_edit")
+     */
+    public function admin_comments_edit(EntityManagerInterface $entityManager, Request $request)
+    {
+        $commentID = $request->get('commentID');
+
+        $commentRepository = $entityManager->getRepository(Comment::class);
+        $_comment = $commentRepository->findOneBy(['id' => $commentID]);
+
+        $form = $this->createForm(CommentEditFormType::class, $_comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Comment $comment */
+            $comment = $form->getData();
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+
+            return $this->redirectToRoute('admin_comments_all');
+        }
+
+        return $this->render('article_comment_edit/article_comment_edit.html.twig', [
+            'comment' => $_comment,
+            'editForm' => $form->createView()
+        ]);
+    }
+
+
+
+
+
+
+
+    /*
+     * Funkcjonalność - Wyświetlanie zgłoszonych artykułów
      */
 
-    public function show(EntityManagerInterface $em)
+    /**
+     * @Route("/admin/articles/reported", name="admin_articles_reported")
+     */
+    public function admin_articles_reported(ArticleRepository $articleRepository)
     {
-        $articleRepository = $em->getRepository(Article::class);
-        $article = $articleRepository->findAllPublishedNonDeletedNonReported();
+        /*
+         * Wybranie wyłącznie zgłoszonych artykułów
+         */
+        $article = $articleRepository->findAllArticlesReported();
 
-        $userRepository = $em->getRepository(User::class);
+        /*
+         * Renderowanie wiodku
+         * Ustawienie zmiennych do Twig
+         */
+        return $this->render('admin/articles_reported.html.twig', [
+            'article' => $article,
+        ]);
+    }
+
+    /*
+     * Funkcjonalność - Wyświetlenie usuniętych artykułów
+     */
+
+    /**
+     * @Route("/admin/articles/deleted", name="admin_articles_deleted")
+     */
+    public function admin_articles_deleted(ArticleRepository $articleRepository)
+    {
+        $article = $articleRepository->findAllDeleted();
+
+        return $this->render('admin/articles_deleted.html.twig', [
+            'article' => $article,
+        ]);
+    }
+    /*
+     * Funkcjonalność - Wyswietlenie listy wszystkich artykułów
+     */
+    /**
+     * @Route("/admin/articles/all", name="admin_articles_all")
+     */
+    public function admin_articles_all(ArticleRepository $articleRepository)
+    {
+        /*
+         * Pobranie wszystkich artykułów z bazy danych
+         */
+        $article = $articleRepository->findAllPublishedAdmin();
+
+        /*
+         * Renderowanie widoku
+         * Ustawienie zmiennych do Twig
+         */
+        return $this->render('admin/articles_all.html.twig', [
+            'article' => $article,
+        ]);
+    }
+
+
+
+
+
+
+    /*
+     * Funkcjonalność - Edycja zgłoszonego artykułu
+     */
+    /**
+     * @Route("/admin/articles/reported/edit/{slug}", name="admin_articles_reported_edit")
+     */
+    public function articles_reported_edit(Article $article, Request $request, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(EditArticleFormType::class, $article);
+        /*
+         * Pobranie $slug do parametru RedirectToRoute*/
+        $slug = $article->getSlug();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Article $article */
+
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_articles_reported');
+
+        }
+
+
+        return $this->render('article_edit/article_edit.html.twig', [
+            'articleForm' => $form->createView(),
+        ]);
+    }
+
+    // KOMENTARZE
+
+    /*
+     * Funkcjonalność - Wyświetlenie listy wszystkich komentarzy
+     */
+
+    /**
+     * @Route("/admin/comments/all", name="admin_comments_all")
+     */
+    public function comments_all(CommentRepository $commentRepository)
+    {
+        $comment = $commentRepository->findAllPublishedNonDeletedNonReported();
+
+        return $this->render('admin/comments_all.html.twig', [
+            'comment' => $comment,
+        ]);
+    }
+
+    /*
+     * Funkcjonalność - Wyświetlenie listy zgłoszonych komentarzy
+     */
+
+    /**
+     * @Route("/admin/comments/reported", name="admin_comments_reported")
+     */
+    public function comments_reported(CommentRepository $commentRepository)
+    {
+        $comment = $commentRepository->findAllReported();
+
+        return $this->render('admin/comments_reported.html.twig', [
+            'comment' => $comment,
+        ]);
+    }
+
+    /*
+     * Funkcjonalność - Wyświetlenie listy usuniętych komentarzy
+     */
+    /**
+     * @Route("/admin/comments/deleted", name="admin_comments_deleted")
+     */
+    public function comments_deleted(CommentRepository $commentRepository)
+    {
+        $comment = $commentRepository->findAllDeleted();
+
+        return $this->render('admin/comments_deleted.html.twig', [
+            'comment' => $comment,
+        ]);
+    }
+
+
+
+    /*
+     * Funkcjonalność - Wyświetlenie listy wszystkich użytkowników w panelu administratora
+     */
+    /**
+     * @Route("/admin/users/all", name="admin_users_all")
+     */
+    public function admin_users_all(UserRepository $userRepository)
+    {
         $user = $userRepository->findAll();
 
-        $likeRepository = $em->getRepository(Likes::class);
-        $like = $likeRepository->findAll();
-        dd($like);
+        return $this->render('admin/users_all.html.twig', [
+            'user' => $user
+        ]);
     }
 }

@@ -1,5 +1,8 @@
 <?php
 
+/*
+ * Kontoler odpowiedzialny za tworzenie nowego artykułu
+ */
 namespace App\Controller\Article;
 
 use App\Entity\Article;
@@ -33,7 +36,7 @@ class ArticleCreateController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_article_list');
         }
 
         return $this->render('article_create/article_create.html.twig', [

@@ -158,10 +158,12 @@ class CommentRepository extends ServiceEntityRepository
      * Nie sa usuniete
      * Posortowane od najnowszego
      */
-    public function findAllCommentedByUserNonDeletedNonReported($term)
+    public function findAllCommentedByUserNonDeletedNonReported($userID)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.author =' .$term)
+            ->andWhere('a.author =' .$userID)
+            ->andWhere('a.isReported != TRUE')
+            ->andWhere('a.isDeleted != TRUE')
             ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult()

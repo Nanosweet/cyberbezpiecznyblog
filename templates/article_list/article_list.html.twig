@@ -52,14 +52,20 @@
                                 </h3>
                             </a>
                             <p class="post-meta">
-                                {# Nazwa autora artykułu #}
 
+                                {# Nazwa autora artykułu #}
+                                <i class="fa fa-user" ></i>
                                 {{ article.author.firstname }}
                                 {{ article.author.lastname }}
-                                #}
-                                |
+
                                 {# Data publikacji artykułu #}
+                                <i class="fa fa-calendar"></i>
                                 {{ article.publishedAt | date('d.m.Y') }}
+
+                                {# Ilość komentarzy #}
+                                <i class="fa fa-comment"></i>
+                                {{ article.nonDeletedComments | length }}
+
                             </p>
                         </div>
                         <div class="clearfix">

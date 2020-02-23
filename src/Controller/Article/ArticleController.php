@@ -27,15 +27,6 @@ class ArticleController extends AbstractController
      */
     public function article($slug, EntityManagerInterface $entityManager, Request $request, CommentRepository $commentRepository, LikesRepository $likesRepository)
     {
-
-
-
-
-
-
-
-
-
         $repository = $entityManager->getRepository(Article::class);
 
         /** @var Article $article */
@@ -110,7 +101,7 @@ class ArticleController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
 
                 /*
-                 * Ustawienie autora artykulu */
+                 * Ustawienie autora komentarza, przypisanie do artykułu */
                 $comment
                         ->setAuthorFirstName($user_firstname)
                         ->setAuthorLastName($user_lastname)
@@ -158,7 +149,11 @@ class ArticleController extends AbstractController
             'comments' => $comments,
         ]);
     }
-    /* DODAC ZE USER MUSI BYC ZALOGOWANY */
+
+    /*
+     * Polubienie artykulu
+     */
+
     /**
      * @Route("article/{id}/like", name="app_article_like")
      * @IsGranted("ROLE_USER")
@@ -192,18 +187,9 @@ class ArticleController extends AbstractController
 
     }
 
-    /**
-     * @Route("article/{id}/info")
+    /*
+     * Cofanie polubienia
      */
-    public function info($id, ArticleRepository $articleRepository, EntityManagerInterface $em, LikesRepository $likesRepository)
-    {
-        $article = $articleRepository->find($id);
-        $user = $this->getUser();
-        $userID = $user->getId();
-
-        dd($article);
-    }
-
     /**
      * @Route("article/{id}/unlike", name="app_article_unlike")
      * @IsGranted("ROLE_USER")
@@ -230,6 +216,23 @@ class ArticleController extends AbstractController
         $em->flush();
         dd($article);
     }
+
+    /*
+     * Route pomocniczy
+     */
+    /**
+     * @Route("article/{id}/info")
+     */
+    public function info($id, ArticleRepository $articleRepository, EntityManagerInterface $em, LikesRepository $likesRepository)
+    {
+        $article = $articleRepository->find($id);
+        $user = $this->getUser();
+        $userID = $user->getId();
+
+        dd($article);
+    }
+
+
     /**
      * @Route("/article/{slug}/report", name="app_article_report")
      * @IsGranted("ROLE_USER")
@@ -242,11 +245,12 @@ class ArticleController extends AbstractController
         $entityManager -> persist($article);
         $entityManager -> flush();
 
-        return $this->redirectToRoute("app_homepage");
+        return $this->redirectToRoute("app_article_list");
     }
 
     /**
      * @Route("/comment/report", name="app_comment_report")
+     * @IsGranted("ROLE_USER")
      */
     public function comment_report(EntityManagerInterface $entityManager, Request $request, ArticleRepository $articleRepository)
     {

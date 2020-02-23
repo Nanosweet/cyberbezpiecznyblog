@@ -101,7 +101,7 @@
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                                     #}
-                                            <form  method="get" action="{{ path('app_comment_edit') }}">
+                                            <form method="get" action="{{ path('app_comment_edit', {slug: article.slug}) }}">
                                                 <input class="form-control"
                                                        type="hidden"
                                                        name="commentID" value="{{ comment.id }}"

@@ -10,6 +10,7 @@ use App\Form\CommentEditFormType;
 use App\Form\EditArticleFormType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,7 +45,7 @@ class AccountController extends AbstractController
         /*
          * Wybreanie artykułów skomentowanych przez usera
          */
-        $comment = $commentRepository->findAllCommentedByUser($userID);
+        $comment = $commentRepository->findAllCommentedByUserNonDeletedNonReported($userID);
 
         /*
          * Renderowanie widoku
@@ -177,14 +178,16 @@ class AccountController extends AbstractController
      */
 
     /**
-     * @Route("/account/comment/edit", name="app_comment_edit")
+     * @Route("/account/comment/edit/{slug}", name="app_comment_edit")
      */
-    public function comment_edition(EntityManagerInterface $entityManager, Request $request)
+    public function account_comment_edit($slug, EntityManagerInterface $entityManager, Request $request)
     {
         /*
          * Pobranie id komenatrza z formularza
          */
         $commentID = $request->get('commentID');
+        //$commentID = $id;
+        //dd($slug, $commentID);
 
         /*
          * Wyszukanie komentarza z bazy
@@ -210,7 +213,9 @@ class AccountController extends AbstractController
             /*
              * Przekierowanie do /account
              */
-            return $this->redirectToRoute('app_account');
+            return $this->redirectToRoute('app_article', [
+                'slug'=>$slug
+            ]);
         }
 
         /*
@@ -220,5 +225,63 @@ class AccountController extends AbstractController
             'comment' => $_comment,
             'editForm' => $form->createView()
         ]);
+    }
+
+    /*
+     * Funkcjonalność - Usunęcie konta
+     */
+
+    /**
+     * @Route("/account/delete/{id}", name="app_account_delete")
+     * @IsGranted("ROLE_USER")
+     */
+    public function account_delete($id, EntityManagerInterface $entityManager, UserRepository $userRepository, CommentRepository $commentRepository, ArticleRepository $articleRepository)
+    {
+
+        $user_id = $id;
+
+        /*
+        $userArticles = $articleRepository->findAllPublishedByUser($user_id);
+        $userComments = $commentRepository->findAllCommentedByUser($user_id);
+        */
+        $user = $userRepository->findOneBy(['id' => $user_id]);
+
+        dd($user);
+
+        /*
+        if (count($userArticles) != 0) {
+            foreach ($userArticles as $article) {
+
+                $articleID = $article->getId();
+                $comments = $commentRepository->findAllByArticleID($articleID);
+
+                if (count($comments) != 0) {
+                    foreach ($comments as $comment) {
+
+                        $entityManager->remove($comment);
+                        $entityManager->flush();
+                    }
+                }
+                elseif (count($userComments) != 0) {
+                    foreach ($userComments as $comments) {
+
+                        $entityManager->remove($comments);
+                        $entityManager->flush();
+                    }
+                }
+
+                $entityManager->remove($article);
+                $entityManager->flush();
+            }
+        }
+
+        $entityManager->remove($user);
+        $entityManager->flush();
+        */
+
+        return $this->redirectToRoute('app_homepage');
+
+
+
     }
 }

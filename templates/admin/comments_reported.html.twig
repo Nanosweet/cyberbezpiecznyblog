@@ -110,6 +110,7 @@
                     <th class="border-0">Data zgłoszenia</th>
                     <th class="border-0">Edytuj</th>
                     <th class="border-0">Usuń</th>
+                    <th class="border-0">Publikuj</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -151,6 +152,16 @@
                                   style="background-color: transparent;border-color: transparent;box-shadow: none;"
                           ></button>
                         </form>
+                      </td>
+                      <td>
+                        <a href="{{ path('admin_comments_unreport', {id: row.id}) }}"
+                           style="text-decoration: none; cursor: pointer;"
+                           data-toggle="tooltip"
+                           title="Publikuj"
+
+                        >
+                          <i class="fa fa-check"></i>
+                        </a>
                       </td>
                     </tr>
                   {% endfor %}

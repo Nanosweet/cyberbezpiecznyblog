@@ -136,14 +136,12 @@ class ArticleRepository extends ServiceEntityRepository
     /*
      * src/Controller/Admin/AdminController
      * Wszystkie usunięte
-     * Nie są zgłoszone
      * Posortowane od najnowszego
      */
     public function findAllDeleted()
     {
         return $this -> createQueryBuilder('a')
             ->andWhere('a.publishedAt IS NOT NULL')
-            ->andWhere('a.reported != TRUE')
             ->andWhere('a.isDeleted = TRUE')
             ->orderBy('a.publishedAt', 'DESC')
             ->getQuery()
