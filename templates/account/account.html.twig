@@ -62,9 +62,18 @@
                                 </div>
                             </div>
                         </form>
-                        <a href="{{ path('app_account_delete', {id: user.id}) }}">
-                            <input type="submit" class="btn btn-danger" value="Usuń konto / ALBO TREŚCI">
-                        </a>
+                        <div class="col-lg-8 col-md-10 mx-auto order-lg-2">
+                            {% if user.deleteRequest == true %}
+                                <a href="{{ path('app_account_delete_cancel', {id: user.id}) }}">
+                                    <input type="submit" class="btn btn-success" value="Cofnij prośbę o usunięcie konta">
+                                </a>
+                                {%  else %}
+                                    <a href="{{ path('app_account_delete_request', {id: user.id}) }}">
+                                        <input type="submit" class="btn btn-danger" value="Wyślij prośbę o usunięcie konta">
+                                    </a>
+                            {% endif %}
+                        <p style="font-size: small"><i>*Uwaga - wraz z usunięciem konta usuwane są również Twoje treści</i></p>
+                        </div>
                     </div>
                     <!-- LISTA ARTYKULOW -->
                     <div class="tab-pane" id="articles">

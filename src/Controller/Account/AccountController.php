@@ -228,11 +228,11 @@ class AccountController extends AbstractController
     }
 
     /*
-     * Funkcjonalność - Usunęcie konta
+     * Funkcjonalność - Wysłanie prośby o usunięcie konta do administratora
      */
 
     /**
-     * @Route("/account/delete/{id}", name="app_account_delete")
+     * @Route("/account/request/delete/{id}", name="app_account_delete_request")
      * @IsGranted("ROLE_USER")
      */
     public function account_delete($id, EntityManagerInterface $entityManager, UserRepository $userRepository, CommentRepository $commentRepository, ArticleRepository $articleRepository)
@@ -246,42 +246,45 @@ class AccountController extends AbstractController
         */
         $user = $userRepository->findOneBy(['id' => $user_id]);
 
-        dd($user);
+        //dd($user);
+
+        $user
+            ->setDeleteRequest(true)
+            ;
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_account');
+    }
+
+    /*
+     * Funkcjonalność - Cofniecie prosby o usuniecie konta
+     */
+    /**
+     * @Route("/account/cancel/delete/{id}", name="app_account_delete_cancel")
+     * @IsGranted("ROLE_USER")
+     */
+    public function account_cancel_delete($id, EntityManagerInterface $entityManager, UserRepository $userRepository, CommentRepository $commentRepository, ArticleRepository $articleRepository)
+    {
+
+        $user_id = $id;
 
         /*
-        if (count($userArticles) != 0) {
-            foreach ($userArticles as $article) {
-
-                $articleID = $article->getId();
-                $comments = $commentRepository->findAllByArticleID($articleID);
-
-                if (count($comments) != 0) {
-                    foreach ($comments as $comment) {
-
-                        $entityManager->remove($comment);
-                        $entityManager->flush();
-                    }
-                }
-                elseif (count($userComments) != 0) {
-                    foreach ($userComments as $comments) {
-
-                        $entityManager->remove($comments);
-                        $entityManager->flush();
-                    }
-                }
-
-                $entityManager->remove($article);
-                $entityManager->flush();
-            }
-        }
-
-        $entityManager->remove($user);
-        $entityManager->flush();
+        $userArticles = $articleRepository->findAllPublishedByUser($user_id);
+        $userComments = $commentRepository->findAllCommentedByUser($user_id);
         */
+        $user = $userRepository->findOneBy(['id' => $user_id]);
 
-        return $this->redirectToRoute('app_homepage');
+        //dd($user);
 
+        $user
+            ->setDeleteRequest(false)
+        ;
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
 
-
+        return $this->redirectToRoute('app_account');
     }
 }

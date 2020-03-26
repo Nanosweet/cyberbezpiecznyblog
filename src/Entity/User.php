@@ -49,6 +49,11 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $deleteRequest;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
@@ -191,6 +196,18 @@ class User implements UserInterface
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDeleteRequest(): ?bool
+    {
+        return $this->deleteRequest;
+    }
+
+    public function setDeleteRequest(?bool $deleteRequest): self
+    {
+        $this->deleteRequest = $deleteRequest;
 
         return $this;
     }
