@@ -214,22 +214,7 @@ class ArticleController extends AbstractController
 
 
         $em->flush();
-        dd($article);
-    }
-
-    /*
-     * Route pomocniczy
-     */
-    /**
-     * @Route("article/{id}/info")
-     */
-    public function info($id, ArticleRepository $articleRepository, EntityManagerInterface $em, LikesRepository $likesRepository)
-    {
-        $article = $articleRepository->find($id);
-        $user = $this->getUser();
-        $userID = $user->getId();
-
-        dd($article);
+        //dd($article);
     }
 
 

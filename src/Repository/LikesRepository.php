@@ -30,10 +30,10 @@ class LikesRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-    public function findAllLikedByUserID($term)
+    public function findAllLikedByUserID($userID)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.userid =' .$term)
+            ->andWhere('a.userid =' .$userID)
             ->getQuery()
             ->getResult()
             ;

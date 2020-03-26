@@ -75,12 +75,17 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/user/delete/{id}", name="admin_user_delete")
      */
-    public function admin_delete_user($id, EntityManagerInterface $entityManager, UserRepository $userRepository, CommentRepository $commentRepository, ArticleRepository $articleRepository)
+    public function admin_delete_user($id, EntityManagerInterface $entityManager,LikesRepository $likesRepository, UserRepository $userRepository, CommentRepository $commentRepository, ArticleRepository $articleRepository)
     {
         $user_id = $id;
 
         $userArticles = $articleRepository->findAllPublishedByUser($user_id);
         $userComments = $commentRepository->findAllCommentedByUser($user_id);
+        $userLikes = $likesRepository->findAllLikedByUserID($user_id);
+        //dd($userLikes);
+
+
+
         $user = $userRepository->findOneBy(['id' => $user_id]);
 
 
@@ -104,8 +109,39 @@ class AdminController extends AbstractController
                         $entityManager->flush();
                     }
                 }
+                elseif (count($userLikes) != 0) {
+                    foreach ($userLikes as $likes) {
+
+                        $article_id = $likes->getPostid();
+                        $article = $articleRepository->find($article_id);
+                        $article->decrementLikes();
+
+
+                        $entityManager->remove($likes);
+                        $entityManager->flush();
+                    }
+                }
 
                 $entityManager->remove($article);
+                $entityManager->flush();
+            }
+        }
+        elseif (count($userComments) != 0) {
+            foreach ($userComments as $comments) {
+
+                $entityManager->remove($comments);
+                $entityManager->flush();
+            }
+        }
+        elseif (count($userLikes) != 0) {
+            foreach ($userLikes as $likes) {
+
+                $article_id = $likes->getPostid();
+                $article = $articleRepository->find($article_id);
+                $article->decrementLikes();
+
+
+                $entityManager->remove($likes);
                 $entityManager->flush();
             }
         }

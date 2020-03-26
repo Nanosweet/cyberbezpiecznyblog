@@ -15,58 +15,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/login1", name="app_login1")
-     */
-    public function _login(AuthenticationUtils $authenticationUtils)
-    {
-        // Dodanie REMEMBER_ME
-        if ($this->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirect($this->generateUrl('app_homepage'));
-        }
 
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        $form = $this->createForm(UserLoginFormType::class);
-
-        return $this->render(
-            'security/login.html.twig', [
-                'error' => $error,
-                'loginForm' => $form->createView()
-        ]);
-    }
-
-    /**
-     *@Route("/register1", name="app_register1")
-     */
-    public function _register(ValidatorInterface $validator, Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
-    {
-        $form = $this->createForm(UserRegistrationFormType::class);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $user = $form->getData(); #Pobranie danych z formularza
-
-            $user->setPassword($passwordEncoder->encodePassword(
-                $user,
-                $user->getPassword()
-            ));
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_login');
-
-        }
-
-        return $this->render('security/register.html.twig', [
-            'registerForm' => $form->createView()
-        ]);
-    }
 
     /**
      * @Route ("/logout", name="app_logout")
