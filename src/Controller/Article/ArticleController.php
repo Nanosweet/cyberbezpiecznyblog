@@ -59,22 +59,6 @@ class ArticleController extends AbstractController
             $user_id = $user->getId();
             $user_firstname = $user->getFirstname();
             $user_lastname = $user->getLastname();
-            /*
-             * Sprawdzam czy user polubil artykul
-             * Dostosuje odpowiednie serduszko w twigu */
-            /*
-            $repository = $entityManager->getRepository(Likes::class);
-            $like = $repository->findAllLikedByUserID($user_id);
-            if ($like != null)
-            {
-                $user_like = $like[0]->getUserID();
-                $user_like_id = $user_like->getId();
-            } else
-                $user_like_id = null;
-*/
-
-            //dd($user_like_id);
-
 
             /*
              * Tworzenie komentarza */
@@ -168,8 +152,6 @@ class ArticleController extends AbstractController
 
         $likes=$likesRepository->findAllLikedByUserID($userID);
 
-        //dd(count($likes));
-
 
             $like = new Likes();
 
@@ -214,7 +196,6 @@ class ArticleController extends AbstractController
 
 
         $em->flush();
-        //dd($article);
     }
 
 
@@ -248,7 +229,7 @@ class ArticleController extends AbstractController
         $repository = $entityManager->getRepository(Comment::class);
         $comment = $repository->find($commentID);
         $slug = $comment->getArticle()->getSlug();
-        //dd($a);
+
         $comment
             ->setIsReported(true)
             ->setReportedAt(new \DateTime());

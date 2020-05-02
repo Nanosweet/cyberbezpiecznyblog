@@ -246,8 +246,6 @@ class AccountController extends AbstractController
         */
         $user = $userRepository->findOneBy(['id' => $user_id]);
 
-        //dd($user);
-
         $user
             ->setDeleteRequest(true)
             ;
@@ -276,7 +274,7 @@ class AccountController extends AbstractController
         */
         $user = $userRepository->findOneBy(['id' => $user_id]);
 
-        //dd($user);
+
 
         $user
             ->setDeleteRequest(false)

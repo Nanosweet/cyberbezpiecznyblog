@@ -82,7 +82,6 @@ class AdminController extends AbstractController
         $userArticles = $articleRepository->findAllPublishedByUser($user_id);
         $userComments = $commentRepository->findAllCommentedByUser($user_id);
         $userLikes = $likesRepository->findAllLikedByUserID($user_id);
-        //dd($userLikes);
 
 
         $user = $userRepository->findOneBy(['id' => $user_id]);
@@ -319,7 +318,8 @@ class AdminController extends AbstractController
     {
         $form = $this->createForm(EditArticleFormType::class, $article);
         /*
-         * Pobranie $slug do parametru RedirectToRoute*/
+         * Pobranie $slug do parametru RedirectToRoute */
+
         $slug = $article->getSlug();
 
         $form->handleRequest($request);
@@ -372,12 +372,6 @@ class AdminController extends AbstractController
         ]);
     }
 
-
-
-
-
-
-
     /*
      * Funkcjonalność - Wyświetlanie zgłoszonych artykułów
      */
@@ -416,9 +410,11 @@ class AdminController extends AbstractController
             'article' => $article,
         ]);
     }
+
     /*
      * Funkcjonalność - Wyswietlenie listy wszystkich artykułów
      */
+
     /**
      * @Route("/admin/articles/all", name="admin_articles_all")
      */
@@ -438,14 +434,10 @@ class AdminController extends AbstractController
         ]);
     }
 
-
-
-
-
-
     /*
      * Funkcjonalność - Edycja zgłoszonego artykułu
      */
+
     /**
      * @Route("/admin/articles/reported/edit/{slug}", name="admin_articles_reported_edit")
      */
@@ -521,8 +513,6 @@ class AdminController extends AbstractController
             'comment' => $comment,
         ]);
     }
-
-
 
     /*
      * Funkcjonalność - Wyświetlenie listy wszystkich użytkowników w panelu administratora
