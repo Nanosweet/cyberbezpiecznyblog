@@ -35,19 +35,6 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
 
-
-    /*
-    public function findOneBySomeField($value): ?Comment
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
     // ===== ADMIN =====
     /*
      * src/Controller/Admin/AdminController
@@ -169,7 +156,4 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
-    // ===== BEZ USAGE =====
-
 }

@@ -229,17 +229,4 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
-    // ===== BEZ USAGE =====
-    /*
-     * Wyszukanie artykuły po ID
-     */
-    /*public function findByID($term)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.id =' .$term)
-            ->getQuery()
-            ->getResult()
-            ;
-    }*/
 }
