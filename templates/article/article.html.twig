@@ -60,22 +60,8 @@
                             </span>
                         <span class="likes">
                             {{ article.likes }}
-                        {#<i class="fa fa-heart" style="color: red"></i>#}
                         </span>
                             {#====== POLUBIENIE ARTYKUŁU =====#}
-
-
-
-                        {#
-                        // nie podoba mi się
-                        <span id="unlike"><a href="{{ path('app_article_unlike', {id: article.id}) }}" class="fa fa-heart unlike"
-                                  id="{{ article.id }}"
-                                  style="color: red; text-decoration: none;"
-                                  title="Nie podoba mi się"
-                            >
-                                    unlike
-                                </a>
-                            </span>#}
                         <span>
                             <a href="" class="fa {{ isLiked == 'false' ? 'fa-heart-o' : 'fa-heart' }} like"
                                like-href="{{ path('app_article_like', {id: article.id}) }}"
@@ -86,46 +72,11 @@
                                 >
                                 </a>
                             </span>
-
-
-
-
-                        {#
-                        <span class="article-details">
-
-
-                            <a href="{{ path('app_article_like', {slug: article.slug}) }}"
-                               class="fa fa-thumbs-up js-like-article"
-                               style="text-decoration: none; color: green;"
-                               aria-hidden="true"
-                               id="like"
-                               data-toggle="tooltip"
-                               title="Lubię to"
-                            ></a>
-
-                            <a href="{{ path('app_article_unlike', {slug: article.slug}) }}"
-                               class="fa fa-thumbs-down js-unlike-article"
-                               style="text-decoration: none;
-                               color: red;"
-                               aria-hidden="true"
-                               id="unlike"
-                               data-toggle="tooltip"
-                               title="Nie lubię"
-                            ></a>
-
-                        </span>
-                        #}
                     </div>
                 </div>
             </div>
             </div>
     </header>
-
-
-
-
-
-
     {# Artykuł #}
     <article>
         <div class="container-fluid">
@@ -135,12 +86,6 @@
                     {{ article.content | raw }}
                 </div>
             </div>
-            {# EDYCJA ARTYKULU #}
-            {#
-             Petla warunkowa sprawdzajaca
-             czy uzytkownik jest zalogowany
-             czy uzytkownik jest autorem artykulu
-            #}
         </div>
     </article>
     {# Komentowanie artykułu #}
@@ -196,26 +141,7 @@
                 });
             });
 
-
-             /*
-            $(document).ready(function () {
-                // when the user clicks on like
-                $('.like').click(function (e) {
-                    e.preventDefault();
-                    var postid = $(this).attr('id');
-                    var $link = $(e.currentTarget);
-                    $.ajax({
-                        url: $link.attr('href'),
-                        type: 'post',
-                        success:function () {
-
-                        }
-                    });
-
-
-
-                });
-            });*/
+            
 
         </script>
         <script type="text/javascript">
