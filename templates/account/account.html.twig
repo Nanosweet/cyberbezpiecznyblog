@@ -100,29 +100,6 @@
                                         {{ row.publishedAt | date('d.m.Y') }}
                                     </span>
                                     </td>
-                                    <!-- Kolumna do edycji/usuwania artykulu -->
-                                    {#
-                                    <td>
-                                        <a href="{{ path('app_article_edit', {slug: row.slug}) }}"
-                                           style="text-decoration: none"
-                                        >
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <form method="get" action="{{ path('app_article_delete') }}">
-                                            <input class="form-control"
-                                                   type="hidden"
-                                                   name="articleID" value="{{ row.id }}"
-                                            >
-                                            <a href="{{ path('app_comment_delete', {slug: row.slug}) }}"></a>
-                                            <button type="submit"
-                                                    class="fa fa-trash-o"
-                                                    style="background-color: transparent;
-                                                               border-color: transparent;
-                                                               box-shadow: none;"
-                                            ></button>
-                                        </form>
-                                    </td>
-                                    #}
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -156,36 +133,6 @@
                                             <i class="fa fa-long-arrow-right"></i>
                                         </a>
                                     </td>
-                                    <!-- Kolumna do edycji/usuwania komentarza -->
-                                    {#
-                                    <td>
-                                        <form method="get"
-                                              action="{{ path('app_comment_delete', {slug: row.article.slug}) }}">
-                                            <input class="form-control"
-                                                   type="hidden"
-                                                   name="commentID" value="{{ row.id }}"
-                                            >
-                                            <button type="submit"
-                                                    class="fa fa-trash-o"
-                                                    style="background-color: transparent;
-                                                           border-color: transparent;
-                                                           box-shadow: none;"
-                                            ></button>
-                                        </form>
-                                        <form method="get" action="{{ path('app_comment_edit') }}">
-                                            <input class="form-control"
-                                                   type="hidden"
-                                                   name="commentID" value="{{ row.id }}"
-                                            >
-                                            <button type="submit"
-                                                    class="fa fa-edit"
-                                                    style="background-color: transparent;
-                                                           border-color: transparent;
-                                                           box-shadow: none;"
-                                            ></button>
-                                        </form>
-                                    </td>
-                                    #}
                                 </tr>
                             {% endfor %}
                             </tbody>
