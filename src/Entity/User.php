@@ -38,6 +38,11 @@ class User implements UserInterface
      */
     private $created_at;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
     /*
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Likes", mappedBy="userID")
@@ -111,9 +116,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
-        return array('ROLE_USER');
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
 
     public function getPassword()
